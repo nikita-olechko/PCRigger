@@ -1,0 +1,1 @@
+This folder is for all the JS files for each seperate route
