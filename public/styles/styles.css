@@ -10,11 +10,11 @@
 
 body {
     background-color: var(--bg-color);
-    color: var(--text-color);
+    color: var(--text-color-white);
 }
 
 .subtext {
-    color: var(--subtext-color);
+    color: var(--subtext-color-light-grey);
 }
 
 h1,
@@ -23,20 +23,20 @@ h3,
 h4,
 h5,
 h6 {
-    color: var(--heading-color);
+    color: var(--heading-color-burgundysos);
 }
 
 .btn-primary {
-    background-color: var(--primary-btn-color);
+    background-color: var(--primary-btn-color-blue);
     color: var(--text-color);
 }
 
 .btn-primary:hover {
-    background-color: var(--hovered-btn-color);
+    background-color: var(--hovered-btn-color-tropblu);
 }
 
 .misc {
-    color: var(--misc-color);
+    color: var(--misc-color-turqblu);
 }
 
 
@@ -46,8 +46,13 @@ h6 {
 ////////////////////////////// */
 
 /* User icon */
+.navbar-icons {
+    fill: var(--misc-color-turqblu);
+    width: 40%;
+    height: 40%;
+}
 .icons {
-    fill: var(--misc-color);
-    width: 20px;
-    height: 20px;
+    fill: var(--misc-color-turqblu);
+    width: 60%;
+    height: 60%;
 }

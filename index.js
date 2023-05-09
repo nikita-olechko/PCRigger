@@ -27,6 +27,11 @@ const userCollection = database.db(mongodb_database).collection('users');
 app.use(express.urlencoded({
   extended: false
 }));
+// use public folder for static files
+app.use(express.static('public'));
+//Setting the view engine to ejs
+app.set('view engine', 'ejs');
+
 
 var mongoStore = MongoStore.create({
   mongoUrl: `mongodb+srv://${mongodb_user}:${mongodb_password}@${mongodb_host}/${mongodb_database}?retryWrites=true`,
@@ -47,6 +52,7 @@ app.use(session({
 
 // Delete this later....
 console.log(userCollection);
+
 
 app.get('/', (req, res) => {
   res.render('styles_demo');
