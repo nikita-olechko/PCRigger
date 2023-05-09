@@ -45,4 +45,14 @@ app.use(session({
   }
 }));
 
+// Delete this later....
 console.log(userCollection);
+
+app.get('/', (req, res) => {
+  res.render('styles_demo');
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
