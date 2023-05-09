@@ -38,3 +38,14 @@ h6 {
 .misc {
     color: var(--misc-color);
 }
+
+
+
+/* //////////////////////////////
+            Partials 
+////////////////////////////// */
+
+/* User icon */
+.user-profile-img {
+    width: 20%;
+}
