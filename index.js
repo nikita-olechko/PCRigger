@@ -3,6 +3,8 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const app = express();
+require('./utils.js');
+
 
 app.set('view engine', 'ejs');
 
@@ -42,3 +44,5 @@ app.use(session({
     maxAge: 60 * 60 * 1000 // 1 hour in milliseconds
   }
 }));
+
+console.log(userCollection);
