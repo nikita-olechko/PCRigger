@@ -48,11 +48,11 @@ h6 {
 /* User icon */
 .navbar-icons {
     fill: var(--misc-color-turqblu);
-    width: 40%;
-    height: 40%;
+    width: 60%;
+    height: 60%;
 }
 .icons {
     fill: var(--misc-color-turqblu);
-    width: 60%;
-    height: 60%;
+    width: 80%;
+    height: 80%;
 }
