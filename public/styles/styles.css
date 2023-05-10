@@ -46,7 +46,7 @@ h6 {
 ////////////////////////////// */
 .navbar{
     border-bottom: 2px solid var(--misc-color-turqblu);
-    background-color: var(--misc-color-turqblu)
+    background-color: #525252;
 }
 
 /* User icon */

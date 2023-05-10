@@ -55,7 +55,7 @@ console.log(userCollection);
 
 
 app.get('/', (req, res) => {
-  res.render('styles_demo');
+  res.render('index');
 });
 
 const port = process.env.PORT || 3000;
