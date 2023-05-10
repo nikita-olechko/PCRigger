@@ -3,7 +3,7 @@ router = express.Router;
 
 
 module.exports = function (app) {
-  app.get('/partsListPage', (req, res) => {
+  app.get('/parts', (req, res) => {
 
     // TODO: After making the schemas and models,
     // create function that iterates through the models of parts and returns a card for each part
