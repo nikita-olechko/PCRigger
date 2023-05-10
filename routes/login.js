@@ -8,7 +8,7 @@ module.exports = async function (app, userCollection, Joi, bcrypt,) {
             res.redirect('/');
             return;
         }
-        res.render("/login");
+        res.render("login");
     });
 
     app.post('/login', async (req, res) => {
@@ -52,7 +52,7 @@ module.exports = async function (app, userCollection, Joi, bcrypt,) {
 
         // Redirect to members area
         if (existingUser.user_type === 'admin') {
-            res.render('/admin', {user: existingUser.username});   
+            res.render('admin', {user: userCollection});   
             return;
         }
         res.redirect('/');
