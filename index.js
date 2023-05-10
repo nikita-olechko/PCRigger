@@ -60,6 +60,7 @@ app.get('/', (req, res) => {
 
 require('./routes/sampleRoute')(app);
 
+require('./routes/members')(app);
 
 // Route to the parts list page [Abdo]
 require('./routes/partsListPage')(app);
