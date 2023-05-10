@@ -64,9 +64,11 @@ require('./routes/sampleRoute')(app);
 
 require('./routes/signUp')(app, userCollection, saltRounds, Joi, bcrypt);
 
+require('./routes/login')(app, userCollection, Joi, bcrypt);
+
+require('./routes/admin')(app, userCollection);
 
 require('./routes/partsListPage')(app);
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

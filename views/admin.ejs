@@ -1,0 +1,40 @@
+<%- include('partials/navbar') %>
+
+    <h1 class="d-flex justify-content-center padding">Admin Page</h1>
+    <div class="card">
+        <div class="d-flex align-items-center p-4 m-3 justify-content-center">
+            <table class="table">
+                <thead">
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">User Type</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">Created At</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var user of users) { %>
+                            <tr>
+                                <td>
+                                    <%= user.username %>
+                                </td>
+                                <td>
+                                    <%= user.user_type %>
+                                </td>
+                                <td>
+                                    <% if (user.user_type==='user' ) { %>
+                                        <%- include("templates/promoteForm", {user_name: user}) %>
+                                            <% } else { %>
+                                                <%- include("templates/demoteForm", {user_name: user}) %>
+                                                    <% } %>
+                                </td>
+                                <td>
+                                    <%= user.createdAt %>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    <%- include("partials/iconbar") %>
