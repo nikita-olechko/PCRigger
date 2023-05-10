@@ -52,7 +52,8 @@ module.exports = async function (app, userCollection, Joi, bcrypt,) {
 
         // Redirect to members area
         if (existingUser.user_type === 'admin') {
-            res.render('admin', {user: userCollection});   
+            const result = await userCollection.find({}).toArray();
+            res.render('admin', { user: req.session.user, users: result });
             return;
         }
         res.redirect('/');

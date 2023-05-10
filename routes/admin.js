@@ -34,9 +34,7 @@ module.exports = async function (app, userCollection) {
             res.redirect('/login');
             return;
         }
-        console.log("checking admin")
         userIsAdmin = adminAuthorization(req, res);
-        console.log("admin: " + userIsAdmin)
         if (userIsAdmin) {
             console.log("admin found")
             const result = await userCollection.find({}).toArray();
