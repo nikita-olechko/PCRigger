@@ -60,6 +60,10 @@ app.get('/', (req, res) => {
 
 require('./routes/sampleRoute')(app);
 
+
+// Route to the parts list page [Abdo]
+require('./routes/partsListPage')(app);
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
