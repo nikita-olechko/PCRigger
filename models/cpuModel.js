@@ -7,6 +7,6 @@ const cpuSchema = new mongoose.Schema({
   socket:String,
 });
 
-const Cpu = mongoose.model('CPUs', cpuSchema);
+const CPUs = mongoose.model('CPUs', cpuSchema);
 
 module.exports = CPUs;
