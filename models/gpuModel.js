@@ -19,6 +19,6 @@ const gpuSchema = new mongoose.Schema({
   "gpuChip": String,
 });
 
-const GPUs = mongoose.model('CPUs', gpuSchema);
+const GPUs = mongoose.model('GPUs', gpuSchema);
 
 module.exports = GPUs;
