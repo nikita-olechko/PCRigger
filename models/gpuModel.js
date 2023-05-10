@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const gpuModel = new mongoose.Schema({
+const gpuSchema = new mongoose.Schema({
   partName: String,
   manufacturer: String,
   releaseDate:String,
   socket:String,
 });
 
-const Cpu = mongoose.model('CPUs', cpuSchema);
+const GPUs = mongoose.model('CPUs', gpuSchema);
 
-module.exports = CPUs;
+module.exports = GPUs;
