@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 const storageSchema = new mongoose.Schema({
-    partName: String,
-    type: String,
-    diskCapacity:float,
+  driveName: String,
+  type: String,
+  diskCapacity: Number,
+  diskMark: Number,
   });
 
 const Storage = mongoose.model('Storage', storageSchema);
