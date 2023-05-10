@@ -9,7 +9,10 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
     app.post('/signup', async (req, res) => {
         const {
             username,
-            password
+            password,
+            security_question_1,
+            security_question_2,
+            security_question_3
         } = req.body;
 
         // Validate input
@@ -44,6 +47,9 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
             username: username,
             password: hashedPassword,
             user_type: 'user',
+            security_question_1: security_question_1,
+            security_question_2: security_question_2,
+            security_question_3: security_question_3,
             createdAt: newDate.toLocaleDateString() + " @ " + newDate.toLocaleTimeString()
         };
         await userCollection.insertOne(newUser);
