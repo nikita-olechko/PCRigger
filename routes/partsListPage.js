@@ -11,11 +11,9 @@ const utils = require('../utils');
 
 /// Constants and global variables
 /* secret information section */
-const mongodb_host = process.env.MONGODB_HOST;
-const mongodb_user = process.env.MONGODB_USER;
-const mongodb_password = process.env.MONGODB_PASSWORD;
+
 const mongodb_database = process.env.MONGODB_DATABASE;
-const mongodb_session_secret = process.env.MONGODB_SESSION_SECRET;
+
 
 
 var {
@@ -32,8 +30,63 @@ const motherboardCollection = database.db(mongodb_database).collection('Motherbo
 module.exports = function (app) {
   app.get('/parts', (req, res) => {
 
-    // TODO: After making the schemas and models,
-    // create function that iterates through the models of parts and returns a card for each part
+    var partType = req.query.partType.toLowerCase();
+
+    switch (partType) {
+      // give me a switch case for each part type and then render the page with the correct part type depending on the 
+      // string variable passed in from the url
+      // if the url is /parts/cpu then render the page with the cpu parts
+      case 'cpu':
+        cpuCollection.find({}).toArray(function (err, result) {
+          if (err) throw err;
+          res.render('partsListPage', {
+            parts: result,
+            partType: partType
+          });
+        });
+
+        break;
+      case 'memory':
+        memoryCollection.find({}).toArray(function (err, result) {
+          if (err) throw err;
+          res.render('partsListPage', {
+            parts: result,
+            partType: partType
+          });
+        });
+        break;
+      case 'gpu':
+        gpuCollection.find({}).toArray(function (err, result) {
+          if (err) throw err;
+          res.render('partsListPage', {
+            parts: result,
+            partType: partType
+          });
+        });
+        break;
+      // case 'motherboard':
+      //   motherboardCollection.find({}).toArray(function (err, result) {
+      //     if (err) throw err;
+      //     res.render('partsListPage', {
+      //       parts: result,
+      //       partType: partType
+      //     });
+      //   });
+      //   break;
+      case 'storage':
+        storageCollection.find({}).toArray(function (err, result) {
+          if (err) throw err;
+          res.render('partsListPage', {
+            parts: result,
+            partType: partType
+          });
+        });
+        break;
+
+      default:
+        res.render('partsListPage');
+        break;
+    }
 
 
     res.render('partsListPage');
