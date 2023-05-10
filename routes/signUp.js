@@ -52,7 +52,7 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
         req.session.user = newUser;
 
         // Redirect to members area
-        res.redirect('/members');
+        res.redirect('/');
     });
     
 }

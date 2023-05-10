@@ -55,8 +55,6 @@ app.use(session({
 }));
 
 // Delete this later....
-console.log(userCollection);
-
 
 app.get('/', (req, res) => {
   res.render('index');
