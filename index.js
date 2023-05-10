@@ -68,6 +68,8 @@ require('./routes/login')(app, userCollection, Joi, bcrypt);
 
 require('./routes/admin')(app, userCollection);
 
+require('./routes/signOut')(app);
+
 require('./routes/partsListPage')(app);
 
 const port = process.env.PORT || 3000;
