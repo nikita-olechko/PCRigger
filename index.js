@@ -3,6 +3,10 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const app = express();
+const saltRounds = 12;
+const Joi = require('joi');
+const bcrypt = require('bcrypt');
+
 require('./utils.js');
 
 
@@ -51,8 +55,6 @@ app.use(session({
 }));
 
 // Delete this later....
-console.log(userCollection);
-
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -60,9 +62,11 @@ app.get('/', (req, res) => {
 
 require('./routes/sampleRoute')(app);
 
+require('./routes/signUp')(app, userCollection, saltRounds, Joi, bcrypt);
 
-// Route to the parts list page [Abdo]
+
 require('./routes/partsListPage')(app);
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
