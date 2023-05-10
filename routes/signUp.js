@@ -1,10 +1,7 @@
 var express = require('express');
-const Joi = require("joi");
-const bcrypt = require('bcrypt');
-
 router = express.Router();
 
-module.exports = function (app) {
+module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
     app.get('/signup', (req, res) => {
         res.render('sign up')
     })
@@ -57,4 +54,5 @@ module.exports = function (app) {
         // Redirect to members area
         res.redirect('/members');
     });
+    
 }

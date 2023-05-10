@@ -3,6 +3,10 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const app = express();
+const saltRounds = 12;
+const Joi = require('joi');
+const bcrypt = require('bcrypt');
+
 require('./utils.js');
 
 
@@ -60,7 +64,7 @@ app.get('/', (req, res) => {
 
 require('./routes/sampleRoute')(app);
 
-require('./routes/signUp')(app, userCollection);
+require('./routes/signUp')(app, userCollection, saltRounds, Joi, bcrypt);
 
 
 
