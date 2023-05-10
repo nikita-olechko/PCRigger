@@ -44,4 +44,34 @@ module.exports = async function (app, userCollection) {
         }
     });
 
+    app.post('/promoteUser', function (req, res) {
+        const username = req.body.username;
+        const filter = { username };
+        const update = { $set: { user_type: "admin" } };
+
+        console.log(username);
+        userCollection.updateOne(filter, update)
+            .then(result => {
+                console.log(`Updated ${result.modifiedCount} document.`);
+            })
+            .catch(err => console.error(`Failed to update document: ${err}`));
+
+        res.redirect('/admin');
+    });
+
+    app.post('/demoteUser', function (req, res) {
+        const username = req.body.username;
+        const filter = { username };
+        const update = { $set: { user_type: "user" } };
+
+        console.log(username);
+        userCollection.updateOne(filter, update)
+            .then(result => {
+                console.log(`Updated ${result.modifiedCount} document.`);
+            })
+            .catch(err => console.error(`Failed to update document: ${err}`));
+
+        res.redirect('/admin');
+    });
+
 }
