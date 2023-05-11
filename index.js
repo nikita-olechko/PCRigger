@@ -73,7 +73,11 @@ require('./routes/signOut')(app);
 
 require('./routes/partsListPage')(app);
 
+require('./routes/configurator')(app);
+
 require('./routes/members')(app);
+
+require('./routes/prebuiltOptions.js')(app);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
