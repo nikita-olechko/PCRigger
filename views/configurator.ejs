@@ -1,0 +1,88 @@
+<%- include('partials/navbar') %>
+
+<div class="container">
+    <h1 id="name">hello</h1>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h5>CPU</h5>
+            <div id="cpu">
+                (CPU)
+            </div>
+            <button class="btn btn-danger">-</button>
+            <button class="btn btn-success">+</button>
+        </div>
+        <div class="col">
+            <h5>Graphics Card</h5>
+            <div id="gpu">
+                (GPU)
+            </div>
+            <button class="btn btn-danger">-</button>
+            <button class="btn btn-success">+</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h5>Memory</h5>
+            <div id="ram">
+                (MEMORY)
+            </div>
+            <button class="btn btn-danger">-</button>
+            <button class="btn btn-success">+</button>
+        </div>
+        <div class="col">
+            <h5>Motherboard</h5>
+            <div id="motherboard">
+                (MOTHERBOARD)
+            </div>
+            <button class="btn btn-danger">-</button>
+            <button class="btn btn-success">+</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h5>CPU Cooler</h5>
+            <div id="cpuCooler">
+                (CPUCOOLER)
+            </div>
+            <button class="btn btn-danger">-</button>
+            <button class="btn btn-success">+</button>
+        </div>
+        <div class="col" >
+            <h5>Power Supply</h5>
+            <div id="powerSupply">
+                (POWERSUPPLY)
+            </div>
+            <button class="btn btn-danger">-</button>
+            <button class="btn btn-success">+</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h5>Case</h5>
+            <div id="case">
+                (CASE)
+            </div>
+            <button class="btn btn-danger" id="caseDelete">Delete</button>
+            <button class="btn btn-success" id="caseSelect">Select</button>
+        </div>
+        <div class="col" >
+            <h5>Storage</h5>
+            <div id="storage">
+                (STORAGE)
+            </div>
+            <button class="btn btn-danger" id="storageSelect">Delete</button>
+            <button class="btn btn-success" id="storageSelect">Select</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <button class="btn btn-success">Add build to favourites</button>
+        <button class="btn btn-danger">Remove build from favourites</button>
+    </div>
+</div>
+
+<%- include('partials/iconbar') %>

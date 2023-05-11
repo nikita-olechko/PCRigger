@@ -56,9 +56,10 @@ app.use(session({
 
 // Delete this later....
 
-app.get('/', (req, res) => {
-  res.render('index');
-});
+// app.get('/', (req, res) => {
+//   res.render('index');
+// });
+require('./routes/landing_page')(app);
 
 require('./routes/sampleRoute')(app);
 
@@ -72,7 +73,11 @@ require('./routes/signOut')(app);
 
 require('./routes/partsListPage')(app);
 
+require('./routes/configurator')(app);
+
 require('./routes/members')(app);
+
+require('./routes/prebuiltOptions.js')(app);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
