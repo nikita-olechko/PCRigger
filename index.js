@@ -79,6 +79,7 @@ require('./routes/members')(app);
 
 require('./routes/prebuiltOptions.js')(app);
 
+require('./routes/email_confirm')(app, Joi, userCollection, saltRounds, bcrypt);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
