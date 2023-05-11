@@ -55,10 +55,15 @@ h6 {
     width: 60%;
     height: 60%;
 }
+
+#icon-bar{
+    margin-top: 20%;
+}
+
 .icons {
     margin: 10%;
     fill: var(--misc-color-turqblu);
-    width: 60%;
+    width: 40%;
 }
 
 .button-padding{
@@ -78,4 +83,11 @@ h6 {
 
 .title-margin{
     margin-top: 5px
+}
+
+/*when screen larger than 768px make icon-bar disappear */
+@media screen and (min-width: 768px) {
+    #icon-bar{
+        display: none;
+    }
 }
