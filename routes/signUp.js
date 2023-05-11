@@ -1,9 +1,10 @@
 var express = require('express');
+const { exist } = require('joi');
 router = express.Router();
 
 module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
     app.get('/signup', (req, res) => {
-        res.render('sign up')
+        res.render('sign up', existingFields = {})
     })
 
     app.post('/signup', async (req, res) => {
@@ -40,7 +41,18 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
 
         if (validationResult.error) {
             return res.render('sign up', {
-                error: 'Invalid username or password or security answers. Please try again.'
+                error: 'Invalid username or password or security answers. Please try again.',
+                existingFields: {
+                    username,
+                    password,
+                    email,
+                    security_question_1,
+                    security_question_2,
+                    security_question_3,
+                    security_answer_1,
+                    security_answer_2,
+                    security_answer_3
+                }
             });
         }
 
