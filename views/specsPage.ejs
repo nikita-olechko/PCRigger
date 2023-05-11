@@ -1,0 +1,34 @@
+<%- include('partials/navbar') %>
+
+
+<h1 class="text-center"> Selected Component</h1>
+
+    <main>
+        <div class="container-fluid">
+            <p><%= part.name %></p>
+            <p> <%= part.manufacturer %> </p>
+            <p>Release Date: Yo mamama</p>
+        </div>
+
+        <h3>Specs:</h3>
+        <div>
+            <!-- give me a for loop that adds all the fields and values a part has to this div -->
+            <% for(var spec of part.specs) { %>
+                <p><%= spec.field %>: <%= spec.value %></p>
+            <% } %>
+            
+            <p>Spec 1</p>
+            <p>Spec 2</p>
+            <p>Spec 3</p>
+            <p>Spec 4</p>
+            <p>Spec 5</p>
+            <p>Spec 6</p>
+            <p>Spec 7</p>
+            <p>Spec 8</p>
+            <p>Spec 9</p>
+            <p>Spec 10</p>
+        </div>
+    </main>
+
+
+    <%- include('partials/iconbar') %>
