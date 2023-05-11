@@ -34,7 +34,7 @@ const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers
 module.exports = function (app) {
   app.get('/parts', (req, res) => {
 
-    var partType = req.query.partType.toLowerCase();
+    var partType = req.query.partType;
 
     switch (partType) {
       // give me a switch case for each part type and then render the page with the correct part type depending on the 
