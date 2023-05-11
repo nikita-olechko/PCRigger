@@ -1,0 +1,48 @@
+<%- include ('partials/navbar') %>
+
+    <div class="container-fluid">
+        <h1>
+            Component Type to Compare
+        </h1>
+    </div>
+
+    <div class="container-fluid">
+        <form action='/parts' method="post">
+            <input type="hidden" name="formId" value="gpu">
+            <input type="submit" value='gpu' class="form-control btn-primary" />
+        </form>
+
+        <form action='/parts' method="post">
+            <input type="hidden" name="formId" value="cpu">
+            <input type="submit" value='cpu' class="form-control btn-primary" />
+        </form>
+
+        <form action='/parts' method="post">
+            <input type="hidden" name="formId" value="ram">
+            <input type="submit" value='ram' class="form-control btn-primary" />
+        </form>
+
+        <form action='/parts' method="post">
+            <input type="hidden" name="formId" value="gpu">
+            <input type="submit" value='gpu' class="form-control btn-primary" />
+        </form>
+
+        <form action='/parts' method="post">
+            <input type="hidden" name="formId" value="motherboards">
+            <input type="submit" value='motherboards' class="form-control btn-primary" />
+        </form>
+
+        <form action='/parts' method="post">
+            <input type="hidden" name="formId" value="storage">
+            <input type="submit" value='storage' class="form-control btn-primary" />
+        </form>
+
+
+
+    </div>
+
+
+
+
+
+    <%- include('partials/iconbar') %>

@@ -32,21 +32,28 @@ const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers
 
 // Route handler for the parts list page
 module.exports = function (app) {
-  app.get('/parts', (req, res) => {
+  app.post('/parts', async (req, res) => {
 
-    var partType = req.query.partType;
+    const partCategory = req.body.formId;
+    console.log("Passed in part type: " + partCategory);
 
-    switch (partType) {
+
+    // const result = await cpuModel.find({});
+    // console.log(result);
+    
+    switch (partCategory) {
       // give me a switch case for each part type and then render the page with the correct part type depending on the 
       // string variable passed in from the url
       // if the url is /parts/cpu then render the page with the cpu parts
-      case 'cpu':
+
+      case 'gpu':
         cpuCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
           res.render('partsListPage', {
             parts: result,
-            partType: partType
+            partCategory: partCategory
           });
+          console.log(result);
         });
 
         break;
@@ -56,17 +63,17 @@ module.exports = function (app) {
           if (err) throw err;
           res.render('partsListPage', {
             parts: result,
-            partType: partType
+            partCategory: partCategory
           });
         });
         break;
 
-      case 'gpu':
+      case 'cpu':
         gpuCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
           res.render('partsListPage', {
             parts: result,
-            partType: partType
+            partCategory: partCategory
           });
         });
         break;
@@ -76,7 +83,7 @@ module.exports = function (app) {
           if (err) throw err;
           res.render('partsListPage', {
             parts: result,
-            partType: partType
+            partCategory: partCategory
           });
         });
         break;
@@ -86,7 +93,7 @@ module.exports = function (app) {
           if (err) throw err;
           res.render('partsListPage', {
             parts: result,
-            partType: partType
+            partCategory: partCategory
           });
         });
         break;
@@ -96,7 +103,7 @@ module.exports = function (app) {
           if (err) throw err;
           res.render('partsListPage', {
             parts: result,
-            partType: partType
+            partCategory: partCategory
           });
         });
         break;
@@ -106,17 +113,18 @@ module.exports = function (app) {
           if (err) throw err;
           res.render('partsListPage', {
             parts: result,
-            partType: partType
+            partCategory: partCategory
           });
         });
         break;
 
       default:
-        res.render('partsListPage');
+        console.log("Error getting page");
         break;
     }
-
-
-    res.render('partsListPage');
   })
+
+  app.get('/parts', (req, res) => {
+    res.render('partsListPage');
+  });
 }

@@ -60,3 +60,22 @@ h6 {
     fill: var(--misc-color-turqblu);
     width: 60%;
 }
+
+.button-padding{
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.button-margin{
+    margin: 20px;
+}
+
+.general-margin{
+    margin-top: 20px;
+}
+
+.title-margin{
+    margin-top: 5px
+}
