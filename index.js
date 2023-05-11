@@ -56,9 +56,10 @@ app.use(session({
 
 // Delete this later....
 
-app.get('/', (req, res) => {
-  res.render('index');
-});
+// app.get('/', (req, res) => {
+//   res.render('index');
+// });
+require('./routes/landing_page')(app);
 
 require('./routes/sampleRoute')(app);
 
