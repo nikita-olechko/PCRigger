@@ -39,8 +39,9 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
         });
 
         if (validationResult.error) {
-            res.status(400).send(`Invalid username or password or security questions. <a href="/">Go back to home</a>`);
-            return;
+            return res.render('sign up', {
+                error: 'Invalid username or password or security answers. Please try again.'
+            });
         }
 
         // Check if username already exists
@@ -48,8 +49,20 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
             username: username
         });
         if (existingUser) {
-            res.status(409).send(`Username already exists. <a href="/">Go back to home</a>`);
-            return;
+            return res.render('sign up', {
+                error: `Sorry, the username "${username}" is not available. Please choose another username.`,
+                existingFields: {
+                    username,
+                    password,
+                    email,
+                    security_question_1,
+                    security_question_2,
+                    security_question_3,
+                    security_answer_1,
+                    security_answer_2,
+                    security_answer_3
+                }
+            });
         }
 
         // Hash password
@@ -68,7 +81,7 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
         const newUser = {
             username: username,
             password: hashedPassword,
-            email: email,  
+            email: email,
             user_type: 'user',
             security_question_1: security_question_1,
             security_answer_1: hashedAnswer1,
@@ -86,5 +99,6 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
         // Redirect to members area
         res.redirect('/');
     });
-    
+
+
 }
