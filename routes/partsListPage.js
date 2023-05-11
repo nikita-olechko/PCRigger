@@ -47,13 +47,13 @@ module.exports = function (app) {
       // if the url is /parts/cpu then render the page with the cpu parts
 
       case 'gpu':
-        cpuCollection.find({}).toArray(function (err, result) {
+        gpuCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
           res.render('partsListPage', {
             parts: result,
             partCategory: partCategory
           });
-          console.log(result);
+          // console.log(result);
         });
 
         break;
@@ -69,7 +69,7 @@ module.exports = function (app) {
         break;
 
       case 'cpu':
-        gpuCollection.find({}).toArray(function (err, result) {
+        cpuCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
           res.render('partsListPage', {
             parts: result,

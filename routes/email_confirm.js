@@ -17,10 +17,6 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
         
         const schema = Joi.object({
             email: Joi.string().required(),
-            // security_answer_1: Joi.string().required(),
-            // security_answer_2: Joi.string().required(),
-            // security_answer_3: Joi.string().required(),
-            // new_password: Joi.string().required()
         })
         const valid_input = schema.validate({
             email,
@@ -34,7 +30,6 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
                 email: email
             });
             if (existingUser) {
-                console.log(existingUser);
                 tempUser = existingUser;
                 res.render('recovery_questions', { user: tempUser });
             
@@ -107,18 +102,3 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
         }
     })
 }
-
-
-                // if (new_password) {
-                //     const salt = await bcrypt.genSalt(saltRounds);
-                //     const hashedPassword = await bcrypt.hash(new_password, salt);
-                //     await userCollection.updateOne({
-                //         email: email
-                //     }, {
-                //         $set: {
-                //             password: hashedPassword
-                //         }
-                //     });
-                //     res.redirect('/');
-                //     return;
-                // }
