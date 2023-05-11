@@ -34,12 +34,8 @@ const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers
 module.exports = function (app) {
   app.post('/parts', async (req, res) => {
 
-<<<<<<< HEAD
-    var partType = req.query.partType;
-=======
     const partCategory = req.body.formId;
     console.log("Passed in part type: " + partCategory);
->>>>>>> abdo_03_modelsCreation
 
 
     // const result = await cpuModel.find({});
