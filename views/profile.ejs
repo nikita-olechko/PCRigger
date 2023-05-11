@@ -1,0 +1,32 @@
+<%- include('partials/navbar') %>
+
+    <main>
+        <div class="container">
+            <h1>Welcome <%= user %></h1>
+            <h5>Profile Info</h5>
+            <hr>
+            <div>
+                <ul>
+                    <li>Email: <%= email %></li>
+                    <li>Account Type: <%= userType %></li>
+                    <li>Account Created: <%= sessionCreation%> </li>
+                </ul>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Click to view security questions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <% securityQuestions.forEach(function(item) { %>
+                            <li><%=item%></li>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <h5>Saved Builds</h5>
+            <hr>
+        </div>
+    </main>
+    
+<%- include('partials/iconbar') %>
