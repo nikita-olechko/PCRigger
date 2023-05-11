@@ -1,0 +1,151 @@
+<%- include("partials/navbar") %>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h1 class="general-margin">Sign Up</h1>
+                <form method='post' action='/signup'>
+                    <div class="form-group general-margin">
+                        <label for='username'>Username:</label>
+                        <input type='text' class="form-control title-margin" id='username' name='username' required minlength="3"
+                            maxlength="20" pattern="[A-Za-z0-9]+"
+                            title="Username must be alphanumeric and between 3 and 20 characters long." <% if (typeof
+                            existingFields.username !='undefined' ) {%>
+                        value="<%= existingFields.username %>" <% } %>>
+                    </div>
+                    <% if (typeof error !=='undefined' ) { %>
+                        <p class="error">
+                            <%= error %>
+                        </p>
+                        <% } %>
+                            <div class="form-group general-margin">
+                                <label for='password'>Password:</label>
+                                <input type='password' class="form-control title-margin" id='password' name='password' required
+                                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,30}$"
+                                    title="Password must be alphanumeric, between 6 and 30 characters long, and contain at least one letter and one number."
+                                    <% if (typeof existingFields.password !='undefined' ) {%>
+                                value="<%= existingFields.password %>" <% } %>>
+                            </div>
+                            <div class="form-group general-margin">
+                                <label for='email'>Email:</label>
+                                <input type='email' class="form-control title-margin" id='email' name='email' required
+                                    title="Please enter a valid email address." <% if (typeof existingFields.email
+                                    !='undefined' ) {%>
+                                value="<%= existingFields.email %>" <% } %>>
+                            </div>
+                            <div class="form-group general-margin">
+                                <label for="security_question_1">Security Question 1:</label>
+                                <select class="form-control title-margin" id="security_question_1" name="security_question_1"
+                                    required <% if (typeof existingFields.security_question_1 !='undefined' ) {%>
+                                    value="<%= existingFields.security_question_1 %>" <% } %>>
+                                            <option value="">Select a security question</option>
+                                            <option value="What is your mother's maiden name?">What is your mother's
+                                                maiden
+                                                name?
+                                            </option>
+                                            <option value="What is your favorite TV show?">What is your favorite TV
+                                                show?
+                                            </option>
+                                            <option value="What is your favorite video game?">What is your favorite
+                                                video game?
+                                            </option>
+                                            <option value="What is your favorite hobby?">What is your favorite hobby?
+                                            </option>
+                                            <option value="What is your favorite animal?">What is your favorite animal?
+                                            </option>
+                                            <option value="What was the name of your first pet?">What was the name of
+                                                your first
+                                                pet?
+                                            </option>
+                                            <option value="What is your favorite movie?">What is your favorite movie?
+                                            </option>
+                                </select>
+                                <input type="text" class="form-control mt-2" id="security_answer_1"
+                                    name="security_answer_1" placeholder="Enter your answer" required
+                                    title="Please enter a security answer." <% if (typeof
+                                    existingFields.security_answer_1 !='undefined' ) {%>
+                                value="<%= existingFields.security_answer_1 %>" <% } %>>
+                            </div>
+                            <div class="form-group general-margin">
+                                <label for="security_question_2">Security Question 2:</label>
+                                <br>
+                                <select class="form-control title-margin" id="security_question_2" name="security_question_2"
+                                    required <% if (typeof existingFields.security_question_2 !='undefined' ) {%>
+                                    value="<%= existingFields.security_question_2 %>" <% } %>>
+                                            <option value="">Select a security question</option>
+                                            <<option value="What is your father's middle name?">What is your father's
+                                                middle
+                                                name?
+                                                </option>
+                                                <option value="What is your favorite song?">What is your favorite song?
+                                                </option>
+                                                <option value="What is your favorite band?">What is your favorite band?
+                                                </option>
+                                                <option value="What is your favorite sport?">What is your favorite
+                                                    sport?
+                                                </option>
+                                                <option value="What is your favorite video game console?">What is your
+                                                    favorite
+                                                    video
+                                                    game
+                                                    console?</option>
+                                                <option value="Where were you born?">Where were you born?</option>
+                                                <option value="What is your favorite color?">What is your favorite
+                                                    color?
+                                                </option>
+                                </select>
+                                <input type="text" class="form-control mt-2" id="security_answer_2"
+                                    name="security_answer_2" placeholder="Enter your answer" required
+                                    title="Please enter a security answer." <% if (typeof
+                                    existingFields.security_answer_2 !='undefined' ) {%>
+                                value="<%= existingFields.security_answer_2 %>" <% } %>>
+                            </div>
+                            <div class="form-group general-margin">
+                                <label for="security_question_3">Security Question 3:</label>
+                                <br>
+                                <select class="form-control title-margin" id="security_question_3" name="security_question_3"
+                                    required <% if (typeof existingFields.security_question_3 !='undefined' ) {%>
+                                    value="<%= existingFields.security_question_3 %>" <% } %>>
+                                            <option value="">Select a security question</option>
+                                            <br>
+                                            <option value="What is your favorite book?">What is your favorite book?
+                                            </option>
+                                            <option value="What is your favorite sports team?">What is your favorite
+                                                sports
+                                                team?
+                                            <option value="What was the make and model of your first car?">What was the
+                                                make and
+                                                model
+                                                of
+                                                your first car?</option>
+                                            <option value="What is your favorite subject?">What is your favorite
+                                                subject?
+                                            </option>
+                                            <option value="What is your favorite holiday?">What is your favorite
+                                                holiday?
+                                            </option>
+                                            <option value="What is the name of your favorite teacher?">What is the name
+                                                of your
+                                                favorite
+                                                teacher?</option>
+                                            <option value="What is your favorite food?">What is your favorite food?
+                                            </option>
+                                </select>
+                                <input type="text" class="form-control mt-2" id="security_answer_3"
+                                    name="security_answer_3" placeholder="Enter your answer" required
+                                    title="Please enter a security answer." <% if (typeof
+                                    existingFields.security_answer_3 !='undefined' ) {%>
+                                value="<%= existingFields.security_answer_3 %>" <% } %>>
+                            </div>
+
+                            <div class="d-flex justify-content-center general-margin">
+                                <a href="/" class="btn btn-secondary button-padding button-margin">Home</a>
+                                <button type='submit' class="btn btn-primary button-padding button-margin">Sign
+                                    Up</button>
+                            </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+    <%- include("partials/iconbar") %>

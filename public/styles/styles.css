@@ -1,0 +1,81 @@
+:root {
+    --bg-color: #1C1D23;
+    --text-color-white: #FFFFFF;
+    --subtext-color-light-grey: #868785;
+    --heading-color-burgundysos: #D45A48;
+    --primary-btn-color-blue: #2474A1;
+    --hovered-btn-color-tropblu: #4BBDAC;
+    --misc-color-turqblu: #336E6F;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color-white);
+}
+
+.subtext {
+    color: var(--subtext-color-light-grey);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--heading-color-burgundysos);
+}
+
+.btn-primary {
+    background-color: var(--primary-btn-color-blue);
+    color: var(--text-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--hovered-btn-color-tropblu);
+}
+
+.misc {
+    color: var(--misc-color-turqblu);
+}
+
+
+
+/* //////////////////////////////
+            Partials 
+////////////////////////////// */
+.navbar{
+    border-bottom: 2px solid var(--misc-color-turqblu);
+    background-color: #525252;
+}
+
+/* User icon */
+.navbar-icons {
+    fill: var(--misc-color-turqblu);
+    width: 60%;
+    height: 60%;
+}
+.icons {
+    margin: 10%;
+    fill: var(--misc-color-turqblu);
+    width: 60%;
+}
+
+.button-padding{
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.button-margin{
+    margin: 20px;
+}
+
+.general-margin{
+    margin-top: 20px;
+}
+
+.title-margin{
+    margin-top: 5px
+}

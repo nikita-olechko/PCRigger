@@ -1,0 +1,21 @@
+<%- include('partials/navbar') %>
+
+<div id="center_message" class="rounded-3">
+    <div class="container-fluid custom-padding">
+        <h1 class="display-5 fw-bold">
+            PCRigger
+        </h1>
+        <p class="col-md-8 fs-4">
+            We build Rigs that Fuxks.
+        </p>
+    </div>
+    <div id="landing_buttons">
+        <% buttons.forEach(function(button){ %>
+            <%- include('partials/menu_buttons', {route: button.route, description: button.description}) %>
+        <% }) %>
+    </div>
+</div>
+<%- include("partials/iconbar") %>
+
+<!-- Link sheet at the end to overwrite buttons css with new properties -->
+<link rel="stylesheet" href="styles/landing_page.css">

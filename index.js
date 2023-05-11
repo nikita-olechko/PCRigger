@@ -3,6 +3,10 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const app = express();
+const saltRounds = 12;
+const Joi = require('joi');
+const bcrypt = require('bcrypt');
+
 require('./utils.js');
 
 
@@ -27,6 +31,11 @@ const userCollection = database.db(mongodb_database).collection('users');
 app.use(express.urlencoded({
   extended: false
 }));
+// use public folder for static files
+app.use(express.static('public'));
+//Setting the view engine to ejs
+app.set('view engine', 'ejs');
+
 
 var mongoStore = MongoStore.create({
   mongoUrl: `mongodb+srv://${mongodb_user}:${mongodb_password}@${mongodb_host}/${mongodb_database}?retryWrites=true`,
@@ -45,4 +54,34 @@ app.use(session({
   }
 }));
 
-console.log(userCollection);
+// Delete this later....
+
+// app.get('/', (req, res) => {
+//   res.render('index');
+// });
+require('./routes/landing_page')(app);
+
+require('./routes/sampleRoute')(app);
+
+require('./routes/signUp')(app, userCollection, saltRounds, Joi, bcrypt);
+
+require('./routes/login')(app, userCollection, Joi, bcrypt);
+
+require('./routes/admin')(app, userCollection);
+
+require('./routes/signOut')(app);
+
+require('./routes/partsListPage')(app);
+require('./routes/partsCategoryPage')(app);
+
+require('./routes/configurator')(app);
+
+require('./routes/members')(app);
+
+require('./routes/prebuiltOptions.js')(app);
+
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

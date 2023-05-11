@@ -1,0 +1,119 @@
+<% 
+console.log(builds)
+console.log(index)
+%>
+
+
+<%- include('partials/navbar') %>
+
+    <div class="container">
+        <h1 id="name">High <%= builds[index].class %> builds</h1>
+        <hr>
+        <h5><%= builds[index].name %></h5>
+        <div class="row">
+            <div class="col">
+                <h5>CPU</h5>
+                <div id="cpu">
+                    <%= builds[index].parts.cpu%>
+                </div>
+                <% if (builds[index].parts.cpu != null)  { %>
+                    <button class="btn btn-danger">-</button>
+                <% } else { %>
+                    <button class="btn btn-success">+</button>
+                <% } %>
+            </div>
+            <div class="col">
+                <h5>Graphics Card</h5>
+                <div id="gpu">
+                    <%= builds[index].parts.gpu%>
+                </div>
+                <% if (builds[index].parts.gpu != null)  { %>
+                    <button class="btn btn-danger">-</button>
+                <% } else { %>
+                    <button class="btn btn-success">+</button>
+                <% } %>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h5>Memory</h5>
+                <div id="ram">
+                    <%= builds[index].parts.ram%>
+                </div>
+                <% if (builds[index].parts.ram != null)  { %>
+                    <button class="btn btn-danger">-</button>
+                <% } else { %>
+                    <button class="btn btn-success">+</button>
+                <% } %>
+            </div>
+            <div class="col">
+                <h5>Motherboard</h5>
+                <div id="motherboard">
+                    <%= builds[index].parts.motherboard%>
+                </div>
+                <% if (builds[index].parts.gpu != null)  { %>
+                    <button class="btn btn-danger">-</button>
+                <% } else { %>
+                    <button class="btn btn-success">+</button>
+                <% } %>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h5>CPU Cooler</h5>
+                <div id="cpuCooler">
+                    <%= builds[index].parts.cpuCooler%>
+                </div>
+                <% if (builds[index].parts.cpuCooler != null)  { %>
+                    <button class="btn btn-danger">-</button>
+                <% } else { %>
+                    <button class="btn btn-success">+</button>
+                <% } %>
+            </div>
+            <div class="col" >
+                <h5>Power Supply</h5>
+                <div id="powerSupply">
+                    <%= builds[index].parts.powerSupply%>
+                </div>
+                <% if (builds[index].parts.powerSupply != null)  { %>
+                    <button class="btn btn-danger">-</button>
+                <% } else { %>
+                    <button class="btn btn-success">+</button>
+                <% } %>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h5>Case</h5>
+                <div id="case">
+                    <%= builds[index].parts.case%>
+                </div>
+                <% if (builds[index].parts.case != null)  { %>
+                    <button class="btn btn-danger">-</button>
+                <% } else { %>
+                    <button class="btn btn-success">+</button>
+                <% } %>
+            </div>
+            <div class="col" >
+                <h5>Storage</h5>
+                <div id="storage">
+                    <%= builds[index].parts.storage %>
+                </div>
+                <% if (builds[index].parts.storage != null)  { %>
+                    <button class="btn btn-danger">-</button>
+                <% } else { %>
+                    <button class="btn btn-success">+</button>
+                <% } %>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <button class="btn btn-success">Add build to favourites</button>
+            <button class="btn btn-danger">Remove build from favourites</button>
+        </div>
+    </div>
+
+    <%- include('partials/iconbar') %>

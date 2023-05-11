@@ -1,0 +1,8 @@
+<%- include('partials/navbar') %>
+<link rel="stylesheet" href="styles/members.css">
+    <div id="member_page_buttons">
+        <% buttons.forEach(function(button){ %>
+            <%- include('partials/menu_buttons', {route: button.route, description: button.description}) %>
+        <% }) %>
+    </div>
+<%- include('partials/iconbar') %>

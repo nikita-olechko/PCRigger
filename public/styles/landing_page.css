@@ -1,0 +1,24 @@
+#center_message {
+    width: 80%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 50vh;
+    transform: translateX(3%) translateY(-50%);
+}
+
+#landing_buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 1vh;
+}
+
+.menu_buttons {
+    font-size: medium;
+}
+
+.custom-padding{
+    padding-bottom: 2vh;
+}
+

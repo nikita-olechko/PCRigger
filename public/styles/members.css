@@ -1,0 +1,10 @@
+#member_page_buttons {
+    width: 55%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    margin: auto;
+    margin-top: 50vh;
+    transform: translateY(-70%);
+}
