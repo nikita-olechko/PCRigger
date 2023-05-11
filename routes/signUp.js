@@ -95,6 +95,7 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
             password: hashedPassword,
             email: email,
             user_type: 'user',
+            favourites: [],
             security_question_1: security_question_1,
             security_answer_1: hashedAnswer1,
             security_question_2: security_question_2,
