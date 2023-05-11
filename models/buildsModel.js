@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const caseSchema = new mongoose.Schema({
+const buildsSchema = new mongoose.Schema({
     class: String,
     name: String,
     parts: [{
@@ -15,5 +15,6 @@ const caseSchema = new mongoose.Schema({
     }]
 });
 
-const Cases = mongoose.model('Cases', caseSchema);
-module.exports = Cases;
+const buildsModel = mongoose.model('pcbuilds', buildsSchema);
+
+module.exports = buildsModel;
