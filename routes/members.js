@@ -9,5 +9,6 @@ module.exports = function(app){
             { route: '#', description: 'Info' }
         ];
         res.render('members', { buttons: buttonsData });
+        // res.render('templates/notification_page.ejs', {message:'Your name has been changed.'})
     })
 }

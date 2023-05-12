@@ -3,6 +3,6 @@ router = express.Router();
 
 module.exports = function(app){
     app.get('/sample', (req, res) =>{
-        res.send(`<h1>This is a sample route</h1>`)
+        res.render('templates/notification_page.ejs', {message:'This is a sample route'})
     })
 }

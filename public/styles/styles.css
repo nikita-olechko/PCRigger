@@ -2,7 +2,7 @@
     --bg-color: #1C1D23;
     --text-color-white: #FFFFFF;
     --subtext-color-light-grey: #868785;
-    --heading-color-burgundysos: #D45A48;
+    --heading-color-burgundyish: #D45A48;
     --primary-btn-color-blue: #2474A1;
     --hovered-btn-color-tropblu: #4BBDAC;
     --misc-color-turqblu: #336E6F;
@@ -23,7 +23,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: var(--heading-color-burgundysos);
+    color: var(--heading-color-burgundyish);
 }
 
 .btn-primary {
@@ -47,6 +47,20 @@ h6 {
 .navbar{
     border-bottom: 2px solid var(--misc-color-turqblu);
     background-color: #525252;
+}
+
+.nav-link:hover {
+    color: #D45A48! important;
+}
+
+.offcanvas {
+    border-bottom: 2px solid var(--misc-color-turqblu);
+    background-color: #525252;
+}
+
+.offcanvas-header {
+    border-bottom: 2px solid var(--misc-color-turqblu);
+    background-color: #1C1D23;
 }
 
 /* User icon */

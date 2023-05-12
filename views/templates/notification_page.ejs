@@ -1,0 +1,14 @@
+<%- include('../partials/navbar') %>
+<div id="center_notification" class="rounded-3">
+    <div class="container-fluid custom-padding">
+        <p class="col-md-8 fs-4">
+            <%= message %>
+        </p>
+    </div>
+    <div id="home_button_container" style="width: 30%;">
+        <%- include('../partials/menu_buttons', {route: "", description: "Home"}) %>
+    </div>
+</div>
+<%- include('../partials/iconbar') %>
+
+<link rel="stylesheet" href="styles/notification_page.css">
