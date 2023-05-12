@@ -69,6 +69,8 @@ require('./routes/login')(app, userCollection, Joi, bcrypt);
 
 require('./routes/admin')(app, userCollection);
 
+require('./routes/addBuildToProfile')(app, userCollection);
+
 require('./routes/profile')(app);
 
 require('./routes/signOut')(app);
