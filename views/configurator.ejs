@@ -1,180 +1,186 @@
-<% const current_build = JSON.stringify(builds)%>
-<% console.log(builds) %>
+<% const current_build=JSON.stringify(builds)%>
+    <% console.log(builds) %>
 
-<%- include('partials/navbar') %>
+        <%- include('partials/navbar') %>
 
-    <div class="container">
-        <h1 id="name">High <%= builds.class %> builds</h1>
-        <hr>
-        <h5><%= builds.name %></h5>
-        <div class="row">
-            <div class="col">
-                <h5>CPU</h5>
-                <div>
-                    <% if (builds.parts.cpu != null) { %>
-                        <%= builds.parts.cpu %>
-                    <% } else { %>
-                        Select New
-                    <% } %>
-                </div>
-                <% if (builds.parts.cpu != null)  { %>
-                    <form method="post" action="/removePart">
-                        <input type="hidden" name="partToRemove" value="cpu">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <input type="submit" value="-" class="btn btn-danger""> 
+            <div class="container general-margin">
+                <h1 id="name">High <%= builds.class %> builds</h1>
+                <hr>
+                <h5>
+                    <%= builds.name %>
+                </h5>
+                <div class="row">
+                    <div class="col">
+                        <h5 class="general-margin">CPU</h5>
+                        <div>
+                            <% if (builds.parts.cpu !=null) { %>
+                                <%= builds.parts.cpu %>
+                                    <% } else { %>
+                                        Select New
+                                        <% } %>
+                        </div>
+                        <% if (builds.parts.cpu !=null) { %>
+                            <form method="post" action="/removePart">
+                                <input type="hidden" name="partToRemove" value="cpu">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class="btn btn-success">+</button>
-                <% } %>
-            </div>
-            <div class="col">
-                <h5>GPU</h5>
-                <div>
-                    <% if (builds.parts.gpu != null) { %>
-                        <%= builds.parts.gpu %>
-                    <% } else { %>
-                        Select New
-                    <% } %>
-                </div>
-                <% if (builds.parts.gpu != null)  { %>
-                    <form method="post" action="/removePart">
-                        <input type="hidden" name="partToRemove" value="gpu">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <input type="submit" value="-" class="btn btn-danger""> 
+                    <button class=" btn btn-success">+</button>
+                                <% } %>
+                    </div>
+                    <div class="col">
+                        <h5 class="general-margin">GPU</h5>
+                        <div>
+                            <% if (builds.parts.gpu !=null) { %>
+                                <%= builds.parts.gpu %>
+                                    <% } else { %>
+                                        Select New
+                                        <% } %>
+                        </div>
+                        <% if (builds.parts.gpu !=null) { %>
+                            <form method="post" action="/removePart">
+                                <input type="hidden" name="partToRemove" value="gpu">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class="btn btn-success">+</button>
-                <% } %>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col">
-                <h5>cpuCooler</h5>
-                <div>
-                    <% if (builds.parts.cpuCooler != null) { %>
-                        <%= builds.parts.cpuCooler %>
-                    <% } else { %>
-                        Select New
-                    <% } %>
+                    <button class=" btn btn-success">+</button>
+                                <% } %>
+                    </div>
                 </div>
-                <% if (builds.parts.cpuCooler != null)  { %>
-                    <form method="post" action="/removePart">
-                        <input type="hidden" name="partToRemove" value="cpuCooler">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <input type="submit" value="-" class="btn btn-danger""> 
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <h5>cpuCooler</h5>
+                        <div>
+                            <% if (builds.parts.cpuCooler !=null) { %>
+                                <%= builds.parts.cpuCooler %>
+                                    <% } else { %>
+                                        Select New
+                                        <% } %>
+                        </div>
+                        <% if (builds.parts.cpuCooler !=null) { %>
+                            <form method="post" action="/removePart">
+                                <input type="hidden" name="partToRemove" value="cpuCooler">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class="btn btn-success">+</button>
-                <% } %>
-            </div>
-            <div class="col">
-                <h5>motherboard</h5>
-                <div>
-                    <% if (builds.parts.motherboard != null) { %>
-                        <%= builds.parts.motherboard %>
-                    <% } else { %>
-                        Select New
-                    <% } %>
-                </div>
-                <% if (builds.parts.motherboard != null)  { %>
-                    <form method="post" action="/removePart">
-                        <input type="hidden" name="partToRemove" value="motherboard">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <input type="submit" value="-" class="btn btn-danger""> 
+                    <button class=" btn btn-success">+</button>
+                                <% } %>
+                    </div>
+                    <div class="col">
+                        <h5>motherboard</h5>
+                        <div>
+                            <% if (builds.parts.motherboard !=null) { %>
+                                <%= builds.parts.motherboard %>
+                                    <% } else { %>
+                                        Select New
+                                        <% } %>
+                        </div>
+                        <% if (builds.parts.motherboard !=null) { %>
+                            <form method="post" action="/removePart">
+                                <input type="hidden" name="partToRemove" value="motherboard">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class="btn btn-success">+</button>
-                <% } %>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col">
-                <h5>Memory</h5>
-                <div>
-                    <% if (builds.parts.ram != null) { %>
-                        <%= builds.parts.ram %>
-                    <% } else { %>
-                        Select New
-                    <% } %>
+                    <button class=" btn btn-success">+</button>
+                                <% } %>
+                    </div>
                 </div>
-                <% if (builds.parts.ram != null)  { %>
-                    <form method="post" action="/removePart">
-                        <input type="hidden" name="partToRemove" value="ram">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <input type="submit" value="-" class="btn btn-danger""> 
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <h5>Memory</h5>
+                        <div>
+                            <% if (builds.parts.ram !=null) { %>
+                                <%= builds.parts.ram %>
+                                    <% } else { %>
+                                        Select New
+                                        <% } %>
+                        </div>
+                        <% if (builds.parts.ram !=null) { %>
+                            <form method="post" action="/removePart">
+                                <input type="hidden" name="partToRemove" value="ram">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class="btn btn-success">+</button>
-                <% } %>
-            </div>
-            <div class="col">
-                <h5>storage</h5>
-                <div>
-                    <% if (builds.parts.storage != null) { %>
-                        <%= builds.parts.storage %>
-                    <% } else { %>
-                        Select New
-                    <% } %>
-                </div>
-                <% if (builds.parts.storage != null)  { %>
-                    <form method="post" action="/removePart">
-                        <input type="hidden" name="partToRemove" value="storage">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <input type="submit" value="-" class="btn btn-danger""> 
+                    <button class=" btn btn-success">+</button>
+                                <% } %>
+                    </div>
+                    <div class="col">
+                        <h5>storage</h5>
+                        <div>
+                            <% if (builds.parts.storage !=null) { %>
+                                <%= builds.parts.storage %>
+                                    <% } else { %>
+                                        Select New
+                                        <% } %>
+                        </div>
+                        <% if (builds.parts.storage !=null) { %>
+                            <form method="post" action="/removePart">
+                                <input type="hidden" name="partToRemove" value="storage">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class="btn btn-success">+</button>
-                <% } %>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col">
-                <h5>case</h5>
-                <div>
-                    <% if (builds.parts.case != null) { %>
-                        <%= builds.parts.case %>
-                    <% } else { %>
-                        Select New
-                    <% } %>
+                    <button class=" btn btn-success">+</button>
+                                <% } %>
+                    </div>
                 </div>
-                <% if (builds.parts.case != null)  { %>
-                    <form method="post" action="/removePart">
-                        <input type="hidden" name="partToRemove" value="case">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <input type="submit" value="-" class="btn btn-danger""> 
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <h5>case</h5>
+                        <div>
+                            <% if (builds.parts.case !=null) { %>
+                                <%= builds.parts.case %>
+                                    <% } else { %>
+                                        Select New
+                                        <% } %>
+                        </div>
+                        <% if (builds.parts.case !=null) { %>
+                            <form method="post" action="/removePart">
+                                <input type="hidden" name="partToRemove" value="case">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class="btn btn-success">+</button>
-                <% } %>
-            </div>
-            <div class="col">
-                <h5>powerSupply</h5>
-                <div>
-                    <% if (builds.parts.powerSupply != null) { %>
-                        <%= builds.parts.powerSupply %>
-                    <% } else { %>
-                        Select New
-                    <% } %>
-                </div>
-                <% if (builds.parts.powerSupply != null)  { %>
-                    <form method="post" action="/removePart">
-                        <input type="hidden" name="partToRemove" value="powerSupply">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <input type="submit" value="-" class="btn btn-danger""> 
+                    <button class=" btn btn-success">+</button>
+                                <% } %>
+                    </div>
+                    <div class="col">
+                        <h5>powerSupply</h5>
+                        <div>
+                            <% if (builds.parts.powerSupply !=null) { %>
+                                <%= builds.parts.powerSupply %>
+                                    <% } else { %>
+                                        Select New
+                                        <% } %>
+                        </div>
+                        <% if (builds.parts.powerSupply !=null) { %>
+                            <form method="post" action="/removePart">
+                                <input type="hidden" name="partToRemove" value="powerSupply">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class="btn btn-success">+</button>
-                <% } %>
+                    <button class=" btn btn-success">+</button>
+                                <% } %>
+                    </div>
+                </div>
+                <form method="post" action="/addBuildToProfile">
+                    <input type="hidden" name="build" value='<%=current_build%>'>
+                    <input type="submit" value="Add Build To Profile"
+                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
+                </form>
+                <br>
+                <br>
+                <br>
+                <br>
             </div>
-        </div>
-        <%- include("partials/menu_buttons", {route: "addBuildToProfile", description: "Add Build To Profile"}) %>
-        <br>
-        <br>
-        <br>
-        <br>
-    </div>
 
-    <%- include('partials/iconbar') %>
+            <%- include('partials/iconbar') %>
