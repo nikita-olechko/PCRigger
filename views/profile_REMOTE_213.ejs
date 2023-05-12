@@ -1,0 +1,44 @@
+<%- include('partials/navbar') %>
+
+    <main>
+        <div class="container title-margin">
+            <h1 class="general-margin">Welcome <%= user %></h1>
+            <div style="display: flex; align-items: center; margin-top: 20px;">
+                <h5>Profile Info</h5>
+                <a href="/edit" class="btn btn-primary" style="margin-left: auto;">Edit Profile</a>
+            </div>
+            <hr>
+            <div>
+                <ul>
+                    <li>Email: <%= email %></li>
+                    <li>Account Type: <%= userType %></li>
+                    <li>Account Created: <%= sessionCreation%> </li>
+                </ul>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Click to view security questions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <% securityQuestions.forEach(function(item) { %>
+                            <li><%=item%></li>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <h5>Saved Builds</h5>
+            <div class="general-margin" id="savedBuilds">
+                <% favourites.forEach(function(item) { %>
+                    <div class="card button-padding title-margin">
+                        <li class="">
+                            Class: <%=item.class%> | Name: <%=item.name%>
+                        </li>
+                    </div>
+                    <% }) %>
+            </div>
+            <hr>
+        </div>
+    </main>
+    
+<%- include('partials/iconbar') %>
