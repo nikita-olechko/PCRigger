@@ -8,9 +8,11 @@
     --misc-color-turqblu: #336E6F;
 }
 
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color-white);
+    margin-bottom: 45px;
 }
 
 .subtext {
@@ -120,6 +122,11 @@ h6 {
     width: 20px;
     height: 20px;
     margin-bottom: 3px;
+}
+
+.bottom-iconbar-opaque{
+    background-color: var(--bg-color);
+    opacity: 1;
 }
 
 /*when screen larger than 768px make icon-bar disappear */
