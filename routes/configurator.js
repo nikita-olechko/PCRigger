@@ -9,11 +9,20 @@ const mime = require('mime');
 module.exports = function (app, userCollection) {
 
     app.post('/configurator', async (req, res) => {
-
+        var existingBuild = false
+        console.log("At configurator post route")
         var build = JSON.parse(req.body.build)
+        console.log(build)
+
+        var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        console.log(existingUser)
+        if (build in existingUser.favourites) {
+            existingBuild = true
+        }
 
         res.render('configurator', {
             builds: build,
+            existingBuild: existingBuild
         }
         );
     });
@@ -50,17 +59,10 @@ module.exports = function (app, userCollection) {
             username: userID
         });
 
-        // userProfile.favourites = [...userProfile.favourites, build]
+        res.render('configurator', {
+            builds: build,
+            existingBuild: true
+        });
 
-        // await userCollection.deleteOne({ username: userID }, () => {
-        //     console.log("User deleted");
-        // });
-
-        // await userCollection.insertOne(userProfile);
-        //add build to userProfile
-        console.log("Here is the user profile with the new build added")
-        console.log(userProfile)
-        console.log("Here is the favourites section")
-        console.log(userProfile.favourites)
     });
 }
