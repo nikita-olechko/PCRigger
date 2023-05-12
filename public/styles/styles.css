@@ -104,6 +104,10 @@ h6 {
     margin-top: 20px;
 }
 
+.general-padding {
+    padding: 10%;
+}
+
 .title-margin {
     margin-top: 5px
 }
