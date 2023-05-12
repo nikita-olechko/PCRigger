@@ -80,17 +80,6 @@ module.exports = function (app) {
         });
         break;
 
-      case 'ram':
-        ramCollection.find({}).toArray(function (err, result) {
-          if (err) throw err;
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory
-          });
-        });
-        break;
-
-
       case 'motherboards':
         motherboardCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
