@@ -1,0 +1,18 @@
+<%- include('partials/navbar') %>
+
+    <h1 class="text-center"> Selected Component:</h1>
+
+    <main>
+        <h3>Specs:</h3>
+        <div>
+            <% for (const [key, value] of Object.entries(JSON.parse(part))) { %>
+                <% if(key !="_id" ) { %>
+                    <p>
+                        <%= key %>: <%= value %>
+                    </p>
+                    <% } %>
+                        <% } %>
+        </div>
+    </main>
+
+    <%- include('partials/iconbar') %>

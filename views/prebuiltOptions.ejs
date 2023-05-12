@@ -1,13 +1,17 @@
 <%- include('partials/navbar') %>
-<h1>Prebuilt Options</h1>
-<p>Select your desired category for a computer</p>
-<div id="prebuiltCategories" class="rounded-3">
-    <% forms.forEach(function(form){ %>
-        <%- include('partials/prebuiltForms', {
-            route: form.route,
-            description: form.description,
-            formid: form.formid
-            }) %>
-    <% }) %>
+
+<div class="container">
+    <h1>Prebuilt Options</h1>
+    <p>Select your desired category for a computer</p>
+    <div id="prebuiltCategories" class="rounded-3">
+        <% forms.forEach(function(form){ %>
+            <%- include('partials/prebuiltForms', {
+                route: form.route,
+                description: form.description,
+                formId: form.formId
+                }) %>
+        <% }) %>
+    </div>
 </div>
+
 <%- include("partials/iconbar") %>

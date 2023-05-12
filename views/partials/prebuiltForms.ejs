@@ -1,4 +1,15 @@
+<% 
+function toTitleCase(str) {
+return str.replace(
+    /\w\S*/g,
+    function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+);
+}
+%>
+
 <form action='/<%= route %>' method="post">
-    <input type="hidden" name="formId" value="<%= formid %>">
-    <input type="submit" value='<%= description %>' class="form-control btn-primary"/>
+    <input type="hidden" name="formId" value='<%= formId %>'/>
+    <input type="submit" value='<%= toTitleCase(description) %>' class="form-control btn-primary"/>
 </form>

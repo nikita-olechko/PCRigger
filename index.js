@@ -69,16 +69,23 @@ require('./routes/login')(app, userCollection, Joi, bcrypt);
 
 require('./routes/admin')(app, userCollection);
 
+require('./routes/profile')(app, Joi, bcrypt, saltRounds);
+
 require('./routes/signOut')(app);
 
 require('./routes/partsListPage')(app);
+
 require('./routes/partsCategoryPage')(app);
 
-require('./routes/configurator')(app);
+require('./routes/specsPage')(app);
+
+require('./routes/configurator')(app, userCollection);
 
 require('./routes/members')(app);
 
 require('./routes/prebuiltOptions.js')(app);
+
+require('./routes/email_confirm')(app, Joi, userCollection, saltRounds, bcrypt);
 
 
 const port = process.env.PORT || 3000;

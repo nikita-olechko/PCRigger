@@ -1,0 +1,11 @@
+<%console.log(foundBuilds)%>
+
+<%- include('partials/navbar') %>
+
+<div>
+    <% foundBuilds.forEach(function(build) { %>
+        <%- include('partials/prebuiltOption', {build: build}) %>
+    <% }) %>
+</div>
+
+<%- include('partials/iconbar') %>

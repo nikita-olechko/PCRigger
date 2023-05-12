@@ -1,0 +1,19 @@
+<% buildToPass =  JSON.stringify(build)%>
+
+<div class="container">
+    <div>
+        <% console.log(build.name)%>
+        <h5><%= build.name %></h5>
+        <p>
+            <%= build.parts.cpu %>
+        </p>
+        <p>
+            <%= build.parts.gpu %>
+        </p>
+        <form method="post" action="/configurator">
+            <input type="hidden" name="build" value='<%= buildToPass %>'> 
+            <input type="submit" value='Select' class="form-control btn-primary"/>
+        </form>
+    </div>
+    <hr>
+</div>

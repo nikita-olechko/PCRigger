@@ -1,5 +1,4 @@
 var express = require('express');
-router = express.Router();
 const mongoose = require('mongoose');
 router = express.Router;
 const buildsModel = require('../models/buildsModel');
@@ -7,39 +6,65 @@ const utils = require('../utils');
 const path = require('path');
 const mime = require('mime');
 
-const mongodb_database = process.env.MONGODB_DATABASE;
+module.exports = function (app, userCollection) {
 
-var {
-    database
-} = include('databaseConnection');
-
-const prebuilts = database.db(mongodb_database).collection('pcbuilds')
-
-module.exports = function(app){
-    app.use(express.static(path.join(__dirname, 'scripts'), {
-        setHeaders: (res, filePath) => {
-            const mimeType = mime.getType(filePath);
-            if (mimeType) {
-            res.set('Content-Type', mimeType);
-            }
-        }
-        }));
-        
     app.post('/configurator', async (req, res) => {
-        
-        var desiredCategory = req.body.formId;
+        var existingBuild = false
+        console.log("At configurator post route")
+        var build = JSON.parse(req.body.build)
+        console.log(build)
 
+        var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        console.log(existingUser)
+        if (build in existingUser.favourites) {
+            existingBuild = true
+        }
 
-        await prebuilts.find({class: `${desiredCategory}`}).toArray(function (err, result) {
-            if (err) {
-                throw err
-            } else {
-                // console.log(result)
-                res.render('configurator', {
-                    builds: result,
-                    index: 0
-                })
-            };
-        })
+        res.render('configurator', {
+            builds: build,
+            existingBuild: existingBuild
+        }
+        );
     });
+
+    app.post("/removePart", async (req, res) => {
+        const partToRemove = req.body.partToRemove;
+        const build = JSON.parse(req.body.build)
+        // console.log(build)
+        // console.log(partToRemove)
+
+        build.parts[partToRemove] = null
+
+        // console.log(build)
+        res.render('configurator', {
+            builds: build,
+            existingBuild: false
+        })
+    })
+
+    app.post("/addBuildToProfile", async (req, res) => {
+        console.log("At addBuildToProfile post route")
+        var build = JSON.parse(req.body.build)
+        console.log(build)
+        const userID = req.session.user.username;
+        //get user profile
+        await userCollection.updateOne(
+            { username: userID },
+            { $push: { favourites: build } },
+            function (err, res) {
+                if (err) throw err;
+                console.log('build added to user!');
+            }
+        );
+        const userProfile = await userCollection.findOne({
+            username: userID
+        });
+
+        res.render('configurator', {
+            builds: build,
+            existingBuild: true
+        });
+
+    });
+
 }
