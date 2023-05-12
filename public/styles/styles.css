@@ -2,7 +2,7 @@
     --bg-color: #1C1D23;
     --text-color-white: #FFFFFF;
     --subtext-color-light-grey: #868785;
-    --heading-color-burgundysos: #D45A48;
+    --heading-color-burgundyish: #D45A48;
     --primary-btn-color-blue: #2474A1;
     --hovered-btn-color-tropblu: #4BBDAC;
     --misc-color-turqblu: #336E6F;
@@ -23,7 +23,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: var(--heading-color-burgundysos);
+    color: var(--heading-color-burgundyish);
 }
 
 .btn-primary {
@@ -44,9 +44,23 @@ h6 {
 /* //////////////////////////////
             Partials 
 ////////////////////////////// */
-.navbar{
+.navbar {
     border-bottom: 2px solid var(--misc-color-turqblu);
     background-color: #525252;
+}
+
+.nav-link:hover {
+    color: #D45A48 ! important;
+}
+
+.offcanvas {
+    border-bottom: 2px solid var(--misc-color-turqblu);
+    background-color: #525252;
+}
+
+.offcanvas-header {
+    border-bottom: 2px solid var(--misc-color-turqblu);
+    background-color: #1C1D23;
 }
 
 /* User icon */
@@ -56,7 +70,7 @@ h6 {
     height: 60%;
 }
 
-#icon-bar{
+#icon-bar {
     margin-top: 20%;
 }
 
@@ -66,28 +80,51 @@ h6 {
     width: 40%;
 }
 
-.button-padding{
+.button-padding {
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-.button-margin{
+.button-margin {
     margin: 20px;
 }
 
-.general-margin{
+.general-margin {
     margin-top: 20px;
 }
 
-.title-margin{
+.title-margin {
     margin-top: 5px
+}
+
+.saved-build-container {
+    position: relative;
+    display: inline-block;
+    /* margin: 10px; */
+}
+
+.btn-custom {
+    width: 500px;
+    height: 80px;
+}
+
+.trash-can-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.bottom-right-image {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 3px;
 }
 
 /*when screen larger than 768px make icon-bar disappear */
 @media screen and (min-width: 768px) {
-    #icon-bar{
+    #icon-bar {
         display: none;
     }
 }

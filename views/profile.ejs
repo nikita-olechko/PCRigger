@@ -1,35 +1,81 @@
 <%- include('partials/navbar') %>
 
     <main>
-        <div class="container">
-            <h1>Welcome <%= user %></h1>
-            <div style="display: flex; align-items: center;">
+        <div class="container title-margin">
+            <h1 class="general-margin">Welcome <%= user %>
+            </h1>
+            <div style="display: flex; align-items: center; margin-top: 20px;">
                 <h5>Profile Info</h5>
                 <a href="/edit" class="btn btn-primary" style="margin-left: auto;">Edit Profile</a>
             </div>
             <hr>
             <div>
                 <ul>
-                    <li>Email: <%= email %></li>
-                    <li>Account Type: <%= userType %></li>
-                    <li>Account Created: <%= sessionCreation%> </li>
+                    <li>Email: <%= email %>
+                    </li>
+                    <li>Account Type: <%= userType %>
+                    </li>
+                    <li>Account Created: <%= sessionCreation%>
+                    </li>
                 </ul>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Click to view security questions
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <% securityQuestions.forEach(function(item) { %>
-                            <li><%=item%></li>
-                        <% }) %>
+                            <li>
+                                <%=item%>
+                            </li>
+                            <% }) %>
                     </div>
                 </div>
             </div>
             <hr>
 
             <h5>Saved Builds</h5>
+            <div class="" id="savedBuilds">
+                <% favourites.forEach(function(item) { %>
+                    <% let current_build=JSON.stringify(item) %>
+                        <div class="saved-build-container">
+                            <form method="post" action="/configurator">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <div class="d-flex justify-content-center">
+                                    <button
+                                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding btn-custom">
+                                        Class: <%=item.class%> | Name: <%=item.name%>
+                                    </button>
+                                </div>
+                            </form>
+                            <form method="post" action="/delete">
+                                <button class="trash-can-container">
+                                    <input type="hidden" name="build" value='<%=current_build%>'>
+                                    <img src="icons/delete-trashcan.png" alt="Image" class="bottom-right-image">
+                                </button>
+                            </form>
+                        </div>
+                        <% }) %>
+            </div>
+
+
+            <style>
+                .build-container {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .trashcan {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 20px;
+                    height: 20px;
+                }
+            </style>
+
             <hr>
         </div>
     </main>
-    
-<%- include('partials/iconbar') %>
+
+    <%- include('partials/iconbar') %>
