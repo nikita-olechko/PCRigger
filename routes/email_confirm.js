@@ -22,7 +22,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             email,
         });
         if (valid_input.error) {    
-            res.status(400).send(`Invalid email. <a href="/">Go back to home</a>`);
+            res.status(400).render('templates/notification_page.ejs', {message:'Invalid Email.'})
             return;
         }
         else {
@@ -35,7 +35,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             
             }
             else {
-                res.status(409).send(`Email does not correspond to any user. <a href="/">Go back to home</a>`);
+                res.status(409).render('templates/notification_page.ejs', {message:'Email does not correspond to any user.'})
                 return;
             }
         }
@@ -57,7 +57,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             security_answer_3,
         });
         if (valid_input.error) {
-            res.status(400).send(`Invalid security answers. <a href="/">Go back to home</a>`);
+            res.status(400).render('templates/notification_page.ejs', {message:'Invalid Security answers.'})
             return;
         }
         else {
@@ -69,7 +69,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             if (matchingAnswers) {
                 res.render('password_reset');
             } else {
-                res.status(409).send(`Incorrect security answers. <a href="/">Go back to home</a>`);
+                res.status(409).render('templates/notification_page.ejs', {message:'Invalid Security answers.'})
                 return;
             }
         }
@@ -84,7 +84,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             new_password
         });
         if (valid_input.error) {
-            res.status(400).send(`Invalid password. <a href="/">Go back to home</a>`);
+            res.status(400).render('templates/notification_page.ejs', {message:'Invalid Password.'})
             return;
         }
         else {
@@ -97,7 +97,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
                     password: hashedPassword
                 }
             });
-            res.send(`Your password has been changed. <a href="/">Go back to home</a>`);
+            res.render('templates/notification_page.ejs', {message:'Your password has been resetted.'})
             return;
         }
     })

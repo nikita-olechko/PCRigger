@@ -27,7 +27,7 @@ module.exports = async function (app, userCollection, Joi, bcrypt,) {
             password
         });
         if (validationResult.error) {
-            res.status(400).send(`Invalid username or password. <a href="/">Go back to home</a>`);
+            res.status(400).render('templates/notification_page.ejs', {message:'Invalid username or password.'});
             return;
         }
 
@@ -36,14 +36,14 @@ module.exports = async function (app, userCollection, Joi, bcrypt,) {
             username: username
         });
         if (!existingUser) {
-            res.status(401).send('Invalid username or password. <a href="/">Go back to home</a>');
+            res.status(401).render('templates/notification_page.ejs', {message:'invalid username or password.'})
             return;
         }
 
         // Validate password
         const validPassword = await bcrypt.compare(password, existingUser.password);
         if (!validPassword) {
-            res.status(401).send('Invalid username or password. <a href="/">Go back to home</a>');
+            res.status(401).render('templates/notification_page.ejs', {message:'Invalid username or password.'})
             return;
         }
 
