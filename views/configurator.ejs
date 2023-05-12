@@ -200,7 +200,7 @@
                 <form method="post" action="/addBuildToProfile">
                     <input type="hidden" name="build" value='<%=current_build%>'>
                     <br>
-                    <input type="text" class="form-control" name="buildTitle" placeholder="Enter a build name">
+                    <input type="text" class="form-control" name="buildTitle" placeholder="Enter a new build name">
 
                     <input type="submit" value="Add Build To Profile"
                         class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
@@ -208,10 +208,6 @@
                 <% if (existingBuild==true) {%>
                     <h5 class="general-margin title-margin">Build Added to Profile</h5>
                     <% } %>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
             </div>
 
             <%- include('partials/iconbar') %>
