@@ -1,7 +1,7 @@
 <%- include('partials/navbar') %>
 
     <main>
-        <div class="container">
+        <div class="container title-margin">
             <h1 class="general-margin">Welcome <%= user %></h1>
             <div style="display: flex; align-items: center; margin-top: 20px;">
                 <h5>Profile Info</h5>
@@ -28,6 +28,15 @@
             <hr>
 
             <h5>Saved Builds</h5>
+            <div class="general-margin" id="savedBuilds">
+                <% favourites.forEach(function(item) { %>
+                    <div class="card button-padding title-margin">
+                        <li class="">
+                            Class: <%=item.class%> | Name: <%=item.name%>
+                        </li>
+                    </div>
+                    <% }) %>
+            </div>
             <hr>
         </div>
     </main>

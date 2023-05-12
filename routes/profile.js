@@ -28,7 +28,8 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
         }
 
         user_profile = await userCollection.findOne({ username: req.session.user.username });
-        console.log(user_profile)
+        console.log(user_profile.favourites)
+        
 
         // console.log(req.session)
         res.render('profile', {
@@ -42,6 +43,7 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
                 req.session.user.security_question_3
             ], favourites: user_profile.favourites
         });
+
     })
 
     app.get('/edit', async (req, res) => {
