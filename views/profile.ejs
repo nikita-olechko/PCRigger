@@ -48,9 +48,12 @@
                                     </button>
                                 </div>
                             </form>
-                            <div class="trash-can-container">
-                                <img src="icons/delete-trashcan.png" alt="Image" class="bottom-right-image">
-                            </div>
+                            <form method="post" action="/delete">
+                                <button class="trash-can-container">
+                                    <input type="hidden" name="build" value='<%=current_build%>'>
+                                    <img src="icons/delete-trashcan.png" alt="Image" class="bottom-right-image">
+                                </button>
+                            </form>
                         </div>
                         <% }) %>
             </div>

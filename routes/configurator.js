@@ -38,6 +38,7 @@ module.exports = function (app, userCollection) {
         // console.log(build)
         res.render('configurator', {
             builds: build,
+            existingBuild: false
         })
     })
 
@@ -65,4 +66,5 @@ module.exports = function (app, userCollection) {
         });
 
     });
+
 }

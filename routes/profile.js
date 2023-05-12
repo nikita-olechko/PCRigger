@@ -30,7 +30,7 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
         user_profile = await userCollection.findOne({ username: req.session.user.username });
         builds = user_profile.favourites
         // console.log(user_profile.favourites)
-        
+
 
         // console.log(req.session)
         res.render('profile', {
@@ -100,6 +100,18 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
     })
 
     app.post('/delete', async (req, res) => {
+        console.log("delete")
+        var build = JSON.parse(req.body.build)
+        var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        console.log(build in existingUser.favourites)
+        //delete the build from the user's favourites
+        await userCollection.updateOne(
+            { username: req.session.user.username },
+            { $pull: { favourites: build } }
+        )
+        res.redirect('/profile');
+
+
     })
 }
 
