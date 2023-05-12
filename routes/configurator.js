@@ -7,30 +7,17 @@ const utils = require('../utils');
 const path = require('path');
 const mime = require('mime');
 
-const mongodb_database = process.env.MONGODB_DATABASE;
-
-var {
-    database
-} = include('databaseConnection');
-
-const prebuilts = database.db(mongodb_database).collection('pcbuilds')
-
 module.exports = function(app){
         
     app.post('/configurator', async (req, res) => {
         
-        var desiredCategory = req.body.formId;
+        var build = JSON.parse(req.body.build)
 
-        await prebuilts.find({class: `${desiredCategory}`}).toArray(function (err, result) {
-            if (err) {
-                throw err
-            } else {
-                res.render('configurator', {
-                    builds: result[0],
-                })
-            };
-        })
-    });
+            res.render('configurator', {
+                builds: build,
+            }
+            );
+        });
 
     app.post("/removePart", async (req, res) => {
         const partToRemove = req.body.partToRemove;
