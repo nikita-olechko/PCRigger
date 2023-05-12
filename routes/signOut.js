@@ -3,7 +3,16 @@ router = express.Router();
 
 module.exports = async function (app) {
     app.get('/signOut', (req, res) => {
-        res.render('sign out')
+        req.session.user = null;
+        req.session.destroy((err) => {
+            if (err) {
+                console.log(err);
+                return res.redirect('/');
+            }
+            res.clearCookie('connect.sid');
+            res.redirect('/');
+            return
+        });
     });
 
     app.post('/signOut', (req, res) => {
