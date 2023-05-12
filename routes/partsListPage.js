@@ -27,7 +27,7 @@ const gpuCollection = database.db(mongodb_database).collection('GpuSpecs');
 const storageCollection = database.db(mongodb_database).collection('Storage');
 const motherboardCollection = database.db(mongodb_database).collection('Motherboards');
 const powerSupplyCollection = database.db(mongodb_database).collection('Powersupplies');
-const ramCollection = database.db(mongodb_database).collection('Ram');
+// const ramCollection = database.db(mongodb_database).collection('Ram');
 const caseCollection = database.db(mongodb_database).collection('Cases');
 const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
 
