@@ -26,7 +26,10 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class=" btn btn-success">+</button>
+                    <form method="post" action="/parts">
+                        <input type="hidden" name="formId" value="cpu">
+                        <input type="submit" value="+" class="btn btn-success""> 
+                    </form>
                                 <% } %>
                     </div>
                     <div class="col">
@@ -45,7 +48,11 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class=" btn btn-success">+</button>
+                    <form method="post" action="/parts">
+                        <!-- value to be added once the parts list has appropriate route -->
+                        <input type="hidden" name="formId" value="#">
+                        <input type="submit" value="+" class="btn btn-success""> 
+                    </form>
                                 <% } %>
                     </div>
                 </div>
@@ -65,10 +72,13 @@
                                 <input type="hidden" name="partToRemove" value="cpuCooler">
                                 <input type="hidden" name="build" value='<%=current_build%>'>
                                 <input type="submit" value="-" class="btn btn-danger""> 
-                    </form>
-                <% } else { %>
-                    <button class=" btn btn-success">+</button>
-                                <% } %>
+                            </form>
+                        <% } else { %>
+                            <form method="post" action="/parts">
+                                <input type="hidden" name="formId" value="cpucoolers">
+                                <input type="submit" value="+" class="btn btn-success""> 
+                            </form>
+                            <% } %>
                     </div>
                     <div class="col">
                         <h5>motherboard</h5>
@@ -86,7 +96,10 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class=" btn btn-success">+</button>
+                    <form method="post" action="/parts">
+                        <input type="hidden" name="formId" value="motherboards">
+                        <input type="submit" value="+" class="btn btn-success""> 
+                    </form>
                                 <% } %>
                     </div>
                 </div>
@@ -108,7 +121,10 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class=" btn btn-success">+</button>
+                    <form method="post" action="/parts">
+                        <input type="hidden" name="formId" value="memory">
+                        <input type="submit" value="+" class="btn btn-success""> 
+                    </form>
                                 <% } %>
                     </div>
                     <div class="col">
@@ -127,7 +143,10 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class=" btn btn-success">+</button>
+                    <form method="post" action="/parts">
+                        <input type="hidden" name="formId" value="storage">
+                        <input type="submit" value="+" class="btn btn-success""> 
+                    </form>
                                 <% } %>
                     </div>
                 </div>
@@ -149,7 +168,10 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class=" btn btn-success">+</button>
+                    <form method="post" action="/parts">
+                        <input type="hidden" name="formId" value="case">
+                        <input type="submit" value="+" class="btn btn-success""> 
+                    </form>
                                 <% } %>
                     </div>
                     <div class="col">
@@ -168,7 +190,10 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
-                    <button class=" btn btn-success">+</button>
+                    <form method="post" action="/parts">
+                        <input type="hidden" name="formId" value="powersupplies">
+                        <input type="submit" value="+" class="btn btn-success""> 
+                    </form>
                                 <% } %>
                     </div>
                 </div>

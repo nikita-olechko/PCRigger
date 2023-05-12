@@ -151,7 +151,7 @@ module.exports = function (app) {
         });
         break;
 
-
+// GPU is yet to be added, CPU should use cpuspecs collection, GPU shuld use the gouspecs collection
 
       default:
         console.log("Error getting page");
