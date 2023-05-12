@@ -73,11 +73,12 @@ require('./routes/profile')(app, Joi, bcrypt, saltRounds);
 
 require('./routes/addBuildToProfile')(app, userCollection);
 
-
 require('./routes/signOut')(app);
 
 require('./routes/partsListPage')(app);
+
 require('./routes/partsCategoryPage')(app);
+
 require('./routes/specsPage')(app);
 
 require('./routes/configurator')(app);
