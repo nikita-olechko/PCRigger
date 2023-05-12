@@ -28,8 +28,8 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
             security_answer_1: Joi.string().required(),
             security_answer_2: Joi.string().required(),
             security_answer_3: Joi.string().required()
-
         });
+
         const validationResult = schema.validate({
             username,
             password,
