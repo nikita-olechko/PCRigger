@@ -51,92 +51,161 @@ module.exports = function (app) {
       case 'gpu':
         gpuCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
+          if (req.body.build) {
+            console.log(req.body.build)
+            res.render('partsListPage', {
+              parts: result,
+              partCategory: partCategory,
+              build: req.body.build
+            })
+          } else {
           res.render('partsListPage', {
             parts: result,
-            partCategory: partCategory
-          });
-          // console.log(result);
+            partCategory: partCategory,
+            build: null
+          })
+        };
         });
 
         break;
 
-      case 'memory':
+      case 'ram':
         memoryCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
+          if (req.body.build) {
+            console.log(req.body.build)
+            res.render('partsListPage', {
+              parts: result,
+              partCategory: partCategory,
+              build: req.body.build
+            })
+          } else {
           res.render('partsListPage', {
             parts: result,
-            partCategory: partCategory
-          });
+            partCategory: partCategory,
+            build: null
+          })
+        };
         });
         break;
 
       case 'cpu':
         cpuCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
+          if (req.body.build) {
+            console.log(req.body.build)
+            res.render('partsListPage', {
+              parts: result,
+              partCategory: partCategory,
+              build: req.body.build
+            })
+          } else {
           res.render('partsListPage', {
             parts: result,
-            partCategory: partCategory
-          });
+            partCategory: partCategory,
+            build: null
+          })
+        };
         });
         break;
 
       case 'motherboards':
         motherboardCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
+          if (req.body.build) {
+            console.log(req.body.build)
+            res.render('partsListPage', {
+              parts: result,
+              partCategory: partCategory,
+              build: req.body.build
+            })
+          } else {
           res.render('partsListPage', {
             parts: result,
-            partCategory: partCategory
-          });
+            partCategory: partCategory,
+            build: null
+          })
+        };
         });
         break;
 
       case 'storage':
         storageCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
+          if (req.body.build) {
+            console.log(req.body.build)
+            res.render('partsListPage', {
+              parts: result,
+              partCategory: partCategory,
+              build: req.body.build
+            })
+          } else {
           res.render('partsListPage', {
             parts: result,
-            partCategory: partCategory
-          });
+            partCategory: partCategory,
+            build: null
+          })
+        };
         });
         break;
 
       case 'case':
         caseCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
+          if (req.body.build) {
+            console.log(req.body.build)
+            res.render('partsListPage', {
+              parts: result,
+              partCategory: partCategory,
+              build: req.body.build
+            })
+          } else {
           res.render('partsListPage', {
             parts: result,
-            partCategory: partCategory
-          });
+            partCategory: partCategory,
+            build: null
+          })
+        };
         });
         break;
 
       case 'cpucoolers':
         cpuCoolerCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
+          if (req.body.build) {
+            console.log(req.body.build)
+            res.render('partsListPage', {
+              parts: result,
+              partCategory: partCategory,
+              build: req.body.build
+            })
+          } else {
           res.render('partsListPage', {
             parts: result,
-            partCategory: partCategory
-          });
+            partCategory: partCategory,
+            build: null
+          })
+        };
         });
         break;
 
       case 'powersupplies':
         powerSupplyCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
+          if (req.body.build) {
+            console.log(req.body.build)
+            res.render('partsListPage', {
+              parts: result,
+              partCategory: partCategory,
+              build: req.body.build
+            })
+          } else {
           res.render('partsListPage', {
             parts: result,
-            partCategory: partCategory
-          });
-        });
-        break;
-
-      case 'cases':
-        caseCollection.find({}).toArray(function (err, result) {
-          if (err) throw err;
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory
-          });
+            partCategory: partCategory,
+            build: null
+          })
+        };
         });
         break;
 

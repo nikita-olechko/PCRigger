@@ -26,9 +26,11 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
+                    <%let currentBuild = JSON.stringify(builds)%>
                     <form method="post" action="/parts">
+                        <input type="hidden" name="build" value='<%=currentBuild%>'>
                         <input type="hidden" name="formId" value="cpu">
-                        <input type="submit" value="+" class="btn btn-success""> 
+                        <input type="submit" value="+" class="btn btn-success"> 
                     </form>
                                 <% } %>
                     </div>
@@ -48,10 +50,11 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
+                    <%let currentBuild = JSON.stringify(builds)%>
                     <form method="post" action="/parts">
-                        <!-- value to be added once the parts list has appropriate route -->
-                        <input type="hidden" name="formId" value="#">
-                        <input type="submit" value="+" class="btn btn-success""> 
+                        <input type="hidden" name="build" value='<%=currentBuild%>'>
+                        <input type="hidden" name="formId" value="gpu">
+                        <input type="submit" value="+" class="btn btn-success"> 
                     </form>
                                 <% } %>
                     </div>
@@ -74,7 +77,9 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                             </form>
                         <% } else { %>
+                            <%let currentBuild = JSON.stringify(builds)%>
                             <form method="post" action="/parts">
+                                <input type="hidden" name="build" value='<%=currentBuild%>'>
                                 <input type="hidden" name="formId" value="cpucoolers">
                                 <input type="submit" value="+" class="btn btn-success""> 
                             </form>
@@ -96,7 +101,9 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
+                    <%let currentBuild = JSON.stringify(builds)%>
                     <form method="post" action="/parts">
+                        <input type="hidden" name="build" value='<%=currentBuild%>'>
                         <input type="hidden" name="formId" value="motherboards">
                         <input type="submit" value="+" class="btn btn-success""> 
                     </form>
@@ -121,12 +128,16 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
+                    <%let currentBuild = JSON.stringify(builds)%>
                     <form method="post" action="/parts">
-                        <input type="hidden" name="formId" value="memory">
+                        <input type="hidden" name="build" value='<%=currentBuild%>'>
+                        <input type="hidden" name="formId" value="ram">
                         <input type="submit" value="+" class="btn btn-success""> 
                     </form>
-                                <% } %>
+                            <% } %>
                     </div>
+
+
                     <div class="col">
                         <h5>storage</h5>
                         <div>
@@ -141,9 +152,11 @@
                                 <input type="hidden" name="partToRemove" value="storage">
                                 <input type="hidden" name="build" value='<%=current_build%>'>
                                 <input type="submit" value="-" class="btn btn-danger""> 
-                    </form>
+                        </form>
                 <% } else { %>
+                    <%let currentBuild = JSON.stringify(builds)%>
                     <form method="post" action="/parts">
+                        <input type="hidden" name="build" value='<%=currentBuild%>'>
                         <input type="hidden" name="formId" value="storage">
                         <input type="submit" value="+" class="btn btn-success""> 
                     </form>
@@ -168,7 +181,9 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
+                    <%let currentBuild = JSON.stringify(builds)%>
                     <form method="post" action="/parts">
+                        <input type="hidden" name="build" value='<%=currentBuild%>'>
                         <input type="hidden" name="formId" value="case">
                         <input type="submit" value="+" class="btn btn-success""> 
                     </form>
@@ -190,9 +205,11 @@
                                 <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
+                    <%let currentBuild = JSON.stringify(builds)%>
                     <form method="post" action="/parts">
+                        <input type="hidden" name="build" value='<%=currentBuild%>'>
                         <input type="hidden" name="formId" value="powersupplies">
-                        <input type="submit" value="+" class="btn btn-success""> 
+                        <input type="submit" value="+" class="btn btn-success"> 
                     </form>
                                 <% } %>
                     </div>
