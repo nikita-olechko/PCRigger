@@ -45,7 +45,10 @@ module.exports = function (app, userCollection) {
     app.post("/addBuildToProfile", async (req, res) => {
         console.log("At addBuildToProfile post route")
         var build = JSON.parse(req.body.build)
-        console.log(build)
+        // console.log(build)
+        var buildName = req.body.buildTitle
+        build.name = buildName
+        // console.log(build)
         const userID = req.session.user.username;
         //get user profile
         await userCollection.updateOne(
