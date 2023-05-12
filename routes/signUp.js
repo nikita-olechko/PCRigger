@@ -20,6 +20,19 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
             security_answer_3
         } = req.body;
 
+
+        const existingFields = {
+            username,
+            password,
+            email,
+            security_question_1,
+            security_question_2,
+            security_question_3,
+            security_answer_1,
+            security_answer_2,
+            security_answer_3
+        }
+        
         // Validate input
         const schema = Joi.object({
             username: Joi.string().alphanum().min(3).max(20).required(),
@@ -42,19 +55,10 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
         if (validationResult.error) {
             return res.render('sign up', {
                 error: 'Invalid username or password or security answers. Please try again.',
-                existingFields: {
-                    username,
-                    password,
-                    email,
-                    security_question_1,
-                    security_question_2,
-                    security_question_3,
-                    security_answer_1,
-                    security_answer_2,
-                    security_answer_3
-                }
+                existingFields: existingFields
             });
         }
+
 
         // Check if username already exists
         const existingUser = await userCollection.findOne({
@@ -63,19 +67,20 @@ module.exports = function (app, userCollection, saltRounds, Joi, bcrypt) {
         if (existingUser) {
             return res.render('sign up', {
                 error: `Sorry, the username "${username}" is not available. Please choose another username.`,
-                existingFields: {
-                    username,
-                    password,
-                    email,
-                    security_question_1,
-                    security_question_2,
-                    security_question_3,
-                    security_answer_1,
-                    security_answer_2,
-                    security_answer_3
-                }
+                existingFields: existingFields
             });
         }
+
+        const existingEmail = await userCollection.findOne({
+            email: email
+        });
+        if (existingEmail) {
+            return res.render('sign up', {
+                error: `Sorry, the email "${email}" is already in use. Please choose another email.`,
+                existingFields: existingFields
+            });
+        }
+
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, saltRounds);
