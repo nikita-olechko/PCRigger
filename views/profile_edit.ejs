@@ -1,39 +1,18 @@
 <%- include('partials/navbar') %>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center">
-                <h1 class="general-margin">Edit your profile</h1>
-                <form method='post' action='/edit'>
-                    <%- include("partials/form_group", {field: 'UserID' , field_answer: 'new_UserID' }) %>
-                    <%- include("partials/form_group", {field: 'Password' , field_answer: 'new_password' }) %>
-                    <div class="d-flex justify-content-center general-margin">
-                        <a href="/" class="btn btn-secondary button-padding button-margin">Home</a>
-                        <button id="submitButton" type='submit'
-                            class="btn btn-primary button-padding button-margin">Submit</button>
-                    </div>
-                </form>
-                <br>
-            </div>
-        </div>
+
+<div id="center_message" class="rounded-3">
+    <div class="container-fluid custom-padding">
+        <p class="col-md-8 fs-4">
+            What would you like to edit?
+        </p>
     </div>
+    <div id="landing_buttons">
+        <% buttons.forEach(function(button){ %>
+            <%- include('partials/menu_buttons', {route: button.route, description: button.description}) %>
+        <% }) %>
+    </div>
+</div>
 <%- include("partials/iconbar") %>
 
-<script>
-    var userIDInput = document.querySelector('#new_UserID');
-    var passwordInput = document.querySelector('#new_password');
-    var submitButton = document.querySelector('#submitButton');
-
-// <!-- add a custom attribute to the form group without changing template itself -->
-    userIDInput.placeholder = '<%= userID %>';
-
-    function checkFormValidity() {
-        if (userIDInput.value.trim() === '' && passwordInput.value.trim() === '') {
-            submitButton.disabled = true;
-        } else {
-            submitButton.disabled = false;
-        }
-    }
-    
-    userIDInput.addEventListener('input', checkFormValidity);
-    passwordInput.addEventListener('input', checkFormValidity);
-</script>
+<!-- Link sheet at the end to overwrite buttons css with new properties -->
+<link rel="stylesheet" href="styles/landing_page.css">

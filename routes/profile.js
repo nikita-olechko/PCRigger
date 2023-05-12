@@ -53,49 +53,77 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
             res.redirect('/login');
             return;
         }
-        user_profile = await userCollection.findOne({ username: req.session.user.username });
-        const userID = user_profile.username;
-        res.render('profile_edit', { userID: userID }
-        );
+        const buttonsData = [
+            { route: 'username_edit', description: 'Username' },
+            { route: 'password_edit', description: 'Password' },
+        ]
+        res.render('profile_edit', { buttons: buttonsData })
     })
 
-    app.post('/edit', async (req, res) => {
+    app.get('/username_edit', async (req, res) => {
+        if (!isValidSession(req)) {
+            res.redirect('/login');
+            return;
+        }
+        user_profile = await userCollection.findOne({ username: req.session.user.username });
+        const userID = user_profile.username;
+        res.render('username_edit', { userID: userID })
+    })
+
+    app.post('/username_edit', async (req, res) => {
         const schema = Joi.object({
             new_UserID: Joi.string().alphanum().min(3).max(20).required(),
-            new_password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required()
         });
-        var { new_UserID, new_password } = req.body;
+        var { new_UserID } = req.body;
         const validationResult = schema.validate({
             new_UserID,
-            new_password
         });
         //update user profile
         if (!validationResult.error) {
-            new_password = await bcrypt.hash(new_password, saltRounds);
-            if (new_password.trim() === '') {
-                await userCollection.updateOne(
-                    { username: req.session.user.username },
-                    { $set: { username: new_userID } }
-                );
-                req.session.user.username = new_userID;
-            } else if (new_UserID.trim() === '') {
-                // Update only the password
+            await userCollection.updateOne(
+                { username: req.session.user.username },
+                { $set: { username: new_UserID } }
+            );
+            req.session.user.username = new_UserID;
+            //update session
+            res.render('templates/notification_page.ejs', {message:'Username has been updated.'})
+        }
+    })
+
+    app.get('/password_edit', async (req, res) => {
+        if (!isValidSession(req)) {
+            res.redirect('/login');
+            return;
+        }
+        user_profile = await userCollection.findOne({ username: req.session.user.username });
+        const password = user_profile.password;
+        res.render('password_edit', { password: password })
+    })
+
+    app.post('/password_edit', async (req, res) => {
+        const schema = Joi.object({
+            new_password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+            confirm_password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required()
+        });
+        var { new_password, confirm_password } = req.body;
+        const validationResult = schema.validate({
+            new_password,
+            confirm_password
+        });
+        //update user profile
+        if (!validationResult.error) {
+            if (new_password === confirm_password) {
+                new_password = await bcrypt.hash(new_password, saltRounds);
                 await userCollection.updateOne(
                     { username: req.session.user.username },
                     { $set: { password: new_password } }
                 )
                 req.session.user.password = new_password;
+                //update session
+                res.render('templates/notification_page.ejs', {message:'Password has been updated.'})
             } else {
-                // Update both username and password
-                await userCollection.updateOne(
-                    { username: req.session.user.username },
-                    { $set: { username: new_UserID, password: new_password } }
-                )
-                req.session.user.username = new_UserID;
-                req.session.user.password = new_password;
-            };
-            //update session
-            res.redirect('/profile');
+                res.render('templates/notification_page.ejs', {message:'Passwords do not match. Please try again.'})
+            }
         }
     })
 
@@ -114,4 +142,3 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
 
     })
 }
-

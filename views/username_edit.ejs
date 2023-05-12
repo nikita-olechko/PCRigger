@@ -1,0 +1,36 @@
+<%- include('partials/navbar') %>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h1 class="general-margin">Edit your username</h1>
+                <form method='post' action='/username_edit'>
+                    <%- include("partials/form_group", {field: 'UserID' , field_answer: 'new_UserID' }) %>
+                    <div class="d-flex justify-content-center general-margin">
+                        <a href="/" class="btn btn-secondary button-padding button-margin">Home</a>
+                        <button id="submitButton" type='submit'
+                            class="btn btn-primary button-padding button-margin">Submit</button>
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+<%- include("partials/iconbar") %>
+
+<script>
+    var userIDInput = document.querySelector('#new_UserID');
+    var submitButton = document.querySelector('#submitButton');
+
+// <!-- add a custom attribute to the form group without changing template itself -->
+    userIDInput.value = '<%= userID %>';
+
+    function checkFormValidity() {
+        if (userIDInput.value.trim() === '') {
+            submitButton.disabled = true;
+        } else {
+            submitButton.disabled = false;
+        }
+    }
+    
+    userIDInput.addEventListener('input', checkFormValidity);
+</script>

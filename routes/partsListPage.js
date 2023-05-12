@@ -26,6 +26,8 @@ const cpuCollection = database.db(mongodb_database).collection('CpuSpecs');
 const gpuCollection = database.db(mongodb_database).collection('GpuSpecs');
 const storageCollection = database.db(mongodb_database).collection('Storage');
 const motherboardCollection = database.db(mongodb_database).collection('Motherboards');
+const powerSupplyCollection = database.db(mongodb_database).collection('Powersupplies');
+const ramCollection = database.db(mongodb_database).collection('Ram');
 const caseCollection = database.db(mongodb_database).collection('Cases');
 const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
 
@@ -40,7 +42,7 @@ module.exports = function (app) {
 
     // const result = await cpuModel.find({});
     // console.log(result);
-    
+
     switch (partCategory) {
       // give me a switch case for each part type and then render the page with the correct part type depending on the 
       // string variable passed in from the url
@@ -78,7 +80,18 @@ module.exports = function (app) {
         });
         break;
 
-      case 'motherboard':
+      case 'ram':
+        ramCollection.find({}).toArray(function (err, result) {
+          if (err) throw err;
+          res.render('partsListPage', {
+            parts: result,
+            partCategory: partCategory
+          });
+        });
+        break;
+
+
+      case 'motherboards':
         motherboardCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
           res.render('partsListPage', {
@@ -108,7 +121,7 @@ module.exports = function (app) {
         });
         break;
 
-      case 'cpucooler':
+      case 'cpucoolers':
         cpuCoolerCollection.find({}).toArray(function (err, result) {
           if (err) throw err;
           res.render('partsListPage', {
@@ -117,6 +130,28 @@ module.exports = function (app) {
           });
         });
         break;
+
+      case 'powersupplies':
+        powerSupplyCollection.find({}).toArray(function (err, result) {
+          if (err) throw err;
+          res.render('partsListPage', {
+            parts: result,
+            partCategory: partCategory
+          });
+        });
+        break;
+
+      case 'cases':
+        caseCollection.find({}).toArray(function (err, result) {
+          if (err) throw err;
+          res.render('partsListPage', {
+            parts: result,
+            partCategory: partCategory
+          });
+        });
+        break;
+
+
 
       default:
         console.log("Error getting page");
