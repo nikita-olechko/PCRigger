@@ -1,4 +1,9 @@
-<%thisPart = JSON.parse(currentPart)%>
+<%
+thisPart = JSON.parse(currentPart)
+partCategory = "powerSupply"
+partName = thisPart.name
+// console.log(build)
+%>
 
 <div class="container-fluid">
     <div class="card" style="margin: 3%;">
@@ -23,6 +28,14 @@
             Choose
         </label>
         </div>
+        <% if (build != null) {%>
+            <form method="post" action="/addPartToBuild">
+                <input type="hidden" name="build" value='<%=build%>'>
+                <input type="hidden" name="partName" value='<%= partName%>'>
+                <input type="hidden" name="partCategory" value=<%= partCategory%>>
+                <input type="submit" value='Add To Build' class="form-control btn-primary">
+            </form>
+            <% }%>
     </div>
     </div>
 </div>

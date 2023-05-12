@@ -23,9 +23,10 @@
     <% for (let i=0; i < parts.length ; i++) {%>
       <%console.log(parts[i])%>
       <%console.log(partCategory)%>
-      <% if (partCategory == "memory"){ %>
-        <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/memoryCard', currentPart) %>
+      <% if (partCategory == "ram"){ %>
+          <%console.log(build)%>
+          <%currentPart = JSON.stringify(parts[i])%>
+          <%- include('partials/memoryCard', currentPart, build) %>
         <% } %>
 
       <% if (partCategory == "cpu"){ %>
@@ -39,23 +40,27 @@
         <% } %>
 
       <% if (partCategory == "motherboards"){ %>
-        <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/motherboardCard', currentPart) %>
+          <%console.log(build)%>
+          <%currentPart = JSON.stringify(parts[i])%>
+          <%- include('partials/motherboardCard', currentPart, build) %>
         <% } %>
+
 
       <% if (partCategory == "storage"){ %>
         <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/storageCard', currentPart) %>
+        <%- include('partials/storageCard', currentPart, build) %>
         <% } %>
 
-      <% if (partCategory == "cases"){ %>
+      <% if (partCategory == "case"){ %>
+        <%console.log(build)%>
         <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/caseCard', currentPart) %>
+        <%- include('partials/caseCard', currentPart, build) %>
         <% } %>
 
       <% if (partCategory == "cpucoolers"){ %>
-        <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/cpuCoolerCard', currentPart) %>
+          <%console.log(build)%>
+          <%currentPart = JSON.stringify(parts[i])%>
+          <%- include('partials/cpuCoolerCard', currentPart, build) %>
         <% } %>
 
       <% if (partCategory == "powersupplies"){ %>
