@@ -37,18 +37,40 @@
             <h5>Saved Builds</h5>
             <div class="" id="savedBuilds">
                 <% favourites.forEach(function(item) { %>
-                    <% let current_build = JSON.stringify(item) %>
-                    <form method="post" action="/configurator">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <div class="d-flex justify-content-center">
-                            <button
-                                class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
-                                Class: <%=item.class%> | Name: <%=item.name%>
-                            </button>
+                    <% let current_build=JSON.stringify(item) %>
+                        <div class="saved-build-container">
+                            <form method="post" action="/configurator">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <div class="d-flex justify-content-center">
+                                    <button
+                                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding btn-custom">
+                                        Class: <%=item.class%> | Name: <%=item.name%>
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="trash-can-container">
+                                <img src="icons/delete-trashcan.png" alt="Image" class="bottom-right-image">
+                            </div>
                         </div>
-                    </form>
-                    <% }) %>
+                        <% }) %>
             </div>
+
+
+            <style>
+                .build-container {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .trashcan {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 20px;
+                    height: 20px;
+                }
+            </style>
+
             <hr>
         </div>
     </main>

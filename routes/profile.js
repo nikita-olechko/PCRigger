@@ -98,5 +98,8 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
             res.redirect('/profile');
         }
     })
+
+    app.post('/delete', async (req, res) => {
+    })
 }
 
