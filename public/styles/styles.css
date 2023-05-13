@@ -40,7 +40,7 @@ h6 {
 .partTitleButton {
     color: black !important;
     font-weight: bold !important;
-    padding-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .partTitleButton:hover {
