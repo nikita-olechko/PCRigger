@@ -1,46 +1,67 @@
 <%- include('partials/navbar') %>
 
   <h3 class="text-center">Search Parts name/serial number:</h3>
-  <div class="container-fluid">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Example: intel i9-9900k" aria-label="Search"
-        aria-describedby="search-button">
-      <button class="btn btn-outline-secondary" type="button" id="search-button">Search</button>
+  <div class="container">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Example: intel i9-9900k" aria-label="Search"
+          aria-describedby="search-button">
+        <button class="btn btn-outline-secondary" type="button" id="search-button">Search</button>
     </div>
   </div>
 
-
-  <h3 class="text-center">
-    <%= partCategory.toUpperCase() + " parts" %>
-  </h3>
   <main>
+    <hr>
+    <div class="text-center">
+      <h5>
+        Viewing <%= partCategory.toUpperCase()%> options
+      </h5>
+      <p><%=(15 * (page - 1)) + parts.length %> / <%=totalParts%></p>
+    </div> 
+    <div class="row">
+      <% if (parts.length == totalParts) { %> 
+        <p class="text-center">All parts are visible</p>
+      <% } else if (parts.length <= 15 && page == 1) { %>
+        <div class="col text-center">
+          <%- include ('partials/nextComponentPage'), {page: page, partCategory: partCategory, build:build}%>
+        </div>
+      <% } else if (parts.length == 15 && page * 15 < totalParts) { %>
+        <div class="col" style="text-align: right;"><%- include ('partials/previousComponentPage'), {page: page, partCategory: partCategory, build:build}%></div>
+        <div class="col" style="text-align: left;"><%- include ('partials/nextComponentPage'), {page: page, partCategory: partCategory, build:build}%></div>
+        <% } else if (parts.length < 15 || page * 15 <= totalParts) { %>
+        <div class="col text-center">
+          <%- include ('partials/previousComponentPage'), {page: page, partCategory: partCategory, build:build}%>
+        </div>
+        <% }%>
+    </div>
+    <hr>
+
 
     <!-- create a loop that recieves partsType and result from EJS and returns a card for that part, for a total of 10 cards in order of most new if they have a date.
     each card should have a name, OEM, date of release, and a checkbox. 
     the checkbox should be able to be checked and then the user can click a compare button to compare the parts.
     the compare button should take the user to a page that compares the parts they selected. -->
-
+    <%console.log(partCategory)%>
     <% for (let i=0; i < parts.length ; i++) {%>
-      <%console.log(parts[i])%>
-      <%console.log(partCategory)%>
       <% if (partCategory == "ram"){ %>
-          <%console.log(build)%>
+
           <%currentPart = JSON.stringify(parts[i])%>
           <%- include('partials/memoryCard', currentPart, build) %>
         <% } %>
 
       <% if (partCategory == "cpu"){ %>
+
         <%currentPart = JSON.stringify(parts[i])%>
         <%- include('partials/cpuCard', currentPart) %>
         <% } %>
 
       <% if (partCategory == "gpu"){ %>
+
         <%currentPart = JSON.stringify(parts[i])%>
         <%- include('partials/gpuCard', currentPart) %>
         <% } %>
 
       <% if (partCategory == "motherboards"){ %>
-          <%console.log(build)%>
+
           <%currentPart = JSON.stringify(parts[i])%>
           <%- include('partials/motherboardCard', currentPart, build) %>
         <% } %>
@@ -52,20 +73,21 @@
         <% } %>
 
       <% if (partCategory == "case"){ %>
-        <%console.log(build)%>
+
         <%currentPart = JSON.stringify(parts[i])%>
         <%- include('partials/caseCard', currentPart, build) %>
         <% } %>
 
       <% if (partCategory == "cpucoolers"){ %>
-          <%console.log(build)%>
+
           <%currentPart = JSON.stringify(parts[i])%>
           <%- include('partials/cpuCoolerCard', currentPart, build) %>
         <% } %>
 
       <% if (partCategory == "powersupplies"){ %>
+
         <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/powerSupplycard', currentPart) %>
+        <%- include('partials/powerSupplyCard', currentPart) %>
         <% } %>
       <% } %>
 
