@@ -19,28 +19,28 @@
     each card should have a name, OEM, date of release, and a checkbox. 
     the checkbox should be able to be checked and then the user can click a compare button to compare the parts.
     the compare button should take the user to a page that compares the parts they selected. -->
-
+    <%console.log(partCategory)%>
     <% for (let i=0; i < parts.length ; i++) {%>
-      <%console.log(parts[i])%>
-      <%console.log(partCategory)%>
       <% if (partCategory == "ram"){ %>
-          <%console.log(build)%>
+
           <%currentPart = JSON.stringify(parts[i])%>
           <%- include('partials/memoryCard', currentPart, build) %>
         <% } %>
 
       <% if (partCategory == "cpu"){ %>
+
         <%currentPart = JSON.stringify(parts[i])%>
         <%- include('partials/cpuCard', currentPart) %>
         <% } %>
 
       <% if (partCategory == "gpu"){ %>
+
         <%currentPart = JSON.stringify(parts[i])%>
         <%- include('partials/gpuCard', currentPart) %>
         <% } %>
 
       <% if (partCategory == "motherboards"){ %>
-          <%console.log(build)%>
+
           <%currentPart = JSON.stringify(parts[i])%>
           <%- include('partials/motherboardCard', currentPart, build) %>
         <% } %>
@@ -52,18 +52,19 @@
         <% } %>
 
       <% if (partCategory == "case"){ %>
-        <%console.log(build)%>
+
         <%currentPart = JSON.stringify(parts[i])%>
         <%- include('partials/caseCard', currentPart, build) %>
         <% } %>
 
       <% if (partCategory == "cpucoolers"){ %>
-          <%console.log(build)%>
+
           <%currentPart = JSON.stringify(parts[i])%>
           <%- include('partials/cpuCoolerCard', currentPart, build) %>
         <% } %>
 
       <% if (partCategory == "powersupplies"){ %>
+
         <%currentPart = JSON.stringify(parts[i])%>
         <%- include('partials/powerSupplycard', currentPart) %>
         <% } %>
