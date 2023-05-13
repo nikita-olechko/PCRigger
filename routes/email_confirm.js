@@ -2,7 +2,6 @@ var express = require('express');
 router = express.Router();
 
 module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
-    let tempUser = null;
     app.get('/email_confirm', (req, res) => {
         if (req.session.user) {
             res.redirect('/');

@@ -7,35 +7,43 @@ partName = thisPart.name
 
 <div class="container-fluid">
     <div class="card" style="margin: 3%;">
-    <div class="card-body d-flex justify-content-between align-items-center">
-        <div>
-
-        <form action="/specs" method="POST">
+    <div class="card-body container">
+        
+        <div class="row">
+        <form action="/specs" method="POST" class="text-center">
             <input type="hidden" name="part" value='<%= JSON.stringify(thisPart) %>'>
-            <h5 class="card-title font-weight-bold"><button type="submit" class="btn">
-                Part name: <%= thisPart.name %>
-            </button></h5>
+            <button type="submit" class="btn partTitleButton">
+                <%= thisPart.name %>
+            </button>
         </form>
 
         <p class="card-text">Manufacturer: <%= thisPart.manufacturer %> </p>
         <p class="card-text">Dimensions: <%= thisPart.Dimensions %> </p>
         <p class="card-text">Compatible With: <%= thisPart.SupportedMotherboardSizes %> </p>
-        
+        <hr>
         </div>
-        <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-        <label class="form-check-label" for="defaultCheck1">
-            Choose
-        </label>
+
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                    Compare
+                </label>
+                </div>
+            </div>
+            <% if (build != null) {%>
+                <div class="col">
+                <%let currentPart = JSON.stringify(thisPart)%>
+                    <form method="post" action="/addPartToBuild">
+                        <input type="hidden" name="build" value='<%=build%>'>
+                        <input type="hidden" name="partName" value='<%= partName%>'>
+                        <input type="hidden" name="partCategory" value=<%= partCategory%>>
+                        <input type="submit" value='Add To Build' class="form-control btn-primary">
+                    </form>
+                </div>
+                <% }%>
         </div>
-        <% if (build != null) {%>
-            <form method="post" action="/addPartToBuild">
-                <input type="hidden" name="build" value='<%=build%>'>
-                <input type="hidden" name="partName" value='<%= partName%>'>
-                <input type="hidden" name="partCategory" value=<%= partCategory%>>
-                <input type="submit" value='Add To Build' class="form-control btn-primary">
-            </form>
-            <% }%>
     </div>
     </div>
 </div>

@@ -30,11 +30,21 @@ h6 {
 
 .btn-primary {
     background-color: var(--primary-btn-color-blue);
-    color: var(--text-color);
+    color: var(--text-color-white);
 }
 
 .btn-primary:hover {
     background-color: var(--hovered-btn-color-tropblu);
+}
+
+.partTitleButton {
+    color: black !important;
+    font-weight: bold !important;
+    margin-bottom: 15px;
+}
+
+.partTitleButton:hover {
+    color: var(--primary-btn-color-blue) !important;
 }
 
 .misc {
