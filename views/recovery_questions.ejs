@@ -4,6 +4,8 @@
             <div class="col-md-6 text-center">
                 <h1 class="general-margin">Security questions</h1>
                 <form method="post" action="/recovery_questions">
+                    <% userData = JSON.stringify(user)%>
+                    <input type="hidden" value='<%=userData%>' name="userData">
                     <% let i=1; %>
                     <% for(i=1; i <= 3; i++) { %>
                         <%- include('partials/form_group', 
