@@ -18,7 +18,9 @@
       <p><%=(15 * (page - 1)) + parts.length %> / <%=totalParts%></p>
     </div> 
     <div class="row">
-      <% if (parts.length <= 15 && page == 1) { %>
+      <% if (parts.length == totalParts) { %> 
+        <p class="text-center">All parts are visible</p>
+      <% } else if (parts.length <= 15 && page == 1) { %>
         <div class="col text-center">
           <%- include ('partials/nextComponentPage'), {page: page, partCategory: partCategory, build:build}%>
         </div>
