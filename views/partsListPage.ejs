@@ -10,10 +10,31 @@
   </div>
 
 
-  <h3 class="text-center">
-    <%= partCategory.toUpperCase()%> options
-  </h3>
+
   <main>
+    <hr>
+    <div class="text-center">
+      <h5>
+        Viewing <%= partCategory.toUpperCase()%> options
+      </h5>
+      <p><%=page * 15 %> / <%=totalParts%></p>
+    </div> 
+    <div class="row">
+      <% if (parts.length >= 15 && page == 1) { %>
+        <div class="col text-center">
+          <%- include ('partials/nextComponentPage'), {page: page, partCategory: partCategory, build:build}%>
+        </div>
+      <% } if (parts.length >= 15 && page > 1) { %>
+        <div class="col" style="text-align: right;"><%- include ('partials/previousComponentPage'), {page: page, partCategory: partCategory, build:build}%></div>
+        <div class="col" style="text-align: left;"><%- include ('partials/nextComponentPage'), {page: page, partCategory: partCategory, build:build}%></div>
+        <% } if (parts.length < 15 && page > 1) { %>
+        <div class="col text-center">
+          <%- include ('partials/previousComponentPage'), {page: page, partCategory: partCategory, build:build}%>
+        </div>
+        <% }%>
+    </div>
+    <hr>
+
 
     <!-- create a loop that recieves partsType and result from EJS and returns a card for that part, for a total of 10 cards in order of most new if they have a date.
     each card should have a name, OEM, date of release, and a checkbox. 

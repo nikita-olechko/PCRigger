@@ -34,11 +34,36 @@ const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers
 
 // Route handler for the parts list page
 module.exports = function (app) {
+
   app.post('/parts', async (req, res) => {
+    const pageExists = req.body.page ? req.body.page : 1;
+    var page = parseInt(pageExists);
+    const perPage = 15;
+    const skip = (page - 1) * perPage;
 
     const partCategory = req.body.formId;
     console.log("Passed in part type: " + partCategory);
 
+    const withBuild = function(result, partCategory, page, totalParts) {
+      console.log(req.body.build)
+      res.render('partsListPage', {
+        parts: result,
+        partCategory: partCategory,
+        build: req.body.build,
+        page: page,
+        totalParts: totalParts
+      })
+    }
+  
+    const withoutBuild = function(result, partCategory, page, totalParts) {
+      res.render('partsListPage', {
+        parts: result,
+        partCategory: partCategory,
+        build: null,
+        page: page,
+        totalParts: totalParts
+      })
+    }
 
     // const result = await cpuModel.find({});
     // console.log(result);
@@ -48,44 +73,35 @@ module.exports = function (app) {
       // string variable passed in from the url
       // if the url is /parts/cpu then render the page with the cpu parts
 
-      case 'gpu':
-        gpuCollection.find({}).toArray(function (err, result) {
+      case 'gpu':  
+      gpuCollection.countDocuments({}, function(err, count) {
+        if (err) throw err;
+        totalParts = count;        
+        gpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
           if (err) throw err;
           if (req.body.build) {
-            console.log(req.body.build)
-            res.render('partsListPage', {
-              parts: result,
-              partCategory: partCategory,
-              build: req.body.build
-            })
+            withBuild(result, partCategory, page, totalParts);
           } else {
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory,
-            build: null
-          })
-        };
-        });
+            withoutBuild(result, partCategory, page, totalParts);
+          }
+        })
+        })
+      ;
 
         break;
 
       case 'ram':
-        memoryCollection.find({}).toArray(function (err, result) {
+        memoryCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          if (req.body.build) {
-            console.log(req.body.build)
-            res.render('partsListPage', {
-              parts: result,
-              partCategory: partCategory,
-              build: req.body.build
-            })
-          } else {
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory,
-            build: null
+          totalParts = count;        
+          memoryCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+            if (err) throw err;
+            if (req.body.build) {
+              withBuild(result, partCategory, page, totalParts);
+            } else {
+              withoutBuild(result, partCategory, page, totalParts);
+          };
           })
-        };
         });
         break;
 
