@@ -11,14 +11,14 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
     })
 
     app.post('/email_confirm', async (req, res) => {
-        email = req.body.email;
+        userEmail = req.body.email;
 
         
         const schema = Joi.object({
-            email: Joi.string().required(),
+            userEmail: Joi.string().required(),
         })
         const valid_input = schema.validate({
-            email,
+            userEmail,
         });
         if (valid_input.error) {    
             res.status(400).render('templates/notification_page.ejs', {message:'Invalid Email.'})
@@ -26,11 +26,11 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
         }
         else {
             const existingUser = await userCollection.findOne({
-                email: email
+                email: userEmail
             });
             if (existingUser) {
-                tempUser = existingUser;
-                res.render('recovery_questions', { user: tempUser });
+                userData = existingUser;
+                res.render('recovery_questions', { user: userData });
             
             }
             else {
@@ -41,6 +41,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
     })
 
     app.post('/recovery_questions', async (req, res) => {
+        var userData = JSON.parse(req.body.userData)
         security_answer_1 = req.body.security_answer_1;
         security_answer_2 = req.body.security_answer_2;
         security_answer_3 = req.body.security_answer_3;
@@ -62,11 +63,11 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
         else {
             const security_answers = [security_answer_1, security_answer_2, security_answer_3];
             const matchingAnswers = security_answers.every((answer, index) => {
-                const dbAnswer = tempUser[`security_answer_${index + 1}`];
+                const dbAnswer = userData[`security_answer_${index + 1}`];
                 return bcrypt.compareSync(answer, dbAnswer);
             });       
             if (matchingAnswers) {
-                res.render('password_reset');
+                res.render('password_reset', {user: userData});
             } else {
                 res.status(409).render('templates/notification_page.ejs', {message:'Invalid Security answers.'})
                 return;
@@ -75,6 +76,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
     })
 
     app.post('/password_reset', async (req, res) => {
+        var userData = JSON.parse(req.body.userData)
         new_password = req.body.new_password;
         const schema = Joi.object({
             new_password: Joi.string().required()
@@ -90,7 +92,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             const salt = await bcrypt.genSalt(saltRounds);
             const hashedPassword = await bcrypt.hash(new_password, salt);
             await userCollection.updateOne({
-                email: tempUser.email
+                email: userData.email
             }, {
                 $set: {
                     password: hashedPassword
