@@ -35,16 +35,18 @@
             <hr>
 
             <h5>Saved Builds</h5>
-            <div class="" id="savedBuilds">
+            <div id="savedBuilds">
                 <% favourites.forEach(function(item) { %>
                     <% let current_build=JSON.stringify(item) %>
                         <div class="saved-build-container">
                             <form method="post" action="/configurator">
                                 <input type="hidden" name="build" value='<%=current_build%>'>
                                 <div class="d-flex justify-content-center">
-                                    <button
-                                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding btn-custom">
-                                        Class: <%=item.class%> | Name: <%=item.name%>
+                                    <button class="btn btn-primary btn-primary:hover menu_buttons general-margin profile-buildcard-padding btn-custom d-flex justify-content-center">
+                                            <div class="col flex justify-content-center">
+                                                <div class="row">Name: <%=item.name%> </div>
+                                                <div class="row margin-bottom">Class: <%=item.class%></div>
+                                            </div>
                                     </button>
                                 </div>
                             </form>

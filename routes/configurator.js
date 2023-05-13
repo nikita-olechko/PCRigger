@@ -42,10 +42,24 @@ module.exports = function (app, userCollection) {
         })
     })
 
+    app.post("/addPartToBuild", (req, res) => {
+        console.log(JSON.parse(req.body.build))
+        console.log(req.body.partCategory)
+        console.log(req.body.partName)
+
+        var build = JSON.parse(req.body.build)
+        build.parts[req.body.partCategory] = req.body.partName
+
+        res.render('configurator', {builds: build, existingBuild: false})
+    })
+
     app.post("/addBuildToProfile", async (req, res) => {
         console.log("At addBuildToProfile post route")
         var build = JSON.parse(req.body.build)
-        console.log(build)
+        // console.log(build)
+        var buildName = req.body.buildTitle
+        build.name = buildName
+        // console.log(build)
         const userID = req.session.user.username;
         //get user profile
         await userCollection.updateOne(

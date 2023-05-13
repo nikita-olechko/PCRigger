@@ -8,9 +8,11 @@
     --misc-color-turqblu: #336E6F;
 }
 
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color-white);
+    margin-bottom: 45px;
 }
 
 .subtext {
@@ -87,12 +89,23 @@ h6 {
     padding-bottom: 20px;
 }
 
+.profile-buildcard-padding {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
 .button-margin {
     margin: 20px;
 }
 
 .general-margin {
     margin-top: 20px;
+}
+
+.general-padding {
+    padding: 10%;
 }
 
 .title-margin {
@@ -103,6 +116,14 @@ h6 {
     position: relative;
     display: inline-block;
     /* margin: 10px; */
+    width: 100%;
+    max-width: 400px;
+    /* Change this to the maximum width you want the container to be */
+    margin-bottom: 10px;
+}
+
+.margin-bottom {
+    margin-bottom: 10px;
 }
 
 .btn-custom {
@@ -120,6 +141,11 @@ h6 {
     width: 20px;
     height: 20px;
     margin-bottom: 3px;
+}
+
+.bottom-iconbar-opaque {
+    background-color: var(--bg-color);
+    opacity: 1;
 }
 
 /*when screen larger than 768px make icon-bar disappear */
