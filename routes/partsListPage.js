@@ -106,126 +106,94 @@ module.exports = function (app) {
         break;
 
       case 'cpu':
-        cpuCollection.find({}).toArray(function (err, result) {
+        cpuCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          if (req.body.build) {
-            console.log(req.body.build)
-            res.render('partsListPage', {
-              parts: result,
-              partCategory: partCategory,
-              build: req.body.build
-            })
-          } else {
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory,
-            build: null
+          totalParts = count;        
+          cpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+            if (err) throw err;
+            if (req.body.build) {
+              withBuild(result, partCategory, page, totalParts);
+            } else {
+              withoutBuild(result, partCategory, page, totalParts);
+          };
           })
-        };
         });
         break;
 
       case 'motherboards':
-        motherboardCollection.find({}).toArray(function (err, result) {
+        motherboardCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          if (req.body.build) {
-            console.log(req.body.build)
-            res.render('partsListPage', {
-              parts: result,
-              partCategory: partCategory,
-              build: req.body.build
-            })
-          } else {
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory,
-            build: null
+          totalParts = count;        
+          motherboardCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+            if (err) throw err;
+            if (req.body.build) {
+              withBuild(result, partCategory, page, totalParts);
+            } else {
+              withoutBuild(result, partCategory, page, totalParts);
+          };
           })
-        };
         });
         break;
 
       case 'storage':
-        storageCollection.find({}).toArray(function (err, result) {
+        storageCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          if (req.body.build) {
-            console.log(req.body.build)
-            res.render('partsListPage', {
-              parts: result,
-              partCategory: partCategory,
-              build: req.body.build
-            })
-          } else {
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory,
-            build: null
+          totalParts = count;        
+          storageCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+            if (err) throw err;
+            if (req.body.build) {
+              withBuild(result, partCategory, page, totalParts);
+            } else {
+              withoutBuild(result, partCategory, page, totalParts);
+          };
           })
-        };
         });
         break;
 
       case 'case':
-        caseCollection.find({}).toArray(function (err, result) {
+        caseCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          if (req.body.build) {
-            console.log(req.body.build)
-            res.render('partsListPage', {
-              parts: result,
-              partCategory: partCategory,
-              build: req.body.build
-            })
-          } else {
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory,
-            build: null
+          totalParts = count;        
+          caseCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+            if (err) throw err;
+            if (req.body.build) {
+              withBuild(result, partCategory, page, totalParts);
+            } else {
+              withoutBuild(result, partCategory, page, totalParts);
+          };
           })
-        };
         });
         break;
 
       case 'cpucoolers':
-        cpuCoolerCollection.find({}).toArray(function (err, result) {
+        cpuCoolerCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          if (req.body.build) {
-            console.log(req.body.build)
-            res.render('partsListPage', {
-              parts: result,
-              partCategory: partCategory,
-              build: req.body.build
-            })
-          } else {
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory,
-            build: null
+          totalParts = count;        
+          cpuCoolerCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+            if (err) throw err;
+            if (req.body.build) {
+              withBuild(result, partCategory, page, totalParts);
+            } else {
+              withoutBuild(result, partCategory, page, totalParts);
+          };
           })
-        };
         });
         break;
 
       case 'powersupplies':
-        powerSupplyCollection.find({}).toArray(function (err, result) {
+        powerSupplyCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          if (req.body.build) {
-            console.log(req.body.build)
-            res.render('partsListPage', {
-              parts: result,
-              partCategory: partCategory,
-              build: req.body.build
-            })
-          } else {
-          res.render('partsListPage', {
-            parts: result,
-            partCategory: partCategory,
-            build: null
+          totalParts = count;        
+          powerSupplyCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+            if (err) throw err;
+            if (req.body.build) {
+              withBuild(result, partCategory, page, totalParts);
+            } else {
+              withoutBuild(result, partCategory, page, totalParts);
+          };
           })
-        };
         });
         break;
-
-// GPU is yet to be added, CPU should use cpuspecs collection, GPU shuld use the gouspecs collection
 
       default:
         console.log("Error getting page");
