@@ -144,7 +144,14 @@ h6 {
 .trash-can-container {
     position: absolute;
     bottom: 0;
-    right: 0;
+    left: 92%;
+}
+
+.edit-button-container {
+    position: absolute;
+    bottom: 0;
+    /* right: 50; */
+    left: 84.5%;
 }
 
 .bottom-right-image {

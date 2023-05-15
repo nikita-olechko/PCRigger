@@ -50,7 +50,12 @@
                                     </button>
                                 </div>
                             </form>
-                            <form method="post" action="/delete">
+                            <form method="post" action="/edit">
+                                <button class="edit-button-container">
+                                    <input type="hidden" name="build" value='<%=current_build%>'>
+                                    <img src="icons/editButton.png" alt="Image" class="bottom-right-image">
+                                </button>
+                            </form><form method="post" action="/delete">
                                 <button class="trash-can-container">
                                     <input type="hidden" name="build" value='<%=current_build%>'>
                                     <img src="icons/delete-trashcan.png" alt="Image" class="bottom-right-image">
