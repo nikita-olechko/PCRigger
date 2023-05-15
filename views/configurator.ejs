@@ -1,20 +1,20 @@
 <% const current_build=JSON.stringify(builds)%>
     <% console.log(builds) %>
-
+        <% if (existingBuild==true) { %>
+            <div class="col-md notification notification:hover">
+                <input value="Build Added To Profile"
+                    class="container notification-button menu_buttons general-margin button-padding">
+            </div>
+            <% } %>
         <%- include('partials/navbar') %>
-
+            
             <div class="container general-margin">
                 <h1 id="name">High <%= builds.class %> builds</h1>
                 <hr>
                 <h5>
                     <%= builds.name %>
                 </h5>
-                <% if (existingBuild==true) { %>
-                    <div class="col-md notification notification:hover">
-                        <input value="Build Added To Profile"
-                            class="container notification-button menu_buttons general-margin button-padding">
-                    </div>
-                    <% } %>
+                
                 <div class="row">
                     <div class="col">
                         <h5 class="general-margin">CPU</h5>

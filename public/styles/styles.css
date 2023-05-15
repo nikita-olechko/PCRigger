@@ -181,9 +181,9 @@ h6 {
     /* border-radius: 7px; */
     /* background-color: var(--subtext-color-light-grey); */
     /* text-align: center; */
-    /* z-index: ; */
+    z-index: 9999;
     animation-name: notification;
-    animation-duration: 3s;
+    animation-duration: 4s;
     animation-iteration-count: 1;
     /* animation-delay: 3s; */
     /* Delay before starting the animation */
