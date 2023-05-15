@@ -44,7 +44,7 @@ module.exports = function (app) {
     const partCategory = req.body.formId;
     console.log("Passed in part type: " + partCategory);
 
-    const withBuild = function(result, partCategory, page, totalParts) {
+    const withBuild = async function(result, partCategory, page, totalParts) {
       console.log(req.body.build)
       res.render('partsListPage', {
         parts: result,
@@ -55,7 +55,7 @@ module.exports = function (app) {
       })
     }
   
-    const withoutBuild = function(result, partCategory, page, totalParts) {
+    const withoutBuild = async function(result, partCategory, page, totalParts) {
       res.render('partsListPage', {
         parts: result,
         partCategory: partCategory,
@@ -108,16 +108,28 @@ module.exports = function (app) {
       case 'cpu':
         cpuCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          totalParts = count;        
-          cpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-            if (err) throw err;
-            if (req.body.build) {
-              withBuild(result, partCategory, page, totalParts);
+          totalParts = count;
+          if (req.body.build) {
+            currentBuild = JSON.parse(req.body.build)
+            if (currentBuild.parts.motherboard) {
+              motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+                if (err) throw err;
+                cpuCollection.find({socket: result[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
+                  if (err) throw err;
+                  withBuild(result, partCategory, page, totalParts)
+            })})
             } else {
+              cpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+                if (err) throw err;
+                withoutBuild(result, partCategory, page, totalParts);
+              })}
+          } else {
+            cpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+              if (err) throw err;
               withoutBuild(result, partCategory, page, totalParts);
-          };
-          })
-        });
+          });
+          }
+          });
         break;
 
       case 'motherboards':
