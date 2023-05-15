@@ -1,24 +1,38 @@
+<% 
+part = JSON.parse(part)
+
+if (part.name) {
+    partName = part.name
+} if (part.cpuName) {
+    partName = part.cpuName
+} if (part.driveName) {
+    partName = part.driveName
+} if (part.memoryName) {
+    partName = part.memoryName
+} if (part.productName) {
+    partName = part.productName
+}
+%>
+
 <%- include('partials/navbar') %>
 
+    <h1 class="text-center mt-4"><%= partName%></h1> 
 
-
-    <main>
-        <h3>Specs:</h3>
+    <main class="mt-2">
+        <h3>Specs breakdown:</h3>
         <div class="container-fluid">
-            <% let rowNumber=0 %>
-                <% for (const [key, value] of Object.entries(JSON.parse(part))) { %>
+               <% for (const [key, value] of Object.entries(part)) { %>
                     <% if(key !="_id" ) { %>
-                        <p class="row-<%= rowNumber % 2 === 0 ? 'even' : 'odd' %>"style="border-radius: 10px;">
+                        <p class="row-even"style="border-radius: 10px;">
                             <span class="field" >
                                 <%= key %>:
                             </span> <span class="value">
                                 <%= value %>
                             </span>
                         </p>
-                        <% rowNumber++ %>
                             <% } %>
                                 <% } %>
         </div>
     </main>
 
-    <%- include('partials/iconbar') %>
+<%- include('partials/iconbar') %>
