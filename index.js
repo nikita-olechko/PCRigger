@@ -74,6 +74,7 @@ require('./routes/profile')(app, Joi, bcrypt, saltRounds);
 require('./routes/signOut')(app);
 
 require('./routes/partsListPage')(app);
+require('./routes/searchPartFunction')(app);
 
 require('./routes/partsCategoryPage')(app);
 
