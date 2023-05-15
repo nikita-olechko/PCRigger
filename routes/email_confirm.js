@@ -78,17 +78,25 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
     app.post('/password_reset', async (req, res) => {
         var userData = JSON.parse(req.body.userData)
         new_password = req.body.new_password;
+        confirm_password = req.body.confirm_password;
         const schema = Joi.object({
-            new_password: Joi.string().required()
+            new_password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+            confirm_password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),   
         })
         const valid_input = schema.validate({
-            new_password
+            new_password,
+            confirm_password
         });
         if (valid_input.error) {
-            res.status(400).render('templates/notification_page.ejs', {message:'Invalid Password.'})
+            res.status(400).render('templates/notification_page.ejs', {message:'Invalid format for Password.'})
             return;
         }
         else {
+            if (new_password != confirm_password) {
+                res.status(409).render('templates/notification_page.ejs', {message:'Passwords do not match.'})
+                return;
+            }
+            else {
             const salt = await bcrypt.genSalt(saltRounds);
             const hashedPassword = await bcrypt.hash(new_password, salt);
             await userCollection.updateOne({
@@ -100,6 +108,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             });
             res.render('templates/notification_page.ejs', {message:'Your password has been resetted.'})
             return;
+        }
         }
     })
 }
