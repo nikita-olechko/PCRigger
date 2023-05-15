@@ -9,6 +9,8 @@
 }
 
 
+
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color-white);
@@ -143,13 +145,14 @@ h6 {
 
 .trash-can-container {
     position: absolute;
-    bottom: 0;
+    bottom: 0.5%;
     left: 92%;
+    border-bottom-right-radius: 18%;
 }
 
 .edit-button-container {
     position: absolute;
-    bottom: 0;
+    bottom: 0.5%;
     /* right: 50; */
     left: 84.5%;
 }
@@ -163,6 +166,64 @@ h6 {
 .bottom-iconbar-opaque {
     background-color: var(--bg-color);
     opacity: 1;
+}
+
+.notification {
+    position: fixed;
+    opacity: 0;
+    /* bottom: 7%; */
+    left: 5%;
+    right: 5%;
+    /* transform: translate(-50%, -50%); */
+    /* width: 100%; */
+    /* max-width: 250px; */
+    /* padding: 4px; */
+    /* border-radius: 7px; */
+    /* background-color: var(--subtext-color-light-grey); */
+    /* text-align: center; */
+    /* z-index: ; */
+    animation-name: notification;
+    animation-duration: 3s;
+    animation-iteration-count: 1;
+    /* animation-delay: 3s; */
+    /* Delay before starting the animation */
+}
+
+.notification:hover {
+    animation-play-state: paused;
+}
+
+.notification-button {
+    background-color: #ffff52;
+    border: none;
+    border-radius: 7px;
+}
+
+@keyframes notification {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    96% {
+        opacity: 1;
+        transform: translate(0%, 0%);
+    }    
+    
+    99% {
+        opacity: 0;
+        transform: translate(0%, 0%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -200%);
+        /* transform: translate(-50%, -200%); */
+        /* Move the notification out of the viewport */
+    }
 }
 
 /*when screen larger than 768px make icon-bar disappear */

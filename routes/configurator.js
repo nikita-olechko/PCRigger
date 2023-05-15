@@ -22,7 +22,8 @@ module.exports = function (app, userCollection) {
 
         res.render('configurator', {
             builds: build,
-            existingBuild: existingBuild
+            existingBuild: existingBuild,
+            editBuild: false
         }
         );
     });
@@ -38,7 +39,8 @@ module.exports = function (app, userCollection) {
         // console.log(build)
         res.render('configurator', {
             builds: build,
-            existingBuild: false
+            existingBuild: false,
+            editBuild: false
         })
     })
 
@@ -70,13 +72,37 @@ module.exports = function (app, userCollection) {
                 console.log('build added to user!');
             }
         );
-        const userProfile = await userCollection.findOne({
-            username: userID
-        });
 
         res.render('configurator', {
             builds: build,
-            existingBuild: true
+            existingBuild: true,
+            editBuild: false
+        });
+
+    });
+    
+    app.post("/edit", async (req, res) => {
+        console.log("At edit route")
+        var build = JSON.parse(req.body.build)
+        // console.log(build)
+        var buildName = req.body.buildTitle
+        build.name = buildName
+        // console.log(build)
+        const userID = req.session.user.username;
+        //get user profile
+        await userCollection.updateOne(
+            { username: userID },
+            { $push: { favourites: build } },
+            function (err, res) {
+                if (err) throw err;
+                console.log('build added to user!');
+            }
+        );
+
+        res.render('configurator', {
+            builds: build,
+            existingBuild: false,
+            editBuild: true
         });
 
     });

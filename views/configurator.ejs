@@ -9,6 +9,12 @@
                 <h5>
                     <%= builds.name %>
                 </h5>
+                <% if (existingBuild==true) { %>
+                    <div class="col-md notification notification:hover">
+                        <input value="Build Added To Profile"
+                            class="container notification-button menu_buttons general-margin button-padding">
+                    </div>
+                    <% } %>
                 <div class="row">
                     <div class="col">
                         <h5 class="general-margin">CPU</h5>
@@ -214,17 +220,25 @@
                                 <% } %>
                     </div>
                 </div>
-                <form method="post" action="/addBuildToProfile">
+                <form method="post" action="/addBuildToProfile" id="addBuildDivID">
                     <input type="hidden" name="build" value='<%=current_build%>'>
                     <br>
                     <input type="text" class="form-control" name="buildTitle" placeholder="Enter a new build name">
-
-                    <input type="submit" value="Add Build To Profile"
-                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
-                </form>
-                <% if (existingBuild==true) {%>
-                    <h5 class="general-margin title-margin">Build Added to Profile</h5>
-                    <% } %>
+                    <div class="row">
+                        <div class="col-md">
+                            <input type="submit" value="Add Build To Profile"
+                                class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
+                        </div>
+                        <% if (existingBuild==true) { %>
+                            <div class="col-md notification notification:hover">
+                                <input value="Build Added To Profile"
+                                    class="container notification-button menu_buttons general-margin button-padding">
+                            </div>
+                            <% } %>
+                        </div>
+                        </form>
+                    
+                
             </div>
 
             <%- include('partials/iconbar') %>
