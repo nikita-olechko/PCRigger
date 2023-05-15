@@ -1,17 +1,23 @@
 <%- include('partials/navbar') %>
 
-    <h1 class="text-center"> Selected Component:</h1>
+
 
     <main>
         <h3>Specs:</h3>
-        <div>
-            <% for (const [key, value] of Object.entries(JSON.parse(part))) { %>
-                <% if(key !="_id" ) { %>
-                    <p>
-                        <%= key %>: <%= value %>
-                    </p>
-                    <% } %>
-                        <% } %>
+        <div class="container-fluid">
+            <% let rowNumber=0 %>
+                <% for (const [key, value] of Object.entries(JSON.parse(part))) { %>
+                    <% if(key !="_id" ) { %>
+                        <p class="row-<%= rowNumber % 2 === 0 ? 'even' : 'odd' %>"style="border-radius: 10px;">
+                            <span class="field" >
+                                <%= key %>:
+                            </span> <span class="value">
+                                <%= value %>
+                            </span>
+                        </p>
+                        <% rowNumber++ %>
+                            <% } %>
+                                <% } %>
         </div>
     </main>
 

@@ -148,6 +148,26 @@ h6 {
     opacity: 1;
 }
 
+.row-even {
+    background-color: var(--subtext-color-light-grey);
+  }
+  
+  .row-odd {
+    background-color: var(--misc-color-turqblu)
+  }
+  
+  .field {
+    display: inline-block;
+    width: 120px;
+    background-color: var(--primary-btn-color-blue);
+    padding: 5px;
+    margin-right: 10px;
+    text-align: right;
+    font-weight: bold;
+  }
+  
+
+
 /*when screen larger than 768px make icon-bar disappear */
 @media screen and (min-width: 768px) {
     #icon-bar {
