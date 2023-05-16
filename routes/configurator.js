@@ -56,7 +56,8 @@ module.exports = function (app, userCollection) {
 
         res.render('configurator', {
             builds: build, existingBuild: false, editBuild: true,
-            buildSaved: false })
+            buildSaved: false
+        })
     })
 
     app.post("/addBuildToProfile", async (req, res) => {
@@ -80,13 +81,13 @@ module.exports = function (app, userCollection) {
         res.render('configurator', {
             builds: build,
             existingBuild: true,
-            editBuild: false,
+            editBuild: true,
             buildSaved: false
 
         });
 
     });
-    
+
     app.post("/edit", async (req, res) => {
         console.log("At edit route")
         var build = JSON.parse(req.body.build)
@@ -108,6 +109,16 @@ module.exports = function (app, userCollection) {
         var build = JSON.parse(req.body.build);
         const userID = req.session.user.username;
 
+        // console.log(build)
+
+        await userCollection.updateOne(
+            { username: userID, "favourites._id": build._id }, // Update the document with a specific ID
+            { $set: { "favourites.$": build } }, // Set the updated build object
+            function (err, result) {
+                if (err) throw err;
+                console.log("build updated!");
+            }
+        );
 
         res.render("configurator", {
             builds: build,
