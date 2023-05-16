@@ -229,27 +229,31 @@
                     <form method="post" action="/addBuildToProfile" id="addBuildDivID">
                         <input type="hidden" name="build" value='<%=current_build%>'>
                         <br>
-                        <input type="text" class="form-control" name="buildTitle" placeholder="Enter a new build name">
+                        <input type="text" class="form-control" name="buildTitle" placeholder="Enter a new build name"
+                        <% if (editBuild==true) { %>
+                            value="<%=builds.buildName%>"
+                            <% } %>
+                        required minlength="1"
+                            maxlength="20" title="Please give your build a name">
                         <div class="row">
                             <div class="col">
                                 <input type="submit" value="Add Build To Profile"
                                     class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
                             </div>
-                            <% if (editBuild==true) { %>
-                                <div class="col">
-                                <form method="post" action="/save" id="addBuildDivID">
-                                    <input type="hidden" name="build" value='<%=current_build%>'>
-                                    <!-- <input type="text" class="form-control" name="buildTitle" placeholder="Change build name?"> -->
-                                    
-                                        <div>
-                                            <input type="submit" value="Save Build"
-                                                class="btn btn-warning btn-warning:hover menu_buttons general-margin button-padding">
-                                        </div>
-                                    </form>
-                                </div>
-                                <% } %>
                         </div>
                     </form>
+                    <% if (editBuild==true) { %>
+                        <div class="col">
+                            <form method="post" action="/save" id="save">
+                                <input type="hidden" name="build" value='<%=current_build%>'>
+                                <!-- <input type="text" class="form-control" name="buildTitle" placeholder="Change build name?"> -->
+                                <div>
+                                    <input type="submit" value="Save Build"
+                                        class="btn btn-warning btn-warning:hover menu_buttons button-padding general-margin">
+                                </div>
+                            </form>
+                        </div>
+                        <% } %>
                 
                 
                     
