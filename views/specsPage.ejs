@@ -16,22 +16,23 @@ if (part.name) {
 
 <%- include('partials/navbar') %>
 
-    <h1 class="text-center"><%= partName%></h1>
+    <h1 class="text-center mt-4"><%= partName%></h1> 
 
-    <main>
-        <div class="container">
-            <p>Spec Breakdown :</p>
-            <hr>
-            <div>
-                <% for (const [key, value] of Object.entries(part)) { %>
+    <main class="mt-2">
+        <h3>Specs breakdown:</h3>
+        <div class="container-fluid">
+               <% for (const [key, value] of Object.entries(part)) { %>
                     <% if(key !="_id" ) { %>
-                        <p>
-                            <span style="font-weight:bold;"><%= key %></span>: <%= value %>
+                        <p class="spec-row"style="border-radius: 10px;">
+                            <span class="field" >
+                                <%= key %>:
+                            </span> <span class="value">
+                                <%= value %>
+                            </span>
                         </p>
-                        <% } %>
                             <% } %>
-            </div>
+                                <% } %>
         </div>
     </main>
 
-    <%- include('partials/iconbar') %>
+<%- include('partials/iconbar') %>

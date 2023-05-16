@@ -58,6 +58,8 @@ module.exports = function (app, userCollection) {
             builds: build, existingBuild: false, editBuild: true,
             buildSaved: false
         })
+            buildSaved: false
+        })
     })
 
     app.post("/addBuildToProfile", async (req, res) => {
