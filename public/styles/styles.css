@@ -191,7 +191,7 @@ h6 {
     border-radius: 2px;
     font-size: inherit;
     font-family: inherit;
-        /* margin-left: 10px; */
+    /* margin-left: 10px; */
 }
 
 .saved-build-container-changeName input:focus {
@@ -280,8 +280,12 @@ h6 {
     /* Delay before starting the animation */
 }
 
-.notification:hover {
-    animation-play-state: paused;
+.margin-bottom-config-buttons {
+    margin-bottom: 10em;
+}
+
+.margin-top-edit-button {
+    margin-top: 30px;
 }
 
 .notification-button {
@@ -311,7 +315,63 @@ h6 {
 
     100% {
         opacity: 0;
-        transform: translate(-50%, -200%);
+        transform: translate(-500%, -200%);
+        /* transform: translate(-50%, -200%); */
+        /* Move the notification out of the viewport */
+    }
+}
+
+.save-notification {
+    position: fixed;
+    opacity: 0;
+    /* bottom: 7%; */
+    left: 5%;
+    right: 5%;
+    pointer-events: none;
+    /* transform: translate(-50%, -50%); */
+    /* width: 100%; */
+    /* max-width: 250px; */
+    /* padding: 4px; */
+    /* border-radius: 7px; */
+    /* background-color: var(--subtext-color-light-grey); */
+    /* text-align: center; */
+    z-index: 9999;
+    animation-name: save-notification;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+    /* animation-delay: 3s; */
+    /* Delay before starting the animation */
+}
+
+
+.save-notification-button {
+    background-color: #ffff52;
+    border: none;
+    border-radius: 7px;
+}
+
+@keyframes save-notification {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    96% {
+        opacity: 1;
+        transform: translate(0%, 0%);
+    }
+
+    99% {
+        opacity: 0;
+        transform: translate(0%, 0%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-500%, -200%);
         /* transform: translate(-50%, -200%); */
         /* Move the notification out of the viewport */
     }
