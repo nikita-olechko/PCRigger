@@ -80,7 +80,6 @@ module.exports = function (app) {
         })
         })
       ;
-
         break;
 
       case 'ram':
