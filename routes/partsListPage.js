@@ -41,10 +41,10 @@ module.exports = function (app) {
     const skip = (page - 1) * perPage;
 
     const partCategory = req.body.formId;
-    console.log("Passed in part type: " + partCategory);
+    // console.log("Passed in part type: " + partCategory);
 
     const withBuild = async function(result, partCategory, page, totalParts) {
-      console.log(req.body.build)
+      // console.log(req.body.build)
       res.render('partsListPage', {
         parts: result,
         partCategory: partCategory,
@@ -122,7 +122,6 @@ module.exports = function (app) {
                 if (err) throw err;
                 cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, coolerResult) {
                   if (err) throw err;
-                  console.log(moboResult, coolerResult)
                   cpuCollection.find({
                     $and: [
                       { socket: moboResult[0].socket },
