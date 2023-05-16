@@ -151,10 +151,29 @@ module.exports = function (app) {
           totalParts = count;
           if (req.body.build) {
             currentBuild = JSON.parse(req.body.build)
-            if (currentBuild.parts.case) {
-              caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, result) {
+            if (currentBuild.parts.case && currentBuild.parts.cpu) {
+              caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
+                console.log("case is " + caseResult)
                 if (err) throw err;
-                motherboardCollection.find({formFactor: {$in: result[0].SupportedMotherboardSizes}}).skip(skip).limit(perPage).toArray(function (err, result) {
+                cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
+                  console.log("CPU is " + cpuResult)
+                  if (err) throw err;
+                  motherboardCollection.find({formFactor: {$in: caseResult[0].SupportedMotherboardSizes}, socket: cpuResult[0].socket }).skip(skip).limit(perPage).toArray(function (err, result) {
+                    if (err) throw err;
+                    withBuild(result, partCategory, page, totalParts)
+                })
+            })})
+            } else if (currentBuild.parts.cpu){
+              cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
+                if (err) throw err;
+                motherboardCollection.find({socket: cpuResult[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
+                  if (err) throw err;
+                  withBuild(result, partCategory, page, totalParts)
+            })})
+            } else if (currentBuild.parts.case){
+              caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
+                if (err) throw err;
+                motherboardCollection.find({formFactor: { $in: caseResult[0].SupportedMotherboardSizes }}).skip(skip).limit(perPage).toArray(function (err, result) {
                   if (err) throw err;
                   withBuild(result, partCategory, page, totalParts)
             })})
