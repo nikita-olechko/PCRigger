@@ -94,14 +94,25 @@ module.exports = function (app) {
         memoryCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
           totalParts = count;        
-          memoryCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-            if (err) throw err;
-            if (req.body.build) {
-              withBuild(result, partCategory, page, totalParts);
-            } else {
-              withoutBuild(result, partCategory, page, totalParts);
-          };
-          })
+          if (req.body.build) {
+            currentBuild = JSON.parse(req.body.build)
+            if (currentBuild.parts.motherboard) {}
+            motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+              if (err) throw err;
+              memoryCollection.find({gen: result[0].supportedRamGeneration[0]}).skip(skip).limit(perPage).toArray(function (err, result) {
+                if (err) throw err;
+                withBuild(result, partCategory, page, totalParts)
+            })})
+          } else {
+            memoryCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+              if (err) throw err;
+              if (req.body.build) {
+                withBuild(result, partCategory, page, totalParts);
+              } else {
+                withoutBuild(result, partCategory, page, totalParts);
+            };
+            })
+          }
         });
         break;
 
