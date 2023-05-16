@@ -1,14 +1,30 @@
 <% const current_build=JSON.stringify(builds)%>
     <% console.log(builds) %>
-
+        <% if (existingBuild==true) { %>
+            <div class="col-md notification notification:hover">
+                <input value="Build Added To Profile"
+                    class="container notification-button menu_buttons general-margin button-padding">
+            </div>
+            <% } %>
+        <% if (buildSaved==true) { %>
+            <div class="col-md notification notification:hover">
+                <input value="<%= builds.name %> has been saved"
+                    class="container notification-button menu_buttons general-margin button-padding">
+            </div>
+            <% } %>
+            <% if (invalidName == true) { %>
+            <div class="col-md notification notification:hover">
+                <input value="That build name already exists, please choose another name."
+                    class="container notification-button menu_buttons general-margin button-padding">
+            </div>
+            <% } %>
         <%- include('partials/navbar') %>
-
+            
             <div class="container general-margin">
                 <h1 id="name">High <%= builds.class %> builds</h1>
                 <hr>
-                <h5>
-                    <%= builds.name %>
-                </h5>
+                    
+                <h2><%= builds.name %></h2>
                 <div class="row">
                     <div class="col">
                         <h5 class="general-margin">CPU</h5>
@@ -27,204 +43,259 @@
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method="post" action="/parts">
-                        <input type="hidden" name="build" value='<%=currentBuild%>'>
-                        <input type="hidden" name="formId" value="cpu">
-                        <input type="submit" value="+" class="btn btn-success"> 
-                    </form>
-                                <% } %>
-                    </div>
-                    <div class="col">
-                        <h5 class="general-margin">GPU</h5>
-                        <div>
-                            <% if (builds.parts.gpu !=null) { %>
-                                <%= builds.parts.gpu %>
-                                    <% } else { %>
-                                        Select New
-                                        <% } %>
-                        </div>
-                        <% if (builds.parts.gpu !=null) { %>
-                            <form method="post" action="/removePart">
-                                <input type="hidden" name="partToRemove" value="gpu">
-                                <input type="hidden" name="build" value='<%=current_build%>'>
-                                <input type="submit" value="-" class="btn btn-danger""> 
+                    <form method=" post" action="/parts">
+        <input type="hidden" name="build" value='<%=currentBuild%>'>
+        <input type="hidden" name="formId" value="cpu">
+        <input type="submit" value="+" class="btn btn-success">
+      </form>
+      <% } %>
+    </div>
+    <div class="col">
+      <h5 class="general-margin">GPU</h5>
+      <div>
+        <% if (builds.parts.gpu !=null) { %>
+        <%= builds.parts.gpu %>
+        <% } else { %>
+        Select New
+        <% } %>
+      </div>
+      <% if (builds.parts.gpu !=null) { %>
+      <form method="post" action="/removePart">
+        <input type="hidden" name="partToRemove" value="gpu">
+        <input type="hidden" name="build" value='<%=current_build%>'>
+        <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method="post" action="/parts">
-                        <input type="hidden" name="build" value='<%=currentBuild%>'>
-                        <input type="hidden" name="formId" value="gpu">
-                        <input type="submit" value="+" class="btn btn-success"> 
-                    </form>
-                                <% } %>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col">
-                        <h5>cpuCooler</h5>
-                        <div>
-                            <% if (builds.parts.cpuCooler !=null) { %>
-                                <%= builds.parts.cpuCooler %>
-                                    <% } else { %>
-                                        Select New
-                                        <% } %>
-                        </div>
-                        <% if (builds.parts.cpuCooler !=null) { %>
-                            <form method="post" action="/removePart">
-                                <input type="hidden" name="partToRemove" value="cpuCooler">
-                                <input type="hidden" name="build" value='<%=current_build%>'>
-                                <input type="submit" value="-" class="btn btn-danger""> 
+                    <form method=" post" action="/parts">
+        <input type="hidden" name="build" value='<%=currentBuild%>'>
+        <input type="hidden" name="formId" value="gpu">
+        <input type="submit" value="+" class="btn btn-success">
+      </form>
+      <% } %>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h5>cpuCooler</h5>
+      <div>
+        <% if (builds.parts.cpuCooler !=null) { %>
+        <%= builds.parts.cpuCooler %>
+        <% } else { %>
+        Select New
+        <% } %>
+      </div>
+      <% if (builds.parts.cpuCooler !=null) { %>
+      <form method="post" action="/removePart">
+        <input type="hidden" name="partToRemove" value="cpuCooler">
+        <input type="hidden" name="build" value='<%=current_build%>'>
+        <input type="submit" value="-" class="btn btn-danger""> 
                             </form>
                         <% } else { %>
                             <%let currentBuild = JSON.stringify(builds)%>
-                            <form method="post" action="/parts">
-                                <input type="hidden" name="build" value='<%=currentBuild%>'>
-                                <input type="hidden" name="formId" value="cpucoolers">
-                                <input type="submit" value="+" class="btn btn-success""> 
+                            <form method=" post" action="/parts">
+        <input type="hidden" name="build" value='<%=currentBuild%>'>
+        <input type="hidden" name="formId" value="cpucoolers">
+        <input type="submit" value="+" class="btn btn-success""> 
                             </form>
                             <% } %>
                     </div>
-                    <div class="col">
-                        <h5>motherboard</h5>
-                        <div>
-                            <% if (builds.parts.motherboard !=null) { %>
-                                <%= builds.parts.motherboard %>
-                                    <% } else { %>
-                                        Select New
-                                        <% } %>
-                        </div>
-                        <% if (builds.parts.motherboard !=null) { %>
-                            <form method="post" action="/removePart">
-                                <input type="hidden" name="partToRemove" value="motherboard">
-                                <input type="hidden" name="build" value='<%=current_build%>'>
-                                <input type="submit" value="-" class="btn btn-danger""> 
+                    <div class=" col">
+        <h5>motherboard</h5>
+        <div>
+          <% if (builds.parts.motherboard !=null) { %>
+          <%= builds.parts.motherboard %>
+          <% } else { %>
+          Select New
+          <% } %>
+        </div>
+        <% if (builds.parts.motherboard !=null) { %>
+        <form method="post" action="/removePart">
+          <input type="hidden" name="partToRemove" value="motherboard">
+          <input type="hidden" name="build" value='<%=current_build%>'>
+          <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method="post" action="/parts">
-                        <input type="hidden" name="build" value='<%=currentBuild%>'>
-                        <input type="hidden" name="formId" value="motherboards">
-                        <input type="submit" value="+" class="btn btn-success""> 
+                    <form method=" post" action="/parts">
+          <input type="hidden" name="build" value='<%=currentBuild%>'>
+          <input type="hidden" name="formId" value="motherboards">
+          <input type="submit" value="+" class="btn btn-success""> 
                     </form>
                                 <% } %>
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col">
-                        <h5>Memory</h5>
-                        <div>
-                            <% if (builds.parts.ram !=null) { %>
-                                <%= builds.parts.ram %>
-                                    <% } else { %>
-                                        Select New
-                                        <% } %>
-                        </div>
-                        <% if (builds.parts.ram !=null) { %>
-                            <form method="post" action="/removePart">
-                                <input type="hidden" name="partToRemove" value="ram">
-                                <input type="hidden" name="build" value='<%=current_build%>'>
-                                <input type="submit" value="-" class="btn btn-danger""> 
+                <div class=" row">
+          <div class="col">
+            <h5>Memory</h5>
+            <div>
+              <% if (builds.parts.ram !=null) { %>
+              <%= builds.parts.ram %>
+              <% } else { %>
+              Select New
+              <% } %>
+            </div>
+            <% if (builds.parts.ram !=null) { %>
+            <form method="post" action="/removePart">
+              <input type="hidden" name="partToRemove" value="ram">
+              <input type="hidden" name="build" value='<%=current_build%>'>
+              <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method="post" action="/parts">
-                        <input type="hidden" name="build" value='<%=currentBuild%>'>
-                        <input type="hidden" name="formId" value="ram">
-                        <input type="submit" value="+" class="btn btn-success""> 
+                    <form method=" post" action="/parts">
+              <input type="hidden" name="build" value='<%=currentBuild%>'>
+              <input type="hidden" name="formId" value="ram">
+              <input type="submit" value="+" class="btn btn-success""> 
                     </form>
                             <% } %>
                     </div>
 
 
-                    <div class="col">
-                        <h5>storage</h5>
-                        <div>
-                            <% if (builds.parts.storage !=null) { %>
-                                <%= builds.parts.storage %>
-                                    <% } else { %>
-                                        Select New
-                                        <% } %>
-                        </div>
-                        <% if (builds.parts.storage !=null) { %>
-                            <form method="post" action="/removePart">
-                                <input type="hidden" name="partToRemove" value="storage">
-                                <input type="hidden" name="build" value='<%=current_build%>'>
-                                <input type="submit" value="-" class="btn btn-danger""> 
+                    <div class=" col">
+              <h5>storage</h5>
+              <div>
+                <% if (builds.parts.storage !=null) { %>
+                <%= builds.parts.storage %>
+                <% } else { %>
+                Select New
+                <% } %>
+              </div>
+              <% if (builds.parts.storage !=null) { %>
+              <form method="post" action="/removePart">
+                <input type="hidden" name="partToRemove" value="storage">
+                <input type="hidden" name="build" value='<%=current_build%>'>
+                <input type="submit" value="-" class="btn btn-danger""> 
                         </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method="post" action="/parts">
-                        <input type="hidden" name="build" value='<%=currentBuild%>'>
-                        <input type="hidden" name="formId" value="storage">
-                        <input type="submit" value="+" class="btn btn-success""> 
+                    <form method=" post" action="/parts">
+                <input type="hidden" name="build" value='<%=currentBuild%>'>
+                <input type="hidden" name="formId" value="storage">
+                <input type="submit" value="+" class="btn btn-success""> 
                     </form>
                                 <% } %>
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col">
-                        <h5>case</h5>
-                        <div>
-                            <% if (builds.parts.case !=null) { %>
-                                <%= builds.parts.case %>
-                                    <% } else { %>
-                                        Select New
-                                        <% } %>
-                        </div>
-                        <% if (builds.parts.case !=null) { %>
-                            <form method="post" action="/removePart">
-                                <input type="hidden" name="partToRemove" value="case">
-                                <input type="hidden" name="build" value='<%=current_build%>'>
-                                <input type="submit" value="-" class="btn btn-danger""> 
+                <div class=" row">
+                <div class="col">
+                  <h5>case</h5>
+                  <div>
+                    <% if (builds.parts.case !=null) {
+                                                                                        %>
+                    <%= builds.parts.case %>
+                    <% } else { %>
+                    Select New
+                    <% } %>
+                  </div>
+                  <% if (builds.parts.case !=null) { %>
+                  <form method="post" action="/removePart">
+                    <input type="hidden" name="partToRemove" value="case">
+                    <input type="hidden" name="build" value='<%=current_build%>'>
+                    <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method="post" action="/parts">
-                        <input type="hidden" name="build" value='<%=currentBuild%>'>
-                        <input type="hidden" name="formId" value="case">
-                        <input type="submit" value="+" class="btn btn-success""> 
+                    <form method=" post" action="/parts">
+                    <input type="hidden" name="build" value='<%=currentBuild%>'>
+                    <input type="hidden" name="formId" value="case">
+                    <input type="submit" value="+" class="btn btn-success""> 
                     </form>
                                 <% } %>
                     </div>
-                    <div class="col">
-                        <h5>powerSupply</h5>
-                        <div>
-                            <% if (builds.parts.powerSupply !=null) { %>
-                                <%= builds.parts.powerSupply %>
-                                    <% } else { %>
-                                        Select New
-                                        <% } %>
-                        </div>
-                        <% if (builds.parts.powerSupply !=null) { %>
-                            <form method="post" action="/removePart">
-                                <input type="hidden" name="partToRemove" value="powerSupply">
-                                <input type="hidden" name="build" value='<%=current_build%>'>
-                                <input type="submit" value="-" class="btn btn-danger""> 
+                    <div class=" col">
+                    <h5>powerSupply</h5>
+                    <div>
+                      <% if
+                                                                                                (builds.parts.powerSupply
+                                                                                                !=null) { %>
+                      <%= builds.parts.powerSupply
+                                                                                                    %>
+                      <% } else { %>
+                      Select New
+                      <% } %>
+                    </div>
+                    <% if (builds.parts.powerSupply
+                                                                                            !=null) { %>
+                    <form method="post" action="/removePart">
+                      <input type="hidden" name="partToRemove" value="powerSupply">
+                      <input type="hidden" name="build" value='<%=current_build%>'>
+                      <input type="submit" value="-" class="btn btn-danger""> 
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method="post" action="/parts">
-                        <input type="hidden" name="build" value='<%=currentBuild%>'>
-                        <input type="hidden" name="formId" value="powersupplies">
-                        <input type="submit" value="+" class="btn btn-success"> 
+                    <form method=" post" action="/parts">
+                      <input type="hidden" name="build" value='<%=currentBuild%>'>
+                      <input type="hidden" name="formId" value="powersupplies">
+                      <input type="submit" value="+" class="btn btn-success">
                     </form>
                                 <% } %>
                     </div>
                 </div>
-                <form method="post" action="/addBuildToProfile">
-                    <input type="hidden" name="build" value='<%=current_build%>'>
-                    <br>
-                    <input type="text" class="form-control" name="buildTitle" placeholder="Enter a new build name">
+                    <div class="margin-bottom-config-buttons">
+                        <%let currentBuild=JSON.stringify(builds)%>
+                        <%console.log("Current Build Is" + currentBuild)%>
+                        
+                        <form method="post" action="/addBuildToProfile" id="addBuildDivID">
+                            <br>
+                            <input type='text' class="form-control title-margin" id='buildTitle' name='buildTitle' required minlength="1"
+                                maxlength="100" title="Please enter a build name" value="<%=builds.name%>">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="hidden" name="build" value='<%=currentBuild%>'>
+                                    <button type="submit" id="addBuildToProfileButton" onclick="setButtonTypeToProfile()"
+                                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
+                                        Add Build To Profile
+                                    </button>
+                                </div>
+                                <% if (editBuild==true) { %>
+                                    <div class="col">
+                                        <button type="submit" id="saveBuildToProfile" onclick="setButtonTypeToSave()"
+                                            class="btn btn-warning btn-warning:hover menu_buttons button-padding general-margin">
+                                            Save Build
+                                        </button>
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <input type="hidden" name="buttonType" id="buttonTypeInput">
+                        </form>
+                    </div>
+                    
+                    <script>
+                        function setButtonTypeToProfile(){
+                            document.getElementById("buttonTypeInput").value = "addBuildToProfile";
+                        }
 
-                    <input type="submit" value="Add Build To Profile"
-                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
-                </form>
-                <% if (existingBuild==true) {%>
-                    <h5 class="general-margin title-margin">Build Added to Profile</h5>
-                    <% } %>
+                        function setButtonTypeToSave(){
+                            document.getElementById("buttonTypeInput").value = "saveBuild";
+                        }
+
+                        // function setButtonType() {
+                        //     var buttonTypeInput = document.getElementById("buttonTypeInput");
+                        //     var addBuildButton = document.getElementById("addBuildToProfileButton");
+                        //     var saveBuildButton = document.getElementById("saveBuildToProfile");
+                        //     console.log("Add Button Click:" + addBuildButton.clicked)
+                        //     console.log("Save Button Click:" + saveBuildButton.clicked)
+
+                        //     if (addBuildButton.clicked) {
+                        //         document.getElementById("buttonTypeInput").value = "addBuildToProfile";
+                        //     } else if (saveBuildButton.clicked) {
+                        //         buttonTypeInput.value = "saveBuild";
+                        //     }
+                        // }
+                    </script>
+
+
+
+
+                </div>
+                
+                
+                    
+                
             </div>
 
-            <%- include('partials/iconbar') %>
+    <%- include('partials/iconbar') %>
