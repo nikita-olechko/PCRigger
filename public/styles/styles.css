@@ -39,7 +39,7 @@ h6 {
     background-color: var(--hovered-btn-color-tropblu);
 }
 
-.btn-warning:hover{
+.btn-warning:hover {
     background-color: #8df676;
 }
 
@@ -163,6 +163,68 @@ h6 {
     left: 80%;
 }
 
+.saved-build-container-changeName {
+    display: flex;
+    align-items: center;
+    display: relative;
+    background: #d9d6d6;
+    max-width: 200px;
+    margin-left: 2px;
+    border-radius: 2px;
+
+
+}
+
+.saved-build-container-changeName .edit-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.saved-build-container-changeName input {
+    /* display: none; */
+    width: 100%;
+    /* padding: 2px; */
+    border: none;
+    /* border-bottom: 1px solid black; */
+    border-radius: 2px;
+    font-size: inherit;
+    font-family: inherit;
+        /* margin-left: 10px; */
+}
+
+.saved-build-container-changeName input:focus {
+    /* outline: none; */
+    /* border-bottom-color: blue; */
+    background: #FFFFFF;
+}
+
+.edit-button-container-changeName {
+    position: relative;
+    width: 100%;
+    flex-shrink: 0;
+    margin-left: 10px;
+    max-width: 50px;
+    /* margin-top: px; */
+}
+
+.edit-button-changeName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.bottom-right-image-changeName {
+    width: 20px;
+    height: 20px;
+}
+
 .bottom-right-image {
     position: relative;
     width: 20px;
@@ -179,6 +241,11 @@ h6 {
 /* Spec sheet  */
 .spec-row {
     background-color: var(--subtext-color-light-grey);
+}
+
+.margin-left-name-button {
+    margin-top: 2;
+    margin-left: 10px;
 }
 
 .field {
@@ -213,6 +280,13 @@ h6 {
     /* Delay before starting the animation */
 }
 
+.margin-bottom-config-buttons {
+    margin-bottom: 10em;
+}
+
+.margin-top-edit-button {
+    margin-top: 30px;
+}
 
 .notification-button {
     background-color: #ffff52;

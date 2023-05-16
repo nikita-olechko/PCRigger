@@ -10,12 +10,12 @@ module.exports = function (app, userCollection) {
 
     app.post('/configurator', async (req, res) => {
         var existingBuild = false
-        console.log("At configurator post route")
+        // console.log("At configurator post route")
         var build = JSON.parse(req.body.build)
-        console.log(build)
+        // console.log(build)
 
         var existingUser = await userCollection.findOne({ username: req.session.user.username });
-        console.log(existingUser)
+        // console.log(existingUser)
         if (build in existingUser.favourites) {
             existingBuild = true
         }
@@ -56,39 +56,63 @@ module.exports = function (app, userCollection) {
 
         res.render('configurator', {
             builds: build, existingBuild: false, editBuild: true,
-            buildSaved: false })
+            buildSaved: false
+        })
     })
 
     app.post("/addBuildToProfile", async (req, res) => {
-        console.log("At addBuildToProfile post route")
-        var build = JSON.parse(req.body.build)
-        // console.log(build)
-        var buildName = req.body.buildTitle
-        build.name = buildName
-        // console.log(build)
-        const userID = req.session.user.username;
-        //get user profile
-        await userCollection.updateOne(
-            { username: userID },
-            { $push: { favourites: build } },
-            function (err, res) {
-                if (err) throw err;
-                console.log('build added to user!');
-            }
-        );
+        // console.log("At addBuildToProfile post route");
+        console.log(req.body.buttonType)
+        if (req.body.buttonType === "addBuildToProfile") {
+            console.log("At addBuildToProfile post route");
 
-        res.render('configurator', {
-            builds: build,
-            existingBuild: true,
-            editBuild: true,
-            buildSaved: false
+            var build = JSON.parse(req.body.build)
+            build.name = req.body.buildTitle
 
-        });
+            const userID = req.session.user.username;
 
+            await userCollection.updateOne(
+                { username: userID },
+                { $push: { favourites: build } },
+                function (err, updateResult) {
+                    if (err) throw err;
+                    console.log("build added to user!");
+                }
+            );
+
+            res.render("configurator", {
+                builds: build,
+                existingBuild: true,
+                editBuild: true,
+                buildSaved: false
+            });
+            
+        } else if (req.body.buttonType === "saveBuild") {
+            console.log("At save route");
+            var build = JSON.parse(req.body.build)
+            build.name = req.body.buildTitle
+            const userID = req.session.user.username;
+
+            await userCollection.updateOne(
+                { username: userID, "favourites._id": build._id },
+                { $set: { "favourites.$": build } },
+                function (err, updateResult) {
+                    if (err) throw err;
+                    console.log("build updated!");
+                }
+            );
+
+            res.render("configurator", {
+                builds: build,
+                existingBuild: false,
+                editBuild: true,
+                buildSaved: true
+            });
+        }
     });
-    
+
+
     app.post("/edit", async (req, res) => {
-        console.log("At edit route")
         var build = JSON.parse(req.body.build)
         // console.log(build)
         const userID = req.session.user.username;
@@ -103,28 +127,9 @@ module.exports = function (app, userCollection) {
 
     });
 
-    app.post("/save", async (req, res) => {
-        console.log("At save route");
-        var build = JSON.parse(req.body.build);
-        const userID = req.session.user.username;
+    // app.post("/save", async (req, res) => {
 
-        await userCollection.updateOne(
-            { username: userID, "favourites._id": build._id }, // Update the document with a specific ID
-            { $set: { "favourites.$": build } }, // Set the updated build object
-            function (err, result) {
-                if (err) throw err;
-                console.log("build updated!");
-            }
-        );
-
-
-        res.render("configurator", {
-            builds: build,
-            existingBuild: false,
-            editBuild: true,
-            buildSaved: true
-        });
-    });
+    // });
 
 
 }

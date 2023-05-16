@@ -17,9 +17,7 @@
             <div class="container general-margin">
                 <h1 id="name">High <%= builds.class %> builds</h1>
                 <hr>
-                <h5>
-                    <%= builds.name %>
-                </h5>
+                    
                 
                 <div class="row">
                     <div class="col">
@@ -226,34 +224,61 @@
                                 <% } %>
                     </div>
                 </div>
-                    <form method="post" action="/addBuildToProfile" id="addBuildDivID">
-                        <input type="hidden" name="build" value='<%=current_build%>'>
-                        <br>
-                        <input type="text" class="form-control" name="buildTitle" placeholder="Enter a new build name"
-                        <% if (editBuild==true) { %>
-                            value="<%=builds.buildName%>"
-                            <% } %>
-                        required minlength="1"
-                            maxlength="20" title="Please give your build a name">
-                        <div class="row">
-                            <div class="col">
-                                <input type="submit" value="Add Build To Profile"
-                                    class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
-                            </div>
-                        </div>
-                    </form>
-                    <% if (editBuild==true) { %>
-                        <div class="col">
-                            <form method="post" action="/save" id="save">
-                                <input type="hidden" name="build" value='<%=current_build%>'>
-                                <!-- <input type="text" class="form-control" name="buildTitle" placeholder="Change build name?"> -->
-                                <div>
-                                    <input type="submit" value="Save Build"
-                                        class="btn btn-warning btn-warning:hover menu_buttons button-padding general-margin">
+                    <div class="margin-bottom-config-buttons">
+                        <form method="post" action="/addBuildToProfile" id="addBuildDivID">
+                            <br>
+                            <input type='text' class="form-control title-margin" id='buildTitle' name='buildTitle' required minlength="1"
+                                maxlength="20" title="Please enter a build name" value="<%=builds.name%>">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="hidden" name="build" value='<%=current_build%>'>
+                                    <button type="submit" id="addBuildToProfileButton" onclick="setButtonTypeToProfile()"
+                                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
+                                        Add Build To Profile
+                                    </button>
                                 </div>
-                            </form>
-                        </div>
-                        <% } %>
+                                <% if (editBuild==true) { %>
+                                    <div class="col">
+                                        <input type="hidden" name="build" value='<%=current_build%>'>
+                                        <button type="submit" id="saveBuildToProfile" onclick="setButtonTypeToSave()"
+                                            class="btn btn-warning btn-warning:hover menu_buttons button-padding general-margin">
+                                            Save Build
+                                        </button>
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <input type="hidden" name="buttonType" id="buttonTypeInput">
+                        </form>
+                    </div>
+                    
+                    <script>
+                        function setButtonTypeToProfile(){
+                            document.getElementById("buttonTypeInput").value = "addBuildToProfile";
+                        }
+
+                        function setButtonTypeToSave(){
+                            document.getElementById("buttonTypeInput").value = "saveBuild";
+                        }
+
+                        // function setButtonType() {
+                        //     var buttonTypeInput = document.getElementById("buttonTypeInput");
+                        //     var addBuildButton = document.getElementById("addBuildToProfileButton");
+                        //     var saveBuildButton = document.getElementById("saveBuildToProfile");
+                        //     console.log("Add Button Click:" + addBuildButton.clicked)
+                        //     console.log("Save Button Click:" + saveBuildButton.clicked)
+
+                        //     if (addBuildButton.clicked) {
+                        //         document.getElementById("buttonTypeInput").value = "addBuildToProfile";
+                        //     } else if (saveBuildButton.clicked) {
+                        //         buttonTypeInput.value = "saveBuild";
+                        //     }
+                        // }
+                    </script>
+
+
+
+
+                </div>
                 
                 
                     
