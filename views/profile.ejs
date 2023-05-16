@@ -39,7 +39,7 @@
                 <% favourites.forEach(function(item) { %>
                     <% let current_build=JSON.stringify(item) %>
                         <div class="saved-build-container">
-                            <form method="post" action="/configurator">
+                            <form method="post" action="/edit">
                                 <input type="hidden" name="build" value='<%=current_build%>'>
                                 <div class="d-flex justify-content-center">
                                     <button class="btn btn-primary btn-primary:hover menu_buttons general-margin profile-buildcard-padding btn-custom d-flex justify-content-center">
@@ -50,11 +50,11 @@
                                     </button>
                                 </div>
                             </form>
-                            <form method="post" action="/edit">
+                            <!-- <form method="post" action="/edit">
                                 <button class="edit-button-container">
                                     <input type="hidden" name="build" value='<%=current_build%>'>
                                     <img src="icons/editButton.png" alt="Image" class="bottom-right-image">
-                                </button>
+                                </button> -->
                             </form><form method="post" action="/delete">
                                 <button class="trash-can-container">
                                     <input type="hidden" name="build" value='<%=current_build%>'>
