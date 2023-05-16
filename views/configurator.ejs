@@ -6,6 +6,12 @@
                     class="container notification-button menu_buttons general-margin button-padding">
             </div>
             <% } %>
+        <% if (buildSaved==true) { %>
+            <div class="col-md notification notification:hover">
+                <input value="<%= builds.name %> has been saved"
+                    class="container notification-button menu_buttons general-margin button-padding">
+            </div>
+            <% } %>
         <%- include('partials/navbar') %>
             
             <div class="container general-margin">
@@ -220,23 +226,33 @@
                                 <% } %>
                     </div>
                 </div>
-                <form method="post" action="/addBuildToProfile" id="addBuildDivID">
-                    <input type="hidden" name="build" value='<%=current_build%>'>
-                    <br>
-                    <input type="text" class="form-control" name="buildTitle" placeholder="Enter a new build name">
-                    <div class="row">
-                        <div class="col-md">
-                            <input type="submit" value="Add Build To Profile"
-                                class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
-                        </div>
-                        <% if (existingBuild==true) { %>
-                            <div class="col-md notification notification:hover">
-                                <input value="Build Added To Profile"
-                                    class="container notification-button menu_buttons general-margin button-padding">
+                <% if (editBuild==false) { %>
+                    <form method="post" action="/addBuildToProfile" id="addBuildDivID">
+                        <input type="hidden" name="build" value='<%=current_build%>'>
+                        <br>
+                        <input type="text" class="form-control" name="buildTitle" placeholder="Enter a new build name">
+                        <div class="row">
+                            <div class="col-md">
+                                <input type="submit" value="Add Build To Profile"
+                                    class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
                             </div>
-                            <% } %>
                         </div>
-                        </form>
+                    </form>
+                <% } %>
+                <% if (editBuild==true) { %>
+                    <form method="post" action="/save" id="addBuildDivID">
+                        <input type="hidden" name="build" value='<%=current_build%>'>
+                        <br>
+                        <!-- <input type="text" class="form-control" name="buildTitle" placeholder="Change build name?"> -->
+                        <div class="row">
+                            <div class="col-md">
+                                <input type="submit" value="Save Build Configuration"
+                                    class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
+                            </div>
+                        </div>
+                    </form>
+                    <% } %>
+                
                     
                 
             </div>

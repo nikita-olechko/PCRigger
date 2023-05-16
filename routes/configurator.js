@@ -23,7 +23,8 @@ module.exports = function (app, userCollection) {
         res.render('configurator', {
             builds: build,
             existingBuild: existingBuild,
-            editBuild: false
+            editBuild: false,
+            buildSaved: false
         }
         );
     });
@@ -40,7 +41,8 @@ module.exports = function (app, userCollection) {
         res.render('configurator', {
             builds: build,
             existingBuild: false,
-            editBuild: false
+            editBuild: true,
+            buildSaved: false
         })
     })
 
@@ -52,7 +54,9 @@ module.exports = function (app, userCollection) {
         var build = JSON.parse(req.body.build)
         build.parts[req.body.partCategory] = req.body.partName
 
-        res.render('configurator', {builds: build, existingBuild: false})
+        res.render('configurator', {
+            builds: build, existingBuild: false, editBuild: true,
+            buildSaved: false })
     })
 
     app.post("/addBuildToProfile", async (req, res) => {
@@ -76,7 +80,9 @@ module.exports = function (app, userCollection) {
         res.render('configurator', {
             builds: build,
             existingBuild: true,
-            editBuild: false
+            editBuild: false,
+            buildSaved: false
+
         });
 
     });
@@ -85,26 +91,31 @@ module.exports = function (app, userCollection) {
         console.log("At edit route")
         var build = JSON.parse(req.body.build)
         // console.log(build)
-        var buildName = req.body.buildTitle
-        build.name = buildName
-        // console.log(build)
         const userID = req.session.user.username;
         //get user profile
-        await userCollection.updateOne(
-            { username: userID },
-            { $push: { favourites: build } },
-            function (err, res) {
-                if (err) throw err;
-                console.log('build added to user!');
-            }
-        );
 
         res.render('configurator', {
             builds: build,
             existingBuild: false,
-            editBuild: true
+            editBuild: true,
+            buildSaved: false
         });
 
     });
+
+    app.post("/save", async (req, res) => {
+        console.log("At save route");
+        var build = JSON.parse(req.body.build);
+        const userID = req.session.user.username;
+
+
+        res.render("configurator", {
+            builds: build,
+            existingBuild: false,
+            editBuild: true,
+            buildSaved: true
+        });
+    });
+
 
 }
