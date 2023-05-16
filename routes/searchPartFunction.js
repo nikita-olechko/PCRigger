@@ -51,16 +51,19 @@ module.exports = function (app) {
             return res.status(400).send("Error: Part category not found");
         }
 
-        // find the field in the document in the colletion that includes the "name" suffix in the field-name
+        // // find the field in the document in the colletion that includes the "name" suffix in the field-name
         fieldToSearch = partCategory + "Name";
         console.log("Field to search: " + fieldToSearch);
 
-        // Find the PC part that has a name that matches the search term 
-        const foundPart = await collectionToSearch.findOne({
-            $or: [
-                { [fieldToSearch]: searchTerm },
-                { name: searchTerm }]
-        });
+        // // Find the PC part that has a name that matches the search term 
+        // const foundPart = await collectionToSearch.findOne({
+        //     $or: [
+        //         { [fieldToSearch]: searchTerm },
+        //         { name: searchTerm }]
+        // });
+        const regex = new RegExp(searchTerm, 'i'); // 'i' flag makes the search case-insensitive
+        const foundPart = await collectionToSearch.findOne({ $or: [{ [fieldToSearch]: regex }, { name: regex }] });
+
 
         // console.log(foundPart);
 
