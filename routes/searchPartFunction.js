@@ -34,17 +34,19 @@ module.exports = function (app) {
             collectionToSearch = cpuCollection;
         } else if (partCategory == "memory") {
             collectionToSearch = memoryCollection;
+        } else if (partCategory == "ram") {
+            collectionToSearch = memoryCollection;
         } else if (partCategory == "gpu") {
             collectionToSearch = gpuCollection;
         } else if (partCategory == "storage") {
             collectionToSearch = storageCollection;
-        } else if (partCategory == "motherboard") {
+        } else if (partCategory == "motherboards") {
             collectionToSearch = motherboardsCollection;
-        } else if (partCategory == "powerSupply") {
+        } else if (partCategory == "powersupplies") {
             collectionToSearch = powerSupplyCollection;
         } else if (partCategory == "case") {
             collectionToSearch = caseCollection;
-        } else if (partCategory == "cpuCooler") {
+        } else if (partCategory == "cpucoolers") {
             collectionToSearch = cpuCoolerCollection;
         } else {
             console.log("Error: Part category not found");
@@ -62,7 +64,14 @@ module.exports = function (app) {
         //         { name: searchTerm }]
         // });
         const regex = new RegExp(searchTerm, 'i'); // 'i' flag makes the search case-insensitive
-        const foundPart = await collectionToSearch.findOne({ $or: [{ [fieldToSearch]: regex }, { name: regex }] });
+        const foundPart = await collectionToSearch.findOne({
+             $or: [
+                { [fieldToSearch]: regex },
+                 { name: regex },
+                  { driveName: regex },
+                   { productName: regex },
+                   { memoryName: regex },
+                ] });
 
 
         // console.log(foundPart);

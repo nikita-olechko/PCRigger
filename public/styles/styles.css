@@ -35,6 +35,11 @@ h6 {
     color: var(--text-color-white);
 }
 
+.btn-secondary{
+    background-color: var(--subtext-color-light-grey);
+    color: var(--text-color-white);
+}
+
 .btn-primary:hover {
     background-color: var(--hovered-btn-color-tropblu);
 }
