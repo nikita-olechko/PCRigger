@@ -70,7 +70,7 @@ module.exports = function (app) {
       gpuCollection.countDocuments({}, function(err, count) {
         if (err) throw err;
         totalParts = count;        
-        gpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+        gpuCollection.find({}).skip(skip).limit(perPage).sort({releaseYear: -1}).toArray(function (err, result) {
           if (err) throw err;
           if (req.body.build) {
             withBuild(result, partCategory, page, totalParts);
@@ -92,18 +92,18 @@ module.exports = function (app) {
             if (currentBuild.parts.motherboard) {
               motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
                 if (err) throw err;
-                memoryCollection.find({gen: result[0].supportedRamGeneration[0]}).skip(skip).limit(perPage).toArray(function (err, result) {
+                memoryCollection.find({gen: result[0].supportedRamGeneration[0]}).skip(skip).limit(perPage).sort({latency: 1}).toArray(function (err, result) {
                   if (err) throw err;
                   withBuild(result, partCategory, page, totalParts)
                 })})
               // } else if { placeholder for filerting by CPU compatibility as well
               } else {
-                memoryCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+                memoryCollection.find({}).skip(skip).limit(perPage).sort({latency: 1}).toArray(function (err, result) {
                   if (err) throw err;
                   withBuild(result, partCategory, page, totalParts);
                 })}
             } else {
-              memoryCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+              memoryCollection.find({}).skip(skip).limit(perPage).sort({latency: 1}).toArray(function (err, result) {
                 if (err) throw err;
                 withoutBuild(result, partCategory, page, totalParts);
             });
@@ -120,7 +120,7 @@ module.exports = function (app) {
             if (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler) {
               motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
                 if (err) throw err;
-                cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, coolerResult) {
+                cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).sort({cpuMark: -1}).toArray(function (err, coolerResult) {
                   if (err) throw err;
                   cpuCollection.find({
                     $and: [
@@ -135,24 +135,24 @@ module.exports = function (app) {
             } else if (currentBuild.parts.motherboard){
               motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
                 if (err) throw err;
-                cpuCollection.find({socket: moboResult[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
+                cpuCollection.find({socket: moboResult[0].socket}).skip(skip).limit(perPage).sort({cpuMark: -1}).toArray(function (err, result) {
                   if (err) throw err;
                   withBuild(result, partCategory, page, totalParts)
             })})
             } else if (currentBuild.parts.cpuCooler){
               cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, coolerResult) {
                 if (err) throw err;
-                cpuCollection.find({socket: { $in: coolerResult[0].supportedSockets }}).skip(skip).limit(perPage).toArray(function (err, result) {
+                cpuCollection.find({socket: { $in: coolerResult[0].supportedSockets }}).skip(skip).limit(perPage).sort({cpuMark: -1}).toArray(function (err, result) {
                   if (err) throw err;
                   withBuild(result, partCategory, page, totalParts)
             })})
             } else {
-              cpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+              cpuCollection.find({}).skip(skip).limit(perPage).sort({cpuMark: -1}).toArray(function (err, result) {
                 if (err) throw err;
                 withBuild(result, partCategory, page, totalParts);
               })}
           } else {
-            cpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+            cpuCollection.find({}).skip(skip).limit(perPage).sort({cpuMark: -1}).toArray(function (err, result) {
               if (err) throw err;
               withoutBuild(result, partCategory, page, totalParts);
           });
@@ -208,7 +208,7 @@ module.exports = function (app) {
         storageCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
           totalParts = count;        
-          storageCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+          storageCollection.find({}).skip(skip).limit(perPage).sort({diskMark: -1}).toArray(function (err, result) {
             if (err) throw err;
             if (req.body.build) {
               withBuild(result, partCategory, page, totalParts);
@@ -257,6 +257,7 @@ module.exports = function (app) {
                 if (err) throw err;
                 motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
                   if (err) throw err;
+                  console.log(cpuResult[0].socket, moboResult[0].socket)
                   cpuCoolerCollection.find({supportedSockets: {$all: [cpuResult[0].socket, moboResult[0].socket]}}).skip(skip).limit(perPage).toArray(function (err, result) {
                     if (err) throw err;
                     withBuild(result, partCategory, page, totalParts)
@@ -297,7 +298,7 @@ module.exports = function (app) {
         powerSupplyCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
           totalParts = count;        
-          powerSupplyCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+          powerSupplyCollection.find({}).skip(skip).limit(perPage).sort({ powerOutput: -1 }).toArray(function (err, result) {
             if (err) throw err;
             if (req.body.build) {
               withBuild(result, partCategory, page, totalParts);
