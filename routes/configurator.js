@@ -95,12 +95,20 @@ module.exports = function (app, userCollection) {
             console.log("At addBuildToProfile post route");
             console.log(req.body.build)
             var build = JSON.parse(req.body.build)
-            currentBuildName = build.name
+            build.name = req.body.buildTitle
+
+            // Issue is here: same buildID is being created.
+            // buildId = req.body.build._id
+            // console.log(buildId)
+            // if (buildId in existingUser.favourites._id) {
+            //     console.log("Build already exists")
+            // }
+
 
             const userID = req.session.user.username;
             var existingUser = await userCollection.findOne({ username: req.session.user.username });
 
-            const nameExists = existingUser.favourites.some((item) => item.name === currentBuildName);
+            const nameExists = existingUser.favourites.some((item) => item.name === build.name);
 
             if (nameExists) {
                 res.render("configurator", {
@@ -113,8 +121,6 @@ module.exports = function (app, userCollection) {
                 return
                 // The name exists in existingUser.favourites
             }
-
-            build.name = req.body.buildTitle
 
             const IDExists = existingUser.favourites.some((item) => item._id === build._id);
             var newId = ""
