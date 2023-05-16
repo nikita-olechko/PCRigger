@@ -27,7 +27,6 @@ const gpuCollection = database.db(mongodb_database).collection('GpuSpecs');
 const storageCollection = database.db(mongodb_database).collection('Storage');
 const motherboardCollection = database.db(mongodb_database).collection('Motherboards');
 const powerSupplyCollection = database.db(mongodb_database).collection('Powersupplies');
-// const ramCollection = database.db(mongodb_database).collection('Ram');
 const caseCollection = database.db(mongodb_database).collection('Cases');
 const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
 
@@ -65,13 +64,7 @@ module.exports = function (app) {
       })
     }
 
-    // const result = await cpuModel.find({});
-    // console.log(result);
-
     switch (partCategory) {
-      // give me a switch case for each part type and then render the page with the correct part type depending on the 
-      // string variable passed in from the url
-      // if the url is /parts/cpu then render the page with the cpu parts
 
       case 'gpu':  
       gpuCollection.countDocuments({}, function(err, count) {
@@ -124,10 +117,33 @@ module.exports = function (app) {
           totalParts = count;
           if (req.body.build) {
             currentBuild = JSON.parse(req.body.build)
-            if (currentBuild.parts.motherboard) {
-              motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+            if (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler) {
+              motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
                 if (err) throw err;
-                cpuCollection.find({socket: result[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
+                cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, coolerResult) {
+                  if (err) throw err;
+                  console.log(moboResult, coolerResult)
+                  cpuCollection.find({
+                    $and: [
+                      { socket: moboResult[0].socket },
+                      { socket: { $in: coolerResult[0].supportedSockets } }
+                    ]
+                  }).skip(skip).limit(perPage).toArray(function (err, result) {
+                    if (err) throw err;
+                    withBuild(result, partCategory, page, totalParts)
+                })
+            })})
+            } else if (currentBuild.parts.motherboard){
+              motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
+                if (err) throw err;
+                cpuCollection.find({socket: moboResult[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
+                  if (err) throw err;
+                  withBuild(result, partCategory, page, totalParts)
+            })})
+            } else if (currentBuild.parts.cpuCooler){
+              cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, coolerResult) {
+                if (err) throw err;
+                cpuCollection.find({socket: { $in: coolerResult[0].supportedSockets }}).skip(skip).limit(perPage).toArray(function (err, result) {
                   if (err) throw err;
                   withBuild(result, partCategory, page, totalParts)
             })})
@@ -153,10 +169,8 @@ module.exports = function (app) {
             currentBuild = JSON.parse(req.body.build)
             if (currentBuild.parts.case && currentBuild.parts.cpu) {
               caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
-                console.log("case is " + caseResult)
                 if (err) throw err;
                 cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-                  console.log("CPU is " + cpuResult)
                   if (err) throw err;
                   motherboardCollection.find({formFactor: {$in: caseResult[0].SupportedMotherboardSizes}, socket: cpuResult[0].socket }).skip(skip).limit(perPage).toArray(function (err, result) {
                     if (err) throw err;
@@ -239,19 +253,36 @@ module.exports = function (app) {
           totalParts = count;
           if (req.body.build) {
             currentBuild = JSON.parse(req.body.build)
-            if (currentBuild.parts.cpu) {
-              cpuCollection.find({name: currentBuild.parts.cpu}).toArray(function (err, result) {
+            if (currentBuild.parts.cpu && currentBuild.parts.motherboard) {
+              cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
                 if (err) throw err;
-                cpuCoolerCollection.find({socket: result[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
+                motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
+                  if (err) throw err;
+                  cpuCoolerCollection.find({supportedSockets: {$all: [cpuResult[0].socket, moboResult[0].socket]}}).skip(skip).limit(perPage).toArray(function (err, result) {
+                    if (err) throw err;
+                    withBuild(result, partCategory, page, totalParts)
+                })
+            })})
+            } else if (currentBuild.parts.cpu){
+              cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
+                if (err) throw err;
+                cpuCoolerCollection.find({supportedSockets: cpuResult[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
+                  if (err) throw err;
+                  withBuild(result, partCategory, page, totalParts)
+            })})
+            } else if (currentBuild.parts.motherboard){
+              motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
+                if (err) throw err;
+                cpuCoolerCollection.find({supportedSockets: moboResult[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
                   if (err) throw err;
                   withBuild(result, partCategory, page, totalParts)
             })})
             } else {
               cpuCoolerCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
                 if (err) throw err;
-                withoutBuild(result, partCategory, page, totalParts);
+                withBuild(result, partCategory, page, totalParts);
               })}
-          }        
+          } else {        
           cpuCoolerCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
             if (err) throw err;
             if (req.body.build) {
@@ -260,7 +291,7 @@ module.exports = function (app) {
               withoutBuild(result, partCategory, page, totalParts);
           };
           })
-        });
+        }});
         break;
 
       case 'powersupplies':
