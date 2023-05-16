@@ -96,24 +96,26 @@ module.exports = function (app) {
           totalParts = count;        
           if (req.body.build) {
             currentBuild = JSON.parse(req.body.build)
-            if (currentBuild.parts.motherboard) {}
-            motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-              if (err) throw err;
-              memoryCollection.find({gen: result[0].supportedRamGeneration[0]}).skip(skip).limit(perPage).toArray(function (err, result) {
+            if (currentBuild.parts.motherboard) {
+              motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
                 if (err) throw err;
-                withBuild(result, partCategory, page, totalParts)
-            })})
-          } else {
-            memoryCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-              if (err) throw err;
-              if (req.body.build) {
-                withBuild(result, partCategory, page, totalParts);
+                memoryCollection.find({gen: result[0].supportedRamGeneration[0]}).skip(skip).limit(perPage).toArray(function (err, result) {
+                  if (err) throw err;
+                  withBuild(result, partCategory, page, totalParts)
+                })})
+              // } else if { placeholder for filerting by CPU compatibility as well
               } else {
+                memoryCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+                  if (err) throw err;
+                  withBuild(result, partCategory, page, totalParts);
+                })}
+            } else {
+              memoryCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+                if (err) throw err;
                 withoutBuild(result, partCategory, page, totalParts);
-            };
-            })
-          }
-        });
+            });
+            }
+            });
         break;
 
       case 'cpu':
@@ -132,7 +134,7 @@ module.exports = function (app) {
             } else {
               cpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
                 if (err) throw err;
-                withoutBuild(result, partCategory, page, totalParts);
+                withBuild(result, partCategory, page, totalParts);
               })}
           } else {
             cpuCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
@@ -146,16 +148,28 @@ module.exports = function (app) {
       case 'motherboards':
         motherboardCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          totalParts = count;        
-          motherboardCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-            if (err) throw err;
-            if (req.body.build) {
-              withBuild(result, partCategory, page, totalParts);
+          totalParts = count;
+          if (req.body.build) {
+            currentBuild = JSON.parse(req.body.build)
+            if (currentBuild.parts.case) {
+              caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, result) {
+                if (err) throw err;
+                motherboardCollection.find({formFactor: {$in: result[0].SupportedMotherboardSizes}}).skip(skip).limit(perPage).toArray(function (err, result) {
+                  if (err) throw err;
+                  withBuild(result, partCategory, page, totalParts)
+            })})
             } else {
+              motherboardCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+                if (err) throw err;
+                withBuild(result, partCategory, page, totalParts);
+              })}
+          } else {
+            motherboardCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+              if (err) throw err;
               withoutBuild(result, partCategory, page, totalParts);
-          };
-          })
-        });
+          });
+          }
+          });
         break;
 
       case 'storage':
@@ -176,22 +190,49 @@ module.exports = function (app) {
       case 'case':
         caseCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          totalParts = count;        
-          caseCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-            if (err) throw err;
-            if (req.body.build) {
-              withBuild(result, partCategory, page, totalParts);
+          totalParts = count;
+          if (req.body.build) {
+            currentBuild = JSON.parse(req.body.build)
+            if (currentBuild.parts.motherboard) {
+              motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+                if (err) throw err;
+                caseCollection.find({SupportedMotherboardSizes: { $in: [result[0].formFactor] }}).skip(skip).limit(perPage).toArray(function (err, result) {
+                  if (err) throw err;
+                  withBuild(result, partCategory, page, totalParts)
+            })})
             } else {
+              caseCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+                if (err) throw err;
+                withBuild(result, partCategory, page, totalParts);
+              })}
+          } else {
+            caseCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+              if (err) throw err;
               withoutBuild(result, partCategory, page, totalParts);
-          };
-          })
-        });
+          });
+          }
+          });
         break;
 
       case 'cpucoolers':
         cpuCoolerCollection.countDocuments({}, function(err, count) {
           if (err) throw err;
-          totalParts = count;        
+          totalParts = count;
+          if (req.body.build) {
+            currentBuild = JSON.parse(req.body.build)
+            if (currentBuild.parts.cpu) {
+              cpuCollection.find({name: currentBuild.parts.cpu}).toArray(function (err, result) {
+                if (err) throw err;
+                cpuCoolerCollection.find({socket: result[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
+                  if (err) throw err;
+                  withBuild(result, partCategory, page, totalParts)
+            })})
+            } else {
+              cpuCoolerCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
+                if (err) throw err;
+                withoutBuild(result, partCategory, page, totalParts);
+              })}
+          }        
           cpuCoolerCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
             if (err) throw err;
             if (req.body.build) {
