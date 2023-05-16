@@ -24,7 +24,8 @@ module.exports = function (app, userCollection) {
             builds: build,
             existingBuild: existingBuild,
             editBuild: false,
-            buildSaved: false
+            buildSaved: false,
+            invalidName: false
         }
         );
     });
@@ -42,7 +43,8 @@ module.exports = function (app, userCollection) {
             builds: build,
             existingBuild: false,
             editBuild: true,
-            buildSaved: false
+            buildSaved: false,
+            invalidName: false
         })
     })
 
@@ -56,20 +58,43 @@ module.exports = function (app, userCollection) {
 
         res.render('configurator', {
             builds: build, existingBuild: false, editBuild: true,
-            buildSaved: false
+            buildSaved: false,
+            invalidName: false
         })
     })
 
     app.post("/addBuildToProfile", async (req, res) => {
         // console.log("At addBuildToProfile post route");
-        console.log(req.body.buttonType)
+        // console.log(req.body.buttonType)
         if (req.body.buttonType === "addBuildToProfile") {
             console.log("At addBuildToProfile post route");
-
+            console.log(req.body.build)
             var build = JSON.parse(req.body.build)
             build.name = req.body.buildTitle
+            
+            // Issue is here: same buildID is being created.
+            // buildId = req.body.build._id
+            // console.log(buildId)
+            // if (buildId in existingUser.favourites._id) {
+            //     console.log("Build already exists")
+            // }
 
             const userID = req.session.user.username;
+            var existingUser = await userCollection.findOne({ username: req.session.user.username });
+
+            const nameExists = existingUser.favourites.some((item) => item.name === build.name);
+
+            if (nameExists) {
+                res.render("configurator", {
+                    builds: build,
+                    existingBuild: false,
+                    editBuild: true,
+                    buildSaved: true,
+                    invalidName: true
+                });
+                return
+                // The name exists in existingUser.favourites
+            }
 
             await userCollection.updateOne(
                 { username: userID },
@@ -84,14 +109,18 @@ module.exports = function (app, userCollection) {
                 builds: build,
                 existingBuild: true,
                 editBuild: true,
-                buildSaved: false
+                buildSaved: false,
+                invalidName: false
             });
-            
+
         } else if (req.body.buttonType === "saveBuild") {
             console.log("At save route");
             var build = JSON.parse(req.body.build)
             build.name = req.body.buildTitle
             const userID = req.session.user.username;
+            // console.log("Here is existingUser.favourites" + existingUser.favourites)
+            // console.log(existingUser.favourites.name)
+            // console.log(existingUser)
 
             await userCollection.updateOne(
                 { username: userID, "favourites._id": build._id },
@@ -106,7 +135,8 @@ module.exports = function (app, userCollection) {
                 builds: build,
                 existingBuild: false,
                 editBuild: true,
-                buildSaved: true
+                buildSaved: true,
+                invalidName: false
             });
         }
     });
@@ -114,15 +144,22 @@ module.exports = function (app, userCollection) {
 
     app.post("/edit", async (req, res) => {
         var build = JSON.parse(req.body.build)
+        var existingBuild = false
         // console.log(build)
-        const userID = req.session.user.username;
         //get user profile
+        var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        // console.log(existingUser)
+        if (build in existingUser.favourites) {
+            existingBuild = true
+        }
+
 
         res.render('configurator', {
             builds: build,
-            existingBuild: false,
+            existingBuild: existingBuild,
             editBuild: true,
-            buildSaved: false
+            buildSaved: false,
+            invalidName: false
         });
 
     });

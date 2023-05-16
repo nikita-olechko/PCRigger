@@ -12,13 +12,19 @@
                     class="container notification-button menu_buttons general-margin button-padding">
             </div>
             <% } %>
+            <% if (invalidName == true) { %>
+            <div class="col-md notification notification:hover">
+                <input value="That build name already exists, please choose another name."
+                    class="container notification-button menu_buttons general-margin button-padding">
+            </div>
+            <% } %>
         <%- include('partials/navbar') %>
             
             <div class="container general-margin">
                 <h1 id="name">High <%= builds.class %> builds</h1>
                 <hr>
                     
-                
+                <h2><%= builds.name %></h2>
                 <div class="row">
                     <div class="col">
                         <h5 class="general-margin">CPU</h5>
@@ -230,13 +236,16 @@
                     </div>
                 </div>
                     <div class="margin-bottom-config-buttons">
+                        <%let currentBuild=JSON.stringify(builds)%>
+                        <%console.log("Current Build Is" + currentBuild)%>
+                        
                         <form method="post" action="/addBuildToProfile" id="addBuildDivID">
                             <br>
                             <input type='text' class="form-control title-margin" id='buildTitle' name='buildTitle' required minlength="1"
-                                maxlength="20" title="Please enter a build name" value="<%=builds.name%>">
+                                maxlength="100" title="Please enter a build name" value="<%=builds.name%>">
                             <div class="row">
                                 <div class="col">
-                                    <input type="hidden" name="build" value='<%=current_build%>'>
+                                    <input type="hidden" name="build" value='<%=currentBuild%>'>
                                     <button type="submit" id="addBuildToProfileButton" onclick="setButtonTypeToProfile()"
                                         class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
                                         Add Build To Profile
@@ -244,7 +253,6 @@
                                 </div>
                                 <% if (editBuild==true) { %>
                                     <div class="col">
-                                        <input type="hidden" name="build" value='<%=current_build%>'>
                                         <button type="submit" id="saveBuildToProfile" onclick="setButtonTypeToSave()"
                                             class="btn btn-warning btn-warning:hover menu_buttons button-padding general-margin">
                                             Save Build
