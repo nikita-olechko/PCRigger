@@ -6,7 +6,32 @@ const utils = require('../utils');
 const path = require('path');
 const mime = require('mime');
 
+
+
+
 module.exports = function (app, userCollection) {
+
+    async function generateRandomUniqueID(length, req) {
+        var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        while (true) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let randomID = '';
+
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                randomID += characters.charAt(randomIndex);
+            }
+
+            if (existingUser.favourites.some((item) => item._id === randomID)) {
+                continue;
+            }
+
+            return randomID;
+        }
+
+    }
+
+    const idLength = 8;
 
     app.post('/configurator', async (req, res) => {
         var existingBuild = false
@@ -71,13 +96,14 @@ module.exports = function (app, userCollection) {
             console.log(req.body.build)
             var build = JSON.parse(req.body.build)
             build.name = req.body.buildTitle
-            
+
             // Issue is here: same buildID is being created.
             // buildId = req.body.build._id
             // console.log(buildId)
             // if (buildId in existingUser.favourites._id) {
             //     console.log("Build already exists")
             // }
+
 
             const userID = req.session.user.username;
             var existingUser = await userCollection.findOne({ username: req.session.user.username });
@@ -95,6 +121,21 @@ module.exports = function (app, userCollection) {
                 return
                 // The name exists in existingUser.favourites
             }
+
+            const IDExists = existingUser.favourites.some((item) => item._id === build._id);
+            var newId = ""
+            if (IDExists) {
+                newId = generateRandomUniqueID(idLength, req)
+                await userCollection.updateOne(
+                    { username: userID, "favourites._id": build._id, "favourites._id": build.name },
+                    { $set: { "favourites._id": newId } },
+                    function (err, updateResult) {
+                        if (err) throw err;
+                        console.log("build updated!");
+                    }
+                );
+            }
+
 
             await userCollection.updateOne(
                 { username: userID },
@@ -116,11 +157,37 @@ module.exports = function (app, userCollection) {
         } else if (req.body.buttonType === "saveBuild") {
             console.log("At save route");
             var build = JSON.parse(req.body.build)
-            build.name = req.body.buildTitle
+            var currentBuildName = build.name
             const userID = req.session.user.username;
             // console.log("Here is existingUser.favourites" + existingUser.favourites)
             // console.log(existingUser.favourites.name)
             // console.log(existingUser)
+            var existingUser = await userCollection.findOne({ username: req.session.user.username });
+
+            var nameExists = false;   
+            console.log("req.body.buildTitle: " + req.body.buildTitle) 
+            console.log("req.body.build.name: " + currentBuildName) 
+
+            if (req.body.buildTitle === currentBuildName) {
+                var nameExists = false;
+            }
+            else {
+                var nameExists = existingUser.favourites.filter((item) => item.name === req.body.buildTitle).length >= 1;
+            }
+
+            if (nameExists) {
+                res.render("configurator", {
+                    builds: build,
+                    existingBuild: false,
+                    editBuild: true,
+                    buildSaved: true,
+                    invalidName: true
+                });
+                return
+                // The name exists in existingUser.favourites
+            }
+
+            build.name = req.body.buildTitle
 
             await userCollection.updateOne(
                 { username: userID, "favourites._id": build._id },
