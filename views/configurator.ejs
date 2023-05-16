@@ -43,7 +43,8 @@
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method=" post" action="/parts">
+                    <%console.log("You've reached the top of the form")%>
+                    <form method="post" action="/parts">
         <input type="hidden" name="build" value='<%=currentBuild%>'>
         <input type="hidden" name="formId" value="cpu">
         <input type="submit" value="+" class="btn btn-success">
@@ -67,7 +68,7 @@
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method=" post" action="/parts">
+                    <form method="post" action="/parts">
         <input type="hidden" name="build" value='<%=currentBuild%>'>
         <input type="hidden" name="formId" value="gpu">
         <input type="submit" value="+" class="btn btn-success">
@@ -94,7 +95,7 @@
                             </form>
                         <% } else { %>
                             <%let currentBuild = JSON.stringify(builds)%>
-                            <form method=" post" action="/parts">
+                            <form method="post" action="/parts">
         <input type="hidden" name="build" value='<%=currentBuild%>'>
         <input type="hidden" name="formId" value="cpucoolers">
         <input type="submit" value="+" class="btn btn-success""> 
@@ -118,7 +119,7 @@
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method=" post" action="/parts">
+                    <form method="post" action="/parts">
           <input type="hidden" name="build" value='<%=currentBuild%>'>
           <input type="hidden" name="formId" value="motherboards">
           <input type="submit" value="+" class="btn btn-success""> 
@@ -145,7 +146,7 @@
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method=" post" action="/parts">
+                    <form method="post" action="/parts">
               <input type="hidden" name="build" value='<%=currentBuild%>'>
               <input type="hidden" name="formId" value="ram">
               <input type="submit" value="+" class="btn btn-success""> 
@@ -171,7 +172,7 @@
                         </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method=" post" action="/parts">
+                    <form method="post" action="/parts">
                 <input type="hidden" name="build" value='<%=currentBuild%>'>
                 <input type="hidden" name="formId" value="storage">
                 <input type="submit" value="+" class="btn btn-success""> 
@@ -195,15 +196,15 @@
                   <form method="post" action="/removePart">
                     <input type="hidden" name="partToRemove" value="case">
                     <input type="hidden" name="build" value='<%=current_build%>'>
-                    <input type="submit" value="-" class="btn btn-danger""> 
-                    </form>
+                    <input type="submit" value="-" class="btn btn-danger"> 
+                  </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method=" post" action="/parts">
+                  <form method="post" action="/parts">
                     <input type="hidden" name="build" value='<%=currentBuild%>'>
                     <input type="hidden" name="formId" value="case">
-                    <input type="submit" value="+" class="btn btn-success""> 
-                    </form>
+                    <input type="submit" value="+" class="btn btn-success"> 
+                  </form>
                                 <% } %>
                     </div>
                     <div class=" col">
@@ -223,11 +224,11 @@
                     <form method="post" action="/removePart">
                       <input type="hidden" name="partToRemove" value="powerSupply">
                       <input type="hidden" name="build" value='<%=current_build%>'>
-                      <input type="submit" value="-" class="btn btn-danger""> 
+                      <input type="submit" value="-" class="btn btn-danger"> 
                     </form>
                 <% } else { %>
                     <%let currentBuild = JSON.stringify(builds)%>
-                    <form method=" post" action="/parts">
+                    <form method="post" action="/parts">
                       <input type="hidden" name="build" value='<%=currentBuild%>'>
                       <input type="hidden" name="formId" value="powersupplies">
                       <input type="submit" value="+" class="btn btn-success">
@@ -272,20 +273,6 @@
                         function setButtonTypeToSave(){
                             document.getElementById("buttonTypeInput").value = "saveBuild";
                         }
-
-                        // function setButtonType() {
-                        //     var buttonTypeInput = document.getElementById("buttonTypeInput");
-                        //     var addBuildButton = document.getElementById("addBuildToProfileButton");
-                        //     var saveBuildButton = document.getElementById("saveBuildToProfile");
-                        //     console.log("Add Button Click:" + addBuildButton.clicked)
-                        //     console.log("Save Button Click:" + saveBuildButton.clicked)
-
-                        //     if (addBuildButton.clicked) {
-                        //         document.getElementById("buttonTypeInput").value = "addBuildToProfile";
-                        //     } else if (saveBuildButton.clicked) {
-                        //         buttonTypeInput.value = "saveBuild";
-                        //     }
-                        // }
                     </script>
 
 
