@@ -208,6 +208,7 @@ h6 {
     animation-name: notification;
     animation-duration: 4s;
     animation-iteration-count: 1;
+    pointer-events: none;
     /* animation-delay: 3s; */
     /* Delay before starting the animation */
 }
@@ -252,6 +253,7 @@ h6 {
     /* bottom: 7%; */
     left: 5%;
     right: 5%;
+    pointer-events: none;
     /* transform: translate(-50%, -50%); */
     /* width: 100%; */
     /* max-width: 250px; */
