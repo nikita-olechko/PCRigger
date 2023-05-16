@@ -158,6 +158,23 @@ h6 {
     opacity: 1;
 }
 
+
+/* Spec sheet  */
+.spec-row {
+    background-color: var(--subtext-color-light-grey);
+}
+
+.field {
+    display: inline-block;
+    width: 120px;
+    background-color: var(--misc-color-turqblu);
+    margin-right: 10px;
+    text-align: left;
+    font-weight: bold;
+}
+
+
+
 /*when screen larger than 768px make icon-bar disappear */
 @media screen and (min-width: 768px) {
     #icon-bar {
