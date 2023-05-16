@@ -80,7 +80,7 @@ module.exports = function (app, userCollection) {
         res.render('configurator', {
             builds: build,
             existingBuild: true,
-            editBuild: false,
+            editBuild: true,
             buildSaved: false
 
         });
@@ -107,6 +107,15 @@ module.exports = function (app, userCollection) {
         console.log("At save route");
         var build = JSON.parse(req.body.build);
         const userID = req.session.user.username;
+
+        await userCollection.updateOne(
+            { username: userID, "favourites._id": build._id }, // Update the document with a specific ID
+            { $set: { "favourites.$": build } }, // Set the updated build object
+            function (err, result) {
+                if (err) throw err;
+                console.log("build updated!");
+            }
+        );
 
 
         res.render("configurator", {
