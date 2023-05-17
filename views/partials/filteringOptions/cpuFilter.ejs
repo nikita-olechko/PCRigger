@@ -1,3 +1,24 @@
-<%= build%>
+<%= build %>
 
 <%= partCategory%>
+
+
+<div class="container text-center">
+    <div class="row">
+        <form action="/filterParts" method="post">
+            <div class="form-check">
+                <input type="hidden" value='<%= build%>' name="build">
+                <input type="hidden" value='<%= partCategory%>' name="formId">
+                <input class="form-check-input filterForm" type="checkbox" value="cores">
+                <label>Cores</label>
+                <br>
+                <input class="form-check-input filterForm" type="checkbox" value="cpuMark">
+                <label>TDP</label>
+            </div>
+            <div class="row">
+                <input type="submit" value='Apply Filters' class="form-control btn-primary"/>
+            </div>
+        </form>
+    </div>
+
+</div>

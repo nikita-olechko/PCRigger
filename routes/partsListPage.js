@@ -44,7 +44,7 @@ module.exports = function (app) {
     // console.log("Passed in part type: " + partCategory);
 
     const withBuild = async function(result, partCategory, page, totalParts) {
-      // console.log(req.body.build)
+    // console.log(req.body.build)
       res.render('partsListPage', {
         parts: result,
         partCategory: partCategory,
@@ -318,4 +318,113 @@ module.exports = function (app) {
   app.get('/parts', (req, res) => {
     res.render('partsListPage');
   });
+
+
+  app.post('/filterParts', async (req, res) => {
+    console.log("Filter Page")
+    let searchFunction
+    const pageExists = req.body.page ? req.body.page : 1;
+    var page = parseInt(pageExists);
+    const perPage = 15;
+    const skip = (page - 1) * perPage;
+
+    const partCategory = req.body.formId;
+    console.log(req.body.formId)
+    // console.log("Passed in part type: " + partCategory);
+
+    const withBuild = async function(result, partCategory, page, totalParts) {
+    // console.log(req.body.build)
+      res.render('partsListPage', {
+        parts: result,
+        partCategory: partCategory,
+        build: req.body.build,
+        page: page,
+        totalParts: totalParts
+      })
+    }
+  
+    const withoutBuild = async function(result, partCategory, page, totalParts) {
+      res.render('partsListPage', {
+        parts: result,
+        partCategory: partCategory,
+        build: null,
+        page: page,
+        totalParts: totalParts
+      })
+    }
+
+    const gpuFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve, reject) => {
+        gpuCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({})
+          .toArray(function (err, result) {
+            if (err) reject(err);
+            resolve(result);
+          });
+      });
+    };
+
+    if (req.body.build) {
+      console.log("there is a build")
+      currentBuild = JSON.parse(req.body.build)
+      searchFunction = withBuild
+    } else {
+      searchFunction = withoutBuild
+    }
+
+    switch (partCategory) {
+      case 'gpu':
+        let query
+        const minimumMemorySize = req.body.memSize || 0;
+
+        if (req.body.bus) {
+          query = {
+            memSize: { $gte: parseInt(minimumMemorySize) },
+            bus: req.body.bus}
+        } else {
+          query ={
+            memSize: { $gte: parseInt(minimumMemorySize) }
+          }
+        }
+        console.log(query)
+
+      gpuCollection.countDocuments(query, async function(err, count) {
+        if (err) throw err;
+        totalParts = count;  
+        console.log(count)      
+        results = await gpuFilteredSearch(query, skip, perPage)
+        console.log(partCategory, page, totalParts, results.length)
+        searchFunction(results, partCategory, page, totalParts);
+      })
+  
+        break;
+
+      case 'ram':
+        break;
+
+      case 'cpu':
+        break;
+
+      case 'motherboards':
+        break;
+
+      case 'storage':
+        break;
+
+      case 'case':
+        break;
+
+      case 'cpucoolers':
+        break;
+
+      case 'powersupplies':
+        break;
+
+      default:
+        console.log("Error getting page");
+        break;
+    }
+  })
 }

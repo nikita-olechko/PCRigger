@@ -1,0 +1,45 @@
+<div class="container text-center">
+    <div class="row">
+        <h5>Filter Results</h5>
+        <form action="/filterParts" method="post">
+            <div class="container">
+                <input type="hidden" value='<%= build%>' name="build">
+                <input type="hidden" value='<%= partCategory%>' name="formId">
+
+                <label for="memSize">VRAM: <span id="memSizeValue">2 GB</span></label><br>
+                <input class="" type="range" min="2" max="20" step="2" id="memSize" name="memSize" value="2">
+
+                <br>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 3.0 x16">
+                <label>PCIe 3.0 x16</label>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 3.0 x8">
+                <label>PCIe 3.0 x8</label><br>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x16">
+                <label>PCIe 4.0 x16</label>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x8">
+                <label>PCIe 4.0 x8</label>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x4">
+                <label>PCIe 4.0 x4</label>
+                <br>
+                <br>
+                <input type="submit" value='Apply Filters' class="form-control btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    console.log("poggers")
+    const memSizeSlider = document.getElementById('memSize');
+    const memSizeValue = document.getElementById('memSizeValue');
+
+    memSizeSlider.addEventListener('input', () => {
+    memSizeValue.textContent = memSizeSlider.value + " GB";
+    });
+</script>
