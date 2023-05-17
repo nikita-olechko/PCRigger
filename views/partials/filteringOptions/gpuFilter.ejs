@@ -1,10 +1,13 @@
 <%
-console.log(query)
-query = JSON.parse(query)
-console.log(query)
+let query
 let memSizeValue = 2
-if (query.memSize) {
+
+if (query) {
+    query = JSON.parse(query)
+    console.log(query)
+    if (query.memSize) {
     memSizeValue = parseInt(query.memSize['$gte'])
+}
 }
 %>
 
@@ -22,19 +25,19 @@ if (query.memSize) {
 
                 <br>
 
-                <input class="form-check-input" type="radio" name="bus" value="PCIe 3.0 x16" id="PCIe 3.0 x16" <% if (query.bus === 'PCIe 3.0 x16') { %> checked <% } %>>
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 3.0 x16" id="PCIe 3.0 x16" <% if (query){ if(query.bus === 'PCIe 3.0 x16') { %> checked <% }}%>>
                 <label>PCIe 3.0 x16</label>
 
-                <input class="form-check-input" type="radio" name="bus" value="PCIe 3.0 x8" id="PCIe 3.0 x8" <% if (query.bus === 'PCIe 3.0 x8') { %> checked <% } %>>
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 3.0 x8" id="PCIe 3.0 x8" <% if (query){ if (query.bus === 'PCIe 3.0 x8') { %> checked <% }} %>>
                 <label>PCIe 3.0 x8</label><br>
 
-                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x16" id="PCIe 4.0 x16" <% if (query.bus === 'PCIe 4.0 x16') { %> checked <% } %>>
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x16" id="PCIe 4.0 x16" <% if (query){ if (query.bus === 'PCIe 4.0 x16') { %> checked <% }} %>>
                 <label>PCIe 4.0 x16</label>
 
-                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x8" id="PCIe 4.0 x8" <% if (query.bus === 'PCIe 4.0 x8') { %> checked <% } %>>
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x8" id="PCIe 4.0 x8" <% if (query){ if (query.bus === 'PCIe 4.0 x8') { %> checked <% }} %>>
                 <label>PCIe 4.0 x8</label>
 
-                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x4" id="PCIe 4.0 x4" <% if (query.bus === 'PCIe 4.0 x4') { %> checked <% } %>>
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x4" id="PCIe 4.0 x4" <% if (query){ if (query.bus === 'PCIe 4.0 x4') { %> checked <% }} %>>
                 <label>PCIe 4.0 x4</label>
                 <br>
                 <br>
