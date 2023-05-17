@@ -1,55 +1,55 @@
-<% 
-firstComparedPart=JSON.parse(firstComparedPart);
+<% firstComparedPart=JSON.parse(firstComparedPart);
  secondComparedPart=JSON.parse(secondComparedPart);
-  %>
+ %>
 
     <%- include('partials/navbar') %>
         <main>
-            <div class="container-fluid row">
-                <div class="col-6">
-                    <h1>
-                        You're a Rigger,
-                    </h1>
-                </div>
-                <div class="col-6">
-                    <h1>
-                        Harry!!!
-                    </h1>
-                </div>
+            
+            <div class="m-4">
+                <h3>
+                    Comparison:
+                 </h3>
             </div>
 
             <!-- give me a for loop that goes through the array of parts and displays them in seperate divs with the specs -->
             <div class="container-fluid">
 
                 <div class="card mt-4 p-4">
-                    <% for (const [key, value] of Object.entries(firstComparedPart)) { %>
-                        <% if(key !="_id" ) { %>
-                            <p>
-                                <span class="field">
-                                    <%= key %>:
-                                </span> <span class="value">
-                                    <%= value %>
-                                </span>
-                            </p>
-                            <% } %>
+                    <% for(let i=0; i < 1; i++) { %>
+
+                        <% for (const [key, value] of Object.entries(firstComparedPart)) { %>
+                            <% if(key !="_id" ) { %>
+
+                                <div class="row text-center">
+                                    <h4>
+                                        <%= key %>
+                                    </h4>
+                                </div>
                                 <% } %>
 
-                </div>
-            </div>
 
-            <div class="container-fluid">
-                <div class="card mt-4 p-4">
-                    <% for (const [key, value] of Object.entries(secondComparedPart)) { %>
-                        <% if(key !="_id" ) { %>
-                            <p>
-                                <span class="field">
-                                    <%= key %>:
-                                </span> <span class="value">
-                                    <%= value %>
-                                </span>
-                            </p>
-                            <% } %>
-                                <% } %>
+                                    <div class="row">
+                                        <div class="col-6 text-center">
+                                            <% if(key !="_id" ) { %>
+
+                                                <p>
+                                                    <%= firstComparedPart[key] %>
+                                                </p>
+                                                <% } %>
+                                        </div>
+                                        <div class="col-6 text-center">
+                                            <% if(key !="_id" ) { %>
+
+                                                <p>
+                                                    <%= secondComparedPart[key] %>
+                                                </p>
+                                                <% } %>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <% } %>
+                                        <% } %>
+
                 </div>
             </div>
 

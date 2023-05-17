@@ -94,10 +94,11 @@
                                                                         <% } %>
                                                                           <% } %>
 
-<!-- compare form -->
+<!-- compare button form -->
   <form action="/compare" method="POST" id="compareForm">
     <input type="hidden" name="selectedFirstPart" id="selectedFirstPart" value=''>
     <input type="hidden" name="selectedSecondPart" id="selectedSecondPart" value=''>
+    <input type="hidden" name="partsType" id="partsType" value='<%= partCategory %>'>
     <div class="container">
       <div class="row text-center">
         <div class="col-md-8">
@@ -107,12 +108,13 @@
     </div>
   </form>
 
+
+    </main>
   <script>
     // Get the Compare form element
     const compareForm = document.getElementById('compareForm');
     const selectedFirstPart = document.getElementById('selectedFirstPart');
     const selectedSecondPart = document.getElementById('selectedSecondPart');
-
     // Add a submit event listener to the Compare form
     compareForm.addEventListener('submit', function(event) {
       event.preventDefault(); // Prevent the default form submission
@@ -144,6 +146,4 @@
       compareForm.submit();
     });
   </script>
-
-    </main>
     <%- include('partials/iconbar') %>
