@@ -42,57 +42,84 @@
     the checkbox should be able to be checked and then the user can click a compare button to compare the parts.
     the compare button should take the user to a page that compares the parts they selected. -->
       <%console.log(partCategory)%>
-        <% for (let i=0; i < parts.length ; i++) {%>
-          <% if (partCategory=="ram" ){ %>
+        <!-- This code will add the appropriate filtering options -->
+        <% if (partCategory=="ram") { %>
+          <%- include('partials/filteringOptions/memoryFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="cpu") { %>
+          <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="gpu") { %>
+          <%- include('partials/filteringOptions/gpuFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="motherboards") { %>
+          <%- include('partials/filteringOptions/motherboardFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="storage") { %>
+          <%- include('partials/filteringOptions/storageFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="case") { %>
+          <%- include('partials/filteringOptions/caseFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="cpucoolers") { %>
+          <%- include('partials/filteringOptions/cpuCoolerFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="powersupplies") { %>
+          <%- include('partials/filteringOptions/powersupplyFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
 
-            <%currentPart=JSON.stringify(parts[i])%>
-              <%- include('partials/memoryCard', currentPart, build) %>
-                <% } %>
+        <!-- This code will populate the part cards -->
+        <% for (let i=0; i < parts.length ; i++) {%>     
+          <% if (partCategory=="ram"){ %>
 
-                  <% if (partCategory=="cpu" ){ %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/memoryCard', currentPart, build) %>
+          <% } %>
 
-                    <%currentPart=JSON.stringify(parts[i])%>
-                      <%- include('partials/cpuCard', currentPart) %>
-                        <% } %>
+          <% if (partCategory=="cpu" ){ %>
 
-                          <% if (partCategory=="gpu" ){ %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/cpuCard', currentPart, build) %>
+          <% } %>
 
-                            <%currentPart=JSON.stringify(parts[i])%>
-                              <%- include('partials/gpuCard', currentPart) %>
-                                <% } %>
+          <% if (partCategory=="gpu" ){ %>
 
-                                  <% if (partCategory=="motherboards" ){ %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/gpuCard', currentPart, build) %>
+          <% } %>
 
-                                    <%currentPart=JSON.stringify(parts[i])%>
-                                      <%- include('partials/motherboardCard', currentPart, build) %>
-                                        <% } %>
+          <% if (partCategory=="motherboards" ){ %>
+
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/motherboardCard', currentPart, build) %>
+          <% } %>
 
 
-                                          <% if (partCategory=="storage" ){ %>
-                                            <%currentPart=JSON.stringify(parts[i])%>
-                                              <%- include('partials/storageCard', currentPart, build) %>
-                                                <% } %>
+          <% if (partCategory=="storage" ){ %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/storageCard', currentPart, build) %>
+          <% } %>
 
-                                                  <% if (partCategory=="case" ){ %>
+          <% if (partCategory=="case" ){ %>
 
-                                                    <%currentPart=JSON.stringify(parts[i])%>
-                                                      <%- include('partials/caseCard', currentPart, build) %>
-                                                        <% } %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/caseCard', currentPart, build) %>
+          <% } %>
 
-                                                          <% if (partCategory=="cpucoolers" ){ %>
+          <% if (partCategory=="cpucoolers" ){ %>
 
-                                                            <%currentPart=JSON.stringify(parts[i])%>
-                                                              <%- include('partials/cpuCoolerCard', currentPart, build)
-                                                                %>
-                                                                <% } %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/cpuCoolerCard', currentPart, build)
+          %>
+          <% } %>
 
-                                                                  <% if (partCategory=="powersupplies" ){ %>
+          <% if (partCategory=="powersupplies" ){ %>
 
-                                                                    <%currentPart=JSON.stringify(parts[i])%>
-                                                                      <%- include('partials/powerSupplyCard',
-                                                                        currentPart) %>
-                                                                        <% } %>
-                                                                          <% } %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/powerSupplyCard',
+          currentPart) %>
+          <% } %>
+      <% } %>
 
 <!-- compare button form -->
   <form action="/compare" method="POST" id="compareForm">
