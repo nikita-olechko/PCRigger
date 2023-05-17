@@ -95,8 +95,6 @@ require('./routes/email_confirm')(app, Joi, userCollection, saltRounds, bcrypt);
 
 app.get("*", (req, res) => {
   res.status(404);
-  // res.send("Page not found - 404");
-  //send a prettier html 404 error
   res.render('404');
 })
 
