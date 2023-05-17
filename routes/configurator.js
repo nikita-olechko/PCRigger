@@ -31,7 +31,7 @@ module.exports = function (app, userCollection) {
 
     }
 
-    const idLength = 8;
+    const idLength = 12;
 
     app.post('/configurator', async (req, res) => {
         var existingBuild = false
@@ -128,14 +128,7 @@ module.exports = function (app, userCollection) {
             if (IDExists) {
                 newId = await generateRandomUniqueID(idLength, req)
                 console.log(newId)
-                await userCollection.updateOne(
-                    { username: userID, "favourites._id": build._id, "favourites._id": build.name },
-                    { $set: { "favourites._id": newId } },
-                    function (err, updateResult) {
-                        if (err) throw err;
-                        console.log("build updated!");
-                    }
-                );
+                build._id = newId
             }
 
 
@@ -161,9 +154,6 @@ module.exports = function (app, userCollection) {
             var build = JSON.parse(req.body.build)
             var currentBuildName = build.name
             const userID = req.session.user.username;
-            // console.log("Here is existingUser.favourites" + existingUser.favourites)
-            // console.log(existingUser.favourites.name)
-            // console.log(existingUser)
             var existingUser = await userCollection.findOne({ username: req.session.user.username });
 
             var nameExists = false;   
@@ -186,7 +176,6 @@ module.exports = function (app, userCollection) {
                     invalidName: true
                 });
                 return
-                // The name exists in existingUser.favourites
             }
 
             build.name = req.body.buildTitle
