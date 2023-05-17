@@ -86,6 +86,8 @@ require('./routes/members')(app);
 
 require('./routes/info')(app);
 
+require('./routes/comparisonPage')(app);
+
 require('./routes/prebuiltOptions.js')(app);
 
 require('./routes/email_confirm')(app, Joi, userCollection, saltRounds, bcrypt);
