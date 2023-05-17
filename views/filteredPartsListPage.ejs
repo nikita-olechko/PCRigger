@@ -14,7 +14,7 @@
             <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build}) %>
             <% } %> 
         <% if (partCategory=="gpu") { %>
-            <%- include('partials/filteringOptions/gpuFilter', {partCategory: partCategory, build:build}) %>
+            <%- include('partials/filteringOptions/gpuFilter', {partCategory: partCategory, build:build, query:query}) %>
             <% } %> 
         <% if (partCategory=="motherboards") { %>
             <%- include('partials/filteringOptions/motherboardFilter', {partCategory: partCategory, build:build}) %>
