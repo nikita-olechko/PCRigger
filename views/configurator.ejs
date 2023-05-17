@@ -261,8 +261,9 @@
                             </div>
                             <input type="hidden" name="buttonType" id="buttonTypeInput">
                         </form>
-                        <form method="post" action="/">
-                          <div class="col">
+                        <form method="post" action="/specificBuildInfo">
+                          <input type="hidden" name="build" value='<%=currentBuild%>'>
+                          <div class="col">                            
                             <button type="submit" id="getBuildInfo"
                               class="btn btn-success btn-success:hover menu_buttons button-padding general-margin configurator-button-width">
                               Build Info
