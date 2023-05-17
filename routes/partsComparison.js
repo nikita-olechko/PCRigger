@@ -4,7 +4,11 @@ router = express.Router();
 
 
 module.exports = function(app){
-    app.get('/compare', (req, res) =>{
-        res.render('comparisonPage');
+    app.post('/compare', (req, res) =>{
+        const firstComparedPart = req.body.selectedFirstPart;
+        const secondComparedPart = req.body.selectedSecondPart;
+        console.log(firstComparedPart);
+        console.log(secondComparedPart);
+        res.render('comparisonPage',{firstComparedPart: firstComparedPart, secondComparedPart: secondComparedPart});
     })
 }

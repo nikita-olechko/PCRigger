@@ -94,15 +94,56 @@
                                                                         <% } %>
                                                                           <% } %>
 
-                                                                            <!-- compare button -->
-                                                                            <div class="container">
-                                                                              <div class="row text-center">
-                                                                                <div class="col-md-8">
-                                                                                  <button type="button"
-                                                                                    class="btn btn-lg btn-primary btn-block">Compare</button>
-                                                                                </div>
-                                                                              </div>
-                                                                            </div>
+<!-- compare form -->
+  <form action="/compare" method="POST" id="compareForm">
+    <input type="hidden" name="selectedFirstPart" id="selectedFirstPart" value=''>
+    <input type="hidden" name="selectedSecondPart" id="selectedSecondPart" value=''>
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-8">
+          <button type="submit" class="btn btn-lg btn-primary btn-block">Compare</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    // Get the Compare form element
+    const compareForm = document.getElementById('compareForm');
+    const selectedFirstPart = document.getElementById('selectedFirstPart');
+    const selectedSecondPart = document.getElementById('selectedSecondPart');
+
+    // Add a submit event listener to the Compare form
+    compareForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      // Get all the checkboxes
+      const checkboxes = document.getElementsByClassName('form-check-input');
+      const selectedParts = [];
+
+      // Iterate over each checkbox
+      for (let i = 0; i < checkboxes.length; i++) {
+        // Check if the checkbox is checked
+        if (checkboxes[i].checked) {
+          // Get the part ID from the data attribute
+          const partObj = checkboxes[i].getAttribute('value');
+
+          // Add the selected part to the array
+          selectedParts.push(partObj);
+
+        }
+      }
+
+      // Pull the JSON objects (parts) out from Array
+      selectedFirstPart.value = selectedParts[0];
+      selectedSecondPart.value = selectedParts[1];
+      // console.log(selectedFirstPart.value);
+      // console.log(selectedSecondPart.value);
+
+      // Submit the form
+      compareForm.submit();
+    });
+  </script>
 
     </main>
     <%- include('partials/iconbar') %>

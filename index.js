@@ -86,7 +86,7 @@ require('./routes/members')(app);
 
 require('./routes/info')(app);
 
-require('./routes/comparisonPage')(app);
+require('./routes/partsComparison')(app);
 
 require('./routes/prebuiltOptions.js')(app);
 
