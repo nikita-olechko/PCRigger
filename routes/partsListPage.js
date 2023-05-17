@@ -39,6 +39,7 @@ module.exports = function (app) {
     var page = parseInt(pageExists);
     const perPage = 15;
     const skip = (page - 1) * perPage;
+    let totalParts
 
     const partCategory = req.body.formId;
     // console.log("Passed in part type: " + partCategory);
@@ -322,6 +323,8 @@ module.exports = function (app) {
 
   app.post('/filterParts', async (req, res) => {
     console.log("Filter Page")
+    let query
+    let totalParts
     let searchFunction
     const pageExists = req.body.page ? req.body.page : 1;
     var page = parseInt(pageExists);
@@ -329,27 +332,29 @@ module.exports = function (app) {
     const skip = (page - 1) * perPage;
 
     const partCategory = req.body.formId;
-    console.log(req.body.formId)
+    // console.log(req.body.formId)
     // console.log("Passed in part type: " + partCategory);
 
-    const withBuild = async function(result, partCategory, page, totalParts) {
+    const withBuild = async function(result, partCategory, page, totalParts, query) {
     // console.log(req.body.build)
-      res.render('partsListPage', {
+      res.render('filteredPartsListPage', {
         parts: result,
         partCategory: partCategory,
         build: req.body.build,
         page: page,
-        totalParts: totalParts
+        totalParts: totalParts,
+        query: query
       })
     }
   
-    const withoutBuild = async function(result, partCategory, page, totalParts) {
-      res.render('partsListPage', {
+    const withoutBuild = async function(result, partCategory, page, totalParts, query) {
+      res.render('filteredPartsListPage', {
         parts: result,
         partCategory: partCategory,
         build: null,
         page: page,
-        totalParts: totalParts
+        totalParts: totalParts,
+        query: query
       })
     }
 
@@ -367,36 +372,38 @@ module.exports = function (app) {
     };
 
     if (req.body.build) {
-      console.log("there is a build")
+      // console.log("there is a build")
       currentBuild = JSON.parse(req.body.build)
       searchFunction = withBuild
     } else {
       searchFunction = withoutBuild
     }
 
+    if (req.body.query) {
+      // console.log("query exists")
+      query = JSON.parse(req.body.query)
+    } 
+
     switch (partCategory) {
       case 'gpu':
-        let query
         const minimumMemorySize = req.body.memSize || 0;
-
-        if (req.body.bus) {
-          query = {
+        if (!req.body.query) {
+          if (req.body.bus) {query = {
             memSize: { $gte: parseInt(minimumMemorySize) },
             bus: req.body.bus}
         } else {
-          query ={
+          query = {
             memSize: { $gte: parseInt(minimumMemorySize) }
           }
         }
-        console.log(query)
-
+        }
       gpuCollection.countDocuments(query, async function(err, count) {
         if (err) throw err;
         totalParts = count;  
-        console.log(count)      
+        // console.log(count)      
         results = await gpuFilteredSearch(query, skip, perPage)
-        console.log(partCategory, page, totalParts, results.length)
-        searchFunction(results, partCategory, page, totalParts);
+        // console.log(partCategory, page, totalParts, results.length)
+        searchFunction(results, partCategory, page, totalParts, query);
       })
   
         break;
