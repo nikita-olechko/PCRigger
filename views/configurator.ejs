@@ -237,9 +237,7 @@
                     </div>
                 </div>
                     <div class="margin-bottom-config-buttons">
-                        <%let currentBuild=JSON.stringify(builds)%>
-                        <%console.log("Current Build Is" + currentBuild)%>
-                        
+                        <%let currentBuild=JSON.stringify(builds)%>                        
                         <form method="post" action="/addBuildToProfile" id="addBuildDivID">
                             <br>
                             <input type='text' class="form-control title-margin" id='buildTitle' name='buildTitle' required minlength="1"
@@ -248,14 +246,14 @@
                                 <div class="col">
                                     <input type="hidden" name="build" value='<%=currentBuild%>'>
                                     <button type="submit" id="addBuildToProfileButton" onclick="setButtonTypeToProfile()"
-                                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding">
+                                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding configurator-button-width">
                                         Add Build To Profile
                                     </button>
                                 </div>
                                 <% if (editBuild==true) { %>
                                     <div class="col">
                                         <button type="submit" id="saveBuildToProfile" onclick="setButtonTypeToSave()"
-                                            class="btn btn-warning btn-warning:hover menu_buttons button-padding general-margin">
+                                            class="btn btn-warning btn-warning:hover menu_buttons button-padding general-margin configurator-button-width">
                                             Save Build
                                         </button>
                                     </div>
@@ -263,6 +261,12 @@
                             </div>
                             <input type="hidden" name="buttonType" id="buttonTypeInput">
                         </form>
+                        <div class="col">
+                          <button type="submit" id="getBuildInfo"
+                            class="btn btn-success btn-success:hover menu_buttons button-padding general-margin configurator-button-width">
+                            Build Info
+                          </button>
+                        </div>
                     </div>
                     
                     <script>

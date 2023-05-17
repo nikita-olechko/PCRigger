@@ -48,6 +48,14 @@ h6 {
     background-color: #8df676;
 }
 
+.btn-success:hover {
+    background-color: #1d5b0f;
+}
+
+.configurator-button-width {
+    width: 220px;
+}	
+
 .partTitleButton {
     color: black !important;
     font-weight: bold !important;
