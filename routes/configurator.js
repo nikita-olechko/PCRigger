@@ -123,9 +123,11 @@ module.exports = function (app, userCollection) {
             }
 
             const IDExists = existingUser.favourites.some((item) => item._id === build._id);
+            console.log("IDExists" + IDExists)
             var newId = ""
             if (IDExists) {
-                newId = generateRandomUniqueID(idLength, req)
+                newId = await generateRandomUniqueID(idLength, req)
+                console.log(newId)
                 await userCollection.updateOne(
                     { username: userID, "favourites._id": build._id, "favourites._id": build.name },
                     { $set: { "favourites._id": newId } },
