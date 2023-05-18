@@ -30,24 +30,27 @@ module.exports = function (app, userCollection) {
             // variable to store the AI's response
             var buildDescription;
             // get the current user
-            const currentUser = req.session.user;
-            var buildName = build.name;
-            console.log(buildName);
+            var currentUser = req.session.user;
+            var buildTitle = build.name;
+            console.log(buildTitle);
 
 
             // check if the buildDescription already exists in the user's document in the mongoDB, if it does, use that, if not, make the API call to the AI
-            if (currentUser[buildName]) {
-                buildDescription = currentUser[buildName];
+            if (currentUser[buildTitle]) {
+                buildDescription = currentUser[buildTitle];
                 console.log("Build description already exists in the database");
             } else {
                 // if user doesn't have a build description, make the API call to the AI
                 // then insert the build description into the user's document in the mongoDB
+                console.log("AI has been propmted to generate a build description, pls wait...");
                 buildDescription = await makeAPIRequest(promptRequest);
                 await userCollection.updateOne(
                     { username: currentUser.username },
-                    { $set: { [buildName]: buildDescription } });
-                console.log("AI has been propmted to generate a build description");
+                    { $set: { [buildTitle]: buildDescription } });
             }
+
+            // Refresh Session with freshly updated user from MongoDB
+            currentUser = await userCollection.findOne({ username: req.session.user.username });
 
             res.render('specificBuildInfo', {
                 build: build,
