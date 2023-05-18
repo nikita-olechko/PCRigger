@@ -19,8 +19,7 @@ module.exports = function (app, userCollection) {
             const cases = Array.isArray(await build.parts.case) ? await build.parts.case : [await build.parts.case];
             const cpuCoolers = Array.isArray(await build.parts.cpuCooler) ? await build.parts.cpuCooler : [await build.parts.cpuCooler];
 
-            // give me an array and push the parts into it
-            // then console.log the array
+           // An array to accumulate all the parts in the build
             const parts = [];
             parts.push(cpus, gpus, memory, storage, motherboards, powerSupply, cases, cpuCoolers);
 
