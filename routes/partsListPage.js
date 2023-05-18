@@ -28,11 +28,11 @@ const caseCollection = database.db(mongodb_database).collection('Cases');
 const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
 
 /**
-  Performs a filtered search in the GPU collection.
-  @param {object} query - The search query object used to filter the GPU collection.
-  @param {number} skip - The number of documents to skip in the search results.
-  @param {number} perpage - The maximum number of documents to return per page.
-  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+Performs a filtered search in the GPU collection.
+@param {object} query - The search query object used to filter the GPU collection.
+@param {number} skip - The number of documents to skip in the search results.
+@param {number} perpage - The maximum number of documents to return per page.
+@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const gpuFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
@@ -48,11 +48,11 @@ const gpuFilteredSearch = function (query, skip, perpage) {
 };
 
 /**
-  Performs a filtered search in the memory collection.
-  @param {object} query - The search query object used to filter the memory collection.
-  @param {number} skip - The number of documents to skip in the search results.
-  @param {number} perpage - The maximum number of documents to return per page.
-  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+Performs a filtered search in the memory collection.
+@param {object} query - The search query object used to filter the memory collection.
+@param {number} skip - The number of documents to skip in the search results.
+@param {number} perpage - The maximum number of documents to return per page.
+@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const memoryFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
@@ -68,12 +68,9 @@ const memoryFilteredSearch = function (query, skip, perpage) {
 };
 
 /**
-  Performs a filtered search in the memory collection.
-  @param {object} currentBuild - An object of a user's currentBuild.
-  @param {object} query - The search query object used to filter the memory collection.
-  @param {number} skip - The number of documents to skip in the search results.
-  @param {number} perpage - The maximum number of documents to return per page.
-  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+Performs a filtered search in the memory collection.
+@param {object} currentBuild - An object of a user's currentBuild.
+@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const determineMemoryCompatibility = async function(currentBuild) {
   return new Promise((resolve, reject) => {
@@ -87,11 +84,11 @@ const determineMemoryCompatibility = async function(currentBuild) {
 }
 
 /**
-  Performs a filtered search in the CPU collection.
-  @param {object} query - The search query object used to filter the CPU collection.
-  @param {number} skip - The number of documents to skip in the search results.
-  @param {number} perpage - The maximum number of documents to return per page.
-  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+Performs a filtered search in the CPU collection.
+@param {object} query - The search query object used to filter the CPU collection.
+@param {number} skip - The number of documents to skip in the search results.
+@param {number} perpage - The maximum number of documents to return per page.
+@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const cpuFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
@@ -107,9 +104,9 @@ const cpuFilteredSearch = function (query, skip, perpage) {
 };
 
 /**
-  Determines the CPU compatibility of a current build.
-  @param {object} currentBuild - An object of a user's currentBuild.
-  @returns {Promise} - A Promise that resolves with the compatible socket or rejects with an error.
+Determines the CPU compatibility of a current build.
+@param {object} currentBuild - An object of a user's currentBuild.
+@returns {Promise} - A Promise that resolves with the compatible socket or rejects with an error.
 */
 const determineCpuCompatibility = async function(currentBuild) {
   return new Promise((resolve, reject) => {
@@ -131,11 +128,11 @@ const determineCpuCompatibility = async function(currentBuild) {
 })}
 
 /**
-  Performs a filtered search in the motherboard collection.
-  @param {object} query - The search query object used to filter the motherboard collection.
-  @param {number} skip - The number of documents to skip in the search results.
-  @param {number} perpage - The maximum number of documents to return per page.
-  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+Performs a filtered search in the motherboard collection.
+@param {object} query - The search query object used to filter the motherboard collection.
+@param {number} skip - The number of documents to skip in the search results.
+@param {number} perpage - The maximum number of documents to return per page.
+@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const motherboardFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
@@ -150,6 +147,11 @@ const motherboardFilteredSearch = function (query, skip, perpage) {
   });
 };
 
+/**
+Determines the motherboard compatibility of a current build.
+@param {object} currentBuild - An object of a user's currentBuild.
+@returns {Promise} - A Promise that resolves with the compatible motherboard sizes or socket, or rejects with an error.
+*/
 const determineMotherboardCompatibility = async function(currentBuild) {
   return new Promise((resolve, reject) => {
     if (currentBuild.parts.case && currentBuild.parts.cpu) {
@@ -177,6 +179,13 @@ const determineMotherboardCompatibility = async function(currentBuild) {
   })
 }
 
+/**
+Performs a filtered search in the storage collection.
+@param {object} query - The search query object used to filter the storage collection.
+@param {number} skip - The number of documents to skip in the search results.
+@param {number} perpage - The maximum number of documents to return per page.
+@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+*/
 const storageFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
     storageCollection.find(query)
@@ -190,6 +199,13 @@ const storageFilteredSearch = function (query, skip, perpage) {
   });
 };
 
+/**
+Performs a filtered search in the case collection.
+@param {object} query - The search query object used to filter the case collection.
+@param {number} skip - The number of documents to skip in the search results.
+@param {number} perpage - The maximum number of documents to return per page.
+@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+*/
 const caseFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
     caseCollection.find(query)
@@ -203,6 +219,11 @@ const caseFilteredSearch = function (query, skip, perpage) {
   });
 };
 
+/**
+Determines the case compatibility for a given current build.
+@param {object} currentBuild - An object of a user's currentBuild.
+@returns {Promise} - A Promise that resolves with the case compatibility or rejects with an error.
+*/
 const determineCaseCompatibility = async function(currentBuild) {
   return new Promise((resolve, reject) => {
     motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
@@ -212,6 +233,13 @@ const determineCaseCompatibility = async function(currentBuild) {
   })
 }
 
+/**
+Performs a filtered search in the cpuCooler collection.
+@param {object} query - The search query object used to filter the cpuCooler collection.
+@param {number} skip - The number of documents to skip in the search results.
+@param {number} perpage - The maximum number of documents to return per page.
+@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+*/
 const cpuCoolerFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
     cpuCoolerCollection.find(query)
@@ -225,6 +253,11 @@ const cpuCoolerFilteredSearch = function (query, skip, perpage) {
   });
 };
 
+/**
+Determines the CPU cooler compatibility for a given current build.
+@param {object} currentBuild - An object of a user's currentBuild..
+@returns {Promise} - A Promise that resolves with the CPU cooler compatibility or rejects with an error.
+*/
 const determineCpuCoolerCompatibility = async function(currentBuild) {
   return new Promise((resolve, reject) => {
     if (currentBuild.parts.cpu && currentBuild.parts.motherboard) {
@@ -254,6 +287,13 @@ const determineCpuCoolerCompatibility = async function(currentBuild) {
   })
 }
 
+/**
+Performs a filtered search in the power supply collection.
+@param {object} query - The search query object used to filter the power supply collection.
+@param {number} skip - The number of documents to skip in the search results.
+@param {number} perpage - The maximum number of documents to return per page.
+@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+*/
 const powerSupplyFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
     powerSupplyCollection.find(query)
@@ -275,6 +315,27 @@ module.exports = function (app) {
   });
 
   app.post('/parts', async (req, res) => {
+  /**
+  Renders the search results page with the filtered parts list.
+  @param {Array} result - The array of search results.
+  @param {string} partCategory - The category of the parts being searched.
+  @param {number} page - The current page number.
+  @param {number} totalParts - The total number of parts found.
+  @param {object} query - The search query object.
+  @param {object} build - Object of the users build.
+ */
+    const renderSearchFunction = async function(result, partCategory, page, totalParts, query, build) {
+      // console.log(req.body.build)
+        res.render('filteredPartsListPage', {
+          parts: result,
+          partCategory: partCategory,
+          build: build,
+          page: page,
+          totalParts: totalParts,
+          query: query
+        })
+      }
+
     console.log("Filter Page")
     let query
     let defaultQuery
@@ -284,39 +345,14 @@ module.exports = function (app) {
     var page = parseInt(pageExists);
     const perPage = 15;
     const skip = (page - 1) * perPage;
+    searchFunction = renderSearchFunction;
 
     const partCategory = req.body.formId;
     // console.log(req.body.formId)
     // console.log("Passed in part type: " + partCategory);
 
-    const withBuild = async function(result, partCategory, page, totalParts, query) {
-    // console.log(req.body.build)
-      res.render('filteredPartsListPage', {
-        parts: result,
-        partCategory: partCategory,
-        build: req.body.build,
-        page: page,
-        totalParts: totalParts,
-        query: query
-      })
-    }
-  
-    const withoutBuild = async function(result, partCategory, page, totalParts, query) {
-      res.render('filteredPartsListPage', {
-        parts: result,
-        partCategory: partCategory,
-        build: null,
-        page: page,
-        totalParts: totalParts,
-        query: query
-      })
-    }
-
     if (req.body.build) {
       currentBuild = JSON.parse(req.body.build)
-      searchFunction = withBuild
-    } else {
-      searchFunction = withoutBuild
     }
 
     if (req.body.query) {
@@ -343,7 +379,7 @@ module.exports = function (app) {
         if (err) throw err;
         totalParts = count;     
         results = await gpuFilteredSearch(query, skip, perPage)
-        searchFunction(results, partCategory, page, totalParts, query);
+        searchFunction(results, partCategory, page, totalParts, query , req.body.build);
       })
   
         break;
@@ -372,7 +408,7 @@ module.exports = function (app) {
           if (err) throw err;
           totalParts = count;
           results = await memoryFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query);
+          searchFunction(results, partCategory, page, totalParts, query, req.body.build);
         });
 
         break;
@@ -399,7 +435,7 @@ module.exports = function (app) {
         if (err) throw err;
         totalParts = count;
         results = await cpuFilteredSearch(query, skip, perPage);
-        searchFunction(results, partCategory, page, totalParts, query)
+        searchFunction(results, partCategory, page, totalParts, query, req.body.build)
       })
         break;
 
@@ -429,7 +465,7 @@ module.exports = function (app) {
           if (err) throw err;
           totalParts = count;
           results = await motherboardFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query);
+          searchFunction(results, partCategory, page, totalParts, query, req.body.build);
         });
         break;
 
@@ -444,7 +480,7 @@ module.exports = function (app) {
           if (err) throw err;
           totalParts = count;
           results = await storageFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query);
+          searchFunction(results, partCategory, page, totalParts, query, req.body.build);
         });
           break;
 
@@ -462,7 +498,7 @@ module.exports = function (app) {
           if (err) throw err;
           totalParts = count;
           results = await caseFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query);
+          searchFunction(results, partCategory, page, totalParts, query, req.body.build);
         });
         break;
 
@@ -488,7 +524,7 @@ module.exports = function (app) {
         totalParts = count;
         results = await cpuCoolerFilteredSearch(query, skip, perPage);
         console.log(results)
-        searchFunction(results, partCategory, page, totalParts, query);
+        searchFunction(results, partCategory, page, totalParts, query, req.body.build);
       });
         break;
 
@@ -505,7 +541,7 @@ module.exports = function (app) {
         if (err) throw err;
         totalParts = count;     
         results = await powerSupplyFilteredSearch(query, skip, perPage)
-        searchFunction(results, partCategory, page, totalParts, query);
+        searchFunction(results, partCategory, page, totalParts, query, req.body.build);
       })
         break;
 
