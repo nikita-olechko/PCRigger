@@ -450,6 +450,19 @@ module.exports = function (app) {
       });
     };
 
+    const powerSupplyFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve, reject) => {
+        powerSupplyCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({ powerOutput: -1 })
+          .toArray(function (err, result) {
+            if (err) reject(err);
+            resolve(result);
+          });
+      });
+    };
+
     if (req.body.build) {
       // console.log("there is a build")
       currentBuild = JSON.parse(req.body.build)
@@ -596,6 +609,20 @@ module.exports = function (app) {
         break;
 
       case 'powersupplies':
+        const minPowerOutput = req.body.powerOutput || 0;
+        const desiredRating = req.body.rating ? [req.body.rating] : ["Gold", "Platinum", "Titanium"];
+        if (!req.body.query) {
+          {query = {
+            powerOutput: { $gte: parseInt(minPowerOutput) },
+            rating: {$in: desiredRating},
+        }}
+      }
+      powerSupplyCollection.countDocuments(query, async function(err, count) {
+        if (err) throw err;
+        totalParts = count;     
+        results = await powerSupplyFilteredSearch(query, skip, perPage)
+        searchFunction(results, partCategory, page, totalParts, query);
+      })
         break;
 
       default:
