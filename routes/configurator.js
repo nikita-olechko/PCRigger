@@ -182,12 +182,19 @@ module.exports = function (app, userCollection) {
 
             await userCollection.updateOne(
                 { username: userID, "favourites._id": build._id },
-                { $set: { "favourites.$": build } },
+                { $set: { "favourites.$": build }},
+
+                // To rename the build description field that matches the build name
+                // when a user renames their build, in order to preserve description
+                // Note: this is a field that is not nested in 'favourites'
+                // {$rename: { [currentBuildName]: build.name }},
+
                 function (err, updateResult) {
                     if (err) throw err;
                     console.log("build updated!");
                 }
             );
+
 
             res.render("configurator", {
                 builds: build,
