@@ -35,7 +35,7 @@ h6 {
     color: var(--text-color-white);
 }
 
-.btn-secondary{
+.btn-secondary {
     background-color: var(--subtext-color-light-grey);
     color: var(--text-color-white);
 }
@@ -54,7 +54,7 @@ h6 {
 
 .configurator-button-width {
     width: 220px;
-}	
+}
 
 .partTitleButton {
     color: black !important;
@@ -184,8 +184,6 @@ h6 {
     max-width: 200px;
     margin-left: 2px;
     border-radius: 2px;
-
-
 }
 
 .saved-build-container-changeName .edit-icon {
@@ -232,6 +230,8 @@ h6 {
     border: none;
     background: none;
 }
+
+
 
 .bottom-right-image-changeName {
     width: 20px;
@@ -362,6 +362,23 @@ h6 {
     border: none;
     border-radius: 7px;
 }
+
+/* .checkbox_container {
+    margin-bottom: 1vh;
+}
+
+
+.checkbox_container label {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox_container input[type="checkbox"],
+.checkbox_container input[type="radio"] {
+    position: relative;
+    top: 2px;
+    margin-left: 2vh;
+} */
 
 @keyframes save-notification {
     0% {
