@@ -323,6 +323,7 @@ module.exports = function (app) {
   app.post('/filterParts', async (req, res) => {
     console.log("Filter Page")
     let query
+    let defaultQuery
     let totalParts
     let searchFunction
     const pageExists = req.body.page ? req.body.page : 1;
@@ -370,9 +371,6 @@ module.exports = function (app) {
       });
     };
 
-    const determineGpuCompatibility = async function() { 
-    }
-
     const memoryFilteredSearch = function (query, skip, perpage) {
       return new Promise((resolve, reject) => {
         memoryCollection.find(query)
@@ -409,6 +407,26 @@ module.exports = function (app) {
           });
       });
     };
+
+    const determineCpuCompatibility = async function(currentBuild) {
+      return new Promise((resolve, reject) => {
+        if (currentBuild.parts.motherboard) {
+          motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+            if (err) throw err;
+            console.log(result)
+            compatibleWith = result[0].socket
+            resolve(compatibleWith)
+          })
+      } if (currentBuild.parts.cpuCooler) {
+        cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, result) {
+          if (err) throw err;
+          console.log(result)
+          compatibleWith = result[0].socket
+          resolve(compatibleWith)
+      })
+    }
+  })}
+    
 
     const motherboardFilteredSearch = function (query, skip, perpage) {
       return new Promise((resolve, reject) => {
@@ -515,7 +533,7 @@ module.exports = function (app) {
       case 'ram':
         const minimumRamSize = req.body.memSize || 2;
         const desiredGen = req.body.gen ? [req.body.gen] : ["DDR4", "DDR5"];
-        const defaultQuery = {capacity: { $gte: parseInt(minimumRamSize) }, gen: { $in: desiredGen }};
+        defaultQuery = {capacity: { $gte: parseInt(minimumRamSize) }, gen: { $in: desiredGen }};
         if (!req.body.query && !req.body.build) {
             query = defaultQuery
           }
@@ -544,11 +562,17 @@ module.exports = function (app) {
       case 'cpu':
         const minimumCoreCount = req.body.cores || 0;
         const maximumTdp = req.body.tdp || 500;
-        if (!req.body.query) {
-            query = {
-              cores: { $gte: parseInt(minimumCoreCount) },
-              TDP: { $lte: parseInt(maximumTdp)},
-            };
+        defaultQuery = {cores: { $gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}}
+        if (!req.body.query && !req.body.build) {
+            query = defaultQuery;
+        }
+        if (!req.body.query && req.body.build) {
+          if (currentBuild.parts.motherboard || currentBuild.parts.cpuCooler){
+            compatibility = await determineCpuCompatibility(currentBuild)
+            query = {cores: {$gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}, socket: compatibility}
+          } else {
+            query = defaultQuery
+          }
         }
       cpuCollection.countDocuments(query, async function (err, count) {
         if (err) throw err;
