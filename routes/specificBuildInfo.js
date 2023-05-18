@@ -19,31 +19,33 @@ module.exports = function (app, userCollection) {
             const cases = Array.isArray(await build.parts.case) ? await build.parts.case : [await build.parts.case];
             const cpuCoolers = Array.isArray(await build.parts.cpuCooler) ? await build.parts.cpuCooler : [await build.parts.cpuCooler];
 
-
-            // console.log("CPUS: " + cpus)
-            // console.log("memory: " + memory)
-
             // give me an array and push the parts into it
             // then console.log the array
             const parts = [];
             parts.push(cpus, gpus, memory, storage, motherboards, powerSupply, cases, cpuCoolers);
-            // console.log(parts);
 
             // Custom prompt for the AI
             const promptRequest = (`Tell me what this build suited for, be detailed: ${parts} `);
 
             // variable to store the AI's response
             var buildDescription;
-
             // get the current user
             const currentUser = req.session.user;
+            var buildName = build.name;
+            console.log(buildName);
+
 
             // check if the buildDescription already exists in the user's document in the mongoDB, if it does, use that, if not, make the API call to the AI
-            if (currentUser.buildDescription) {
-                buildDescription = currentUser.buildDescription;
+            if (currentUser[buildName]) {
+                buildDescription = currentUser[buildName];
                 console.log("Build description already exists in the database");
             } else {
+                // if user doesn't have a build description, make the API call to the AI
+                // then insert the build description into the user's document in the mongoDB
                 buildDescription = await makeAPIRequest(promptRequest);
+                await userCollection.updateOne(
+                    { username: currentUser.username },
+                    { $set: { [buildName]: buildDescription } });
                 console.log("AI has been propmted to generate a build description");
             }
 
