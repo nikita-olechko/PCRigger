@@ -1,5 +1,6 @@
 var express = require('express');
 router = express.Router;
+const makeAPIRequest = require('./OpenAIcall');
 
 
 module.exports = function (app, userCollection) {
@@ -19,8 +20,19 @@ module.exports = function (app, userCollection) {
             const cpuCoolers = Array.isArray(await build.parts.cpuCooler) ? await build.parts.cpuCooler : [await build.parts.cpuCooler];
 
 
-            console.log("CPUS: " + cpus)
-            console.log("memory: " + memory)
+            // console.log("CPUS: " + cpus)
+            // console.log("memory: " + memory)
+
+            // give me an array and push the parts into it
+            // then console.log the array
+            const parts = [];
+            parts.push(cpus, gpus, memory, storage, motherboards, powerSupply, cases, cpuCoolers);
+            console.log(parts);
+
+            const buildDescription = await makeAPIRequest(`Tell me what this build suited for, be detailed: ${parts} `);
+            console.log(buildDescription);
+
+
 
             res.render('specificBuildInfo', {
                 build: build,
@@ -31,7 +43,8 @@ module.exports = function (app, userCollection) {
                 motherboards: motherboards,
                 powerSupply: powerSupply,
                 cases: cases,
-                cpuCoolers: cpuCoolers
+                cpuCoolers: cpuCoolers,
+                buildDescription: buildDescription
             });
         } catch (error) {
             console.error('Error retrieving data from MongoDB:', error);
