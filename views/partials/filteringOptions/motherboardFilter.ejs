@@ -23,11 +23,11 @@ if (query) {
 
                 <br>
 
-                <input class="form-check-input" type="radio" name="pcieGeneration" value="PCIe 4.0" <% if (query){ if (query.pcieGeneration['$in'].length == 1 && query.pcieGeneration['$in'][0] === 'PCIe 4.0') { %> checked <% }}%>>
-                <label>PCIe 4.0</label>
+                <input class="form-check-input" type="radio" name="pcieGeneration" value="PCIe 5.0" <% if (query){ if (query.pcieGeneration['$in'].length == 1 && query.pcieGeneration['$in'][0] === 'PCIe 5.0') { %> checked <% }}%>>
+                <label>PCIe 5.0</label>
 
-                <input class="form-check-input" type="radio" name="pcieGeneration" value="PCIe 3.0" <% if (query){ if (query.pcieGeneration['$in'].length == 1 && query.pcieGeneration['$in'][0] === 'PCIe 3.0') { %> checked <% }} %>>
-                <label>PCIe 3.0</label><br>
+                <input class="form-check-input" type="radio" name="pcieGeneration" value="PCIe 4.0" <% if (query){ if (query.pcieGeneration['$in'].length == 1 && query.pcieGeneration['$in'][0] === 'PCIe 4.0') { %> checked <% }} %>>
+                <label>PCIe 4.0</label><br>
 
                 <br>
                 <input type="submit" value='Apply Filters' class="form-control btn-primary"/>
