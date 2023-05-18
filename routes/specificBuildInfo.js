@@ -22,7 +22,7 @@ module.exports = function (app, userCollection) {
             console.log("CPUS: " + cpus)
             console.log("memory: " + memory)
 
-            res.render('info', {
+            res.render('specificBuildInfo', {
                 build: build,
                 cpus: cpus,
                 gpus: gpus,

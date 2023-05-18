@@ -185,6 +185,18 @@
                     </div>
                 </div>
             </div>
+            <div id="buildInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
+                <div class="container">
+                    <div class="category-toggle" data-toggle="collapse" data-target="#buildInfo" aria-expanded="false"
+                        aria-controls="categoryList">
+                        <h2>Building Information</h2>
+                        <span class="collapse-icon">▼</span>
+                    </div>
+                    <div id="buildInfo" class="collapse">
+                        <h3>hello</h3>
+                    </div>
+                </div>
+            </div>
 
 
 
@@ -207,14 +219,11 @@
                 $('.category-toggle').on('click', function () {
                     $(this).toggleClass('collapsed');
                     if ($(this).hasClass('collapsed')) {
-                        $(this).removeClass('expanded');
                         $(this).find('.collapse-icon').css('color', 'green');
-                        $(this).removeClass('collapsed');
 
                     } else {
                         $(this).addClass('expanded');
                         $(this).find('.collapse-icon').css('color', 'red');
-                        $(this).removeClass('expanded');
                     }
                 });
             });
