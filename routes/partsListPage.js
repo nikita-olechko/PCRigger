@@ -410,6 +410,19 @@ module.exports = function (app) {
       });
     };
 
+    
+    const storageFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve, reject) => {
+        storageCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({diskMark: -1})
+          .toArray(function (err, result) {
+            if (err) reject(err);
+            resolve(result);
+          });
+      });
+    };
 
     if (req.body.build) {
       // console.log("there is a build")
@@ -505,12 +518,23 @@ module.exports = function (app) {
           if (err) throw err;
           totalParts = count;
           results = await motherboardFilteredSearch(query, skip, perPage);
-          console.log(results)
           searchFunction(results, partCategory, page, totalParts, query);
         });
         break;
 
       case 'storage':
+        const desiredCapacity = req.body.diskCapacity || 0;
+        if (!req.body.query) {
+            query = {
+              diskCapacity: { $gte: parseInt(desiredCapacity) },
+            };
+          }
+        storageCollection.countDocuments(query, async function(err, count) {
+          if (err) throw err;
+          totalParts = count;
+          results = await storageFilteredSearch(query, skip, perPage);
+          searchFunction(results, partCategory, page, totalParts, query);
+        });
         break;
 
       case 'case':
