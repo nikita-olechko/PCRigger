@@ -11,7 +11,7 @@
             <%- include('partials/filteringOptions/memoryFilter', {partCategory: partCategory, build:build, query:query}) %>
             <% } %> 
         <% if (partCategory=="cpu") { %>
-            <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build}) %>
+            <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build, query:query}) %>
             <% } %> 
         <% if (partCategory=="gpu") { %>
             <%- include('partials/filteringOptions/gpuFilter', {partCategory: partCategory, build:build, query:query}) %>

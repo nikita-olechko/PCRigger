@@ -384,6 +384,19 @@ module.exports = function (app) {
       });
     };
 
+    const cpuFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve, reject) => {
+        cpuCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({cpuMark: -1})
+          .toArray(function (err, result) {
+            if (err) reject(err);
+            resolve(result);
+          });
+      });
+    };
+
 
     if (req.body.build) {
       // console.log("there is a build")
@@ -443,6 +456,27 @@ module.exports = function (app) {
         break;
 
       case 'cpu':
+        const minimumCoreCount = req.body.cores || 0;
+        const maximumTdp = req.body.tdp || 500;
+        if (!req.body.query) {
+          if (req.body.bus) {
+            query = {
+              cores: { $gte: parseInt(minimumCoreCount) },
+              TDP: { $lte: parseInt(maximumTdp)}
+            };
+          } else {
+            query = {
+              cores: { $gte: parseInt(minimumCoreCount) },
+              TDP: { $lte: parseInt(maximumTdp)}
+            };
+          }
+        }
+      cpuCollection.countDocuments(query, async function (err, count) {
+        if (err) throw err;
+        totalParts = count;
+        results = await cpuFilteredSearch(query, skip, perPage);
+        searchFunction(results, partCategory, page, totalParts, query)
+      })
         break;
 
       case 'motherboards':
