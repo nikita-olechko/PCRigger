@@ -5,8 +5,8 @@ if (query) {
     query = JSON.parse(query)
     console.log(query)
     if (query.capacity) {
-    memSizeValue = parseInt(query.capacity['$gte'])
-}
+        memSizeValue = parseInt(query.capacity['$gte'])
+    }
 }
 %>
 
@@ -19,8 +19,8 @@ if (query) {
                 <input type="hidden" value='<%= build%>' name="build">
                 <input type="hidden" value='<%= partCategory%>' name="formId">
 
-                <label for="memSize">Capacity: <span id="memSizeValue"><%=memSizeValue%> GB</span></label><br>
-                <input class="" type="range" min="2" max="20" step="2" id="memSize" name="memSize" value='<%=memSizeValue%>'>
+                <label for="memSize">Capacity: <span id="memSizeValue"><%=memSizeValue%> GB or more</span></label><br>
+                <input class="" type="range" min="2" max="32" step="2" id="memSize" name="memSize" value='<%=memSizeValue%>'>
 
                 <br>
 

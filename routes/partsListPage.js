@@ -81,7 +81,6 @@ module.exports = function (app) {
         })
         })
       ;
-      
         break;
 
       case 'ram':
@@ -387,16 +386,15 @@ module.exports = function (app) {
       });
     };
 
-    const determineMemoryCompatibility = async function() {
-      currentBuild = JSON.parse(req.body.build)
-      if (currentBuild.parts.motherboard) {
+    const determineMemoryCompatibility = async function(currentBuild) {
+      return new Promise((resolve, reject) => {
         motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
           if (err) throw err;
-          return result[0].supportedRamGeneration[0]
+          console.log(result)
+          compatibleWith = result[0].supportedRamGeneration
+          resolve(compatibleWith)
         })
-      } else {
-        return {}
-      }
+      })
     }
 
     const cpuFilteredSearch = function (query, skip, perpage) {
@@ -515,15 +513,25 @@ module.exports = function (app) {
         break;
 
       case 'ram':
-        const compatibility = await determineMemoryCompatibility()
-        const minimumRamSize = req.body.capacity || 0;
+        const minimumRamSize = req.body.memSize || 2;
         const desiredGen = req.body.gen ? [req.body.gen] : ["DDR4", "DDR5"];
-        if (!req.body.query) {
+        const defaultQuery = {capacity: { $gte: parseInt(minimumRamSize) }, gen: { $in: desiredGen }};
+        if (!req.body.query && !req.body.build) {
+            query = defaultQuery
+          }
+        if (!req.body.query && req.body.build) {
+          if (currentBuild.parts.motherboard) {
+            compatibility = await determineMemoryCompatibility(currentBuild)
+            console.log(compatibility)
             query = {
               capacity: { $gte: parseInt(minimumRamSize) },
-              gen: { $in: desiredGen },
-            };
+              gen: {$in: compatibility}, 
+            }
+          } if (!currentBuild.parts.motherboard) {
+            query = defaultQuery
           }
+          }
+
         memoryCollection.countDocuments(query, async function(err, count) {
           if (err) throw err;
           totalParts = count;
