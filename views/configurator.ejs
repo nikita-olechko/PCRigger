@@ -132,34 +132,6 @@
                 <hr>
                 <div class=" row">
                                 <div class="col">
-<<<<<<< HEAD
-                                    <input type="hidden" name="build" value='<%=currentBuild%>'>
-                                    <button type="submit" id="addBuildToProfileButton" onclick="setButtonTypeToProfile()"
-                                        class="btn btn-primary btn-primary:hover menu_buttons general-margin button-padding configurator-button-width">
-                                        Add Build To Profile
-                                    </button>
-                                </div>
-                                <% if (editBuild==true) { %>
-                                    <div class="col">
-                                        <button type="submit" id="saveBuildToProfile" onclick="setButtonTypeToSave()"
-                                            class="btn btn-warning btn-warning:hover menu_buttons button-padding general-margin configurator-button-width">
-                                            Save Build
-                                        </button>
-                                    </div>
-                                    <% } %>
-                            </div>
-                            <input type="hidden" name="buttonType" id="buttonTypeInput">
-                        </form>
-                        <form method="post" action="/specificBuildInfo">
-                          <input type="hidden" name="build" value='<%=currentBuild%>'>
-                          <div class="col">                            
-                            <button type="submit" id="getBuildInfo"
-                              class="btn btn-success btn-success:hover menu_buttons button-padding configurator-button-width general-margin">
-                              Build Info
-                            </button>
-                          </div>
-                        </form>
-=======
                                   <h5>Memory</h5>
                                   <div>
                                     <% if (builds.parts.ram !=null) { %>
@@ -182,7 +154,6 @@
                                       <input type="submit" value="+" class="btn btn-success""> 
                     </form>
                             <% } %>
->>>>>>> 978feeac3c1c5d71d4e6f58e7cbdba8ddb80a441
                     </div>
 
 
@@ -290,12 +261,16 @@
                                       </div>
                                       <input type="hidden" name="buttonType" id="buttonTypeInput">
                                     </form>
-                                    <div class="col">
-                                      <button type="submit" id="getBuildInfo"
-                                        class="btn btn-success btn-success:hover menu_buttons button-padding general-margin configurator-button-width">
-                                        Build Info
-                                      </button>
-                                    </div>
+                                    
+                                    <form method="post" action="/specificBuildInfo">
+                                      <input type="hidden" name="build" value='<%=currentBuild%>'>
+                                      <div class="col">
+                                        <button type="submit" id="getBuildInfo"
+                                          class="btn btn-success btn-success:hover menu_buttons button-padding general-margin configurator-button-width">
+                                          Build Info
+                                        </button>
+                                      </div>
+                                    </form>
                                 </div>
 
                                 <script>
