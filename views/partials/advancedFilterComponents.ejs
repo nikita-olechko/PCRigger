@@ -1,4 +1,6 @@
 <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
+    <link rel="stylesheet" type="text/css" href="styles/info.css">
+
     <div class="container">
         <div class="category-toggle" data-toggle="collapse" data-target="#categoryList" aria-expanded="false"
             aria-controls="categoryList">
@@ -14,13 +16,13 @@
             </div>
             <div id="subcategoryList1" class="collapse">
                 <!-- Loop through each CPU document -->
-                    <form action="/infoSpecs" method="POST">
-                        <input type="hidden" name="part">
-                        <input type="hidden" name="partType" value='cpu'>
-                        <button type="submit" class="btn btn-secondary mt-2 general-margin">
-                        </button>
-                    </form>
-                        <br>
+                <form action="/infoSpecs" method="POST">
+                    <input type="hidden" name="part">
+                    <input type="hidden" name="partType" value='cpu'>
+                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
+                    </button>
+                </form>
+                <br>
 
             </div>
             <!-- Category 2 -->
@@ -30,13 +32,13 @@
                 <span class="collapse-icon">▼</span>
             </div>
             <div id="subcategoryList2" class="collapse">
-                    <form action="/infoSpecs" method="POST">
-                        <input type="hidden" name="part" value=''>
-                        <input type="hidden" name="partType" value='gpu'>
-                        <button type="submit" class="btn btn-secondary mt-2 general-margin">
-                        </button>
-                    </form>
-                        <br>
+                <form action="/infoSpecs" method="POST">
+                    <input type="hidden" name="part" value=''>
+                    <input type="hidden" name="partType" value='gpu'>
+                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
+                    </button>
+                </form>
+                <br>
 
             </div>
             <!-- Category 3 -->
@@ -46,13 +48,13 @@
                 <span class="collapse-icon">▼</span>
             </div>
             <div id="subcategoryList3" class="collapse">
-                    <form action="/infoSpecs" method="POST">
-                        <input type="hidden" name="part">
-                        <input type="hidden" name="partType" value='memory'>
-                        <button type="submit" class="btn btn-secondary mt-2 general-margin">
-                        </button>
-                    </form>
-                        <br>
+                <form action="/infoSpecs" method="POST">
+                    <input type="hidden" name="part">
+                    <input type="hidden" name="partType" value='memory'>
+                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
+                    </button>
+                </form>
+                <br>
 
             </div>
             <!-- Category 4 -->
@@ -62,13 +64,13 @@
                 <span class="collapse-icon">▼</span>
             </div>
             <div id="subcategoryList4" class="collapse">
-                    <form action="/infoSpecs" method="POST">
-                        <input type="hidden" name="part">
-                        <input type="hidden" name="partType" value='cpucoolers'>
-                        <button type="submit" class="btn btn-secondary mt-2 general-margin">
-                        </button>
-                    </form>
-                        <br>
+                <form action="/infoSpecs" method="POST">
+                    <input type="hidden" name="part">
+                    <input type="hidden" name="partType" value='cpucoolers'>
+                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
+                    </button>
+                </form>
+                <br>
 
             </div>
             <!-- Category 5 -->
@@ -78,13 +80,13 @@
                 <span class="collapse-icon">▼</span>
             </div>
             <div id="subcategoryList5" class="collapse">
-                    <form action="/infoSpecs" method="POST">
-                        <input type="hidden" name="part">
-                        <input type="hidden" name="partType" value='motherboards'>
-                        <button type="submit" class="btn btn-secondary mt-2 general-margin">
-                        </button>
-                    </form>
-                        <br>
+                <form action="/infoSpecs" method="POST">
+                    <input type="hidden" name="part">
+                    <input type="hidden" name="partType" value='motherboards'>
+                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
+                    </button>
+                </form>
+                <br>
 
             </div>
             <!-- Category 6 -->
@@ -146,3 +148,25 @@
         </div>
     </div>
 </div>
+
+        <script>
+            clickCount = 0;
+            $(document).ready(function () {
+                if (clickCount == 0) {
+                    $('.category-toggle').addClass('collapsed');
+                    $('.category-toggle').find('.collapse-icon').css('color', 'white');
+                    $('.category-toggle').removeClass('expanded');
+                    clickCount++;
+                }
+                $('.category-toggle').on('click', function () {
+                    $(this).toggleClass('collapsed');
+                    if ($(this).hasClass('collapsed')) {
+                        $(this).find('.collapse-icon').css('color', 'white');
+
+                    } else {
+                        $(this).addClass('expanded');
+                        $(this).find('.collapse-icon').css('color', 'turquoise');
+                    }
+                });
+            });
+        </script>
