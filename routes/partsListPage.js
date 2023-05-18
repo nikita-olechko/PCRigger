@@ -30,488 +30,208 @@ const powerSupplyCollection = database.db(mongodb_database).collection('Powersup
 const caseCollection = database.db(mongodb_database).collection('Cases');
 const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
 
+const gpuFilteredSearch = function (query, skip, perpage) {
+  return new Promise((resolve, reject) => {
+    gpuCollection.find(query)
+      .skip(skip)
+      .limit(perpage)
+      .sort({releaseYear: -1})
+      .toArray(function (err, result) {
+        if (err) reject(err);
+        resolve(result);
+      });
+  });
+};
+
+const memoryFilteredSearch = function (query, skip, perpage) {
+  return new Promise((resolve, reject) => {
+    memoryCollection.find(query)
+      .skip(skip)
+      .limit(perpage)
+      .sort({latency: 1})
+      .toArray(function (err, result) {
+        if (err) reject(err);
+        resolve(result);
+      });
+  });
+};
+
+const determineMemoryCompatibility = async function(currentBuild) {
+  return new Promise((resolve, reject) => {
+    motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+      if (err) throw err;
+      console.log(result)
+      compatibleWith = result[0].supportedRamGeneration
+      resolve(compatibleWith)
+    })
+  })
+}
+
+const cpuFilteredSearch = function (query, skip, perpage) {
+  return new Promise((resolve, reject) => {
+    cpuCollection.find(query)
+      .skip(skip)
+      .limit(perpage)
+      .sort({cpuMark: -1})
+      .toArray(function (err, result) {
+        if (err) reject(err);
+        resolve(result);
+      });
+  });
+};
+
+const determineCpuCompatibility = async function(currentBuild) {
+  return new Promise((resolve, reject) => {
+    if ((currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler) || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)) {
+      motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+        if (err) throw err;
+        console.log(result)
+        compatibleWith = result[0].socket
+        resolve(compatibleWith)
+      })
+  } else if (currentBuild.parts.cpuCooler) {
+    cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, result) {
+      if (err) throw err;
+      console.log(result)
+      compatibleWith = result[0].supportedSockets
+      resolve(compatibleWith)
+  })
+}
+})}
+
+const motherboardFilteredSearch = function (query, skip, perpage) {
+  return new Promise((resolve, reject) => {
+    motherboardCollection.find(query)
+      .skip(skip)
+      .limit(perpage)
+      .sort()
+      .toArray(function (err, result) {
+        if (err) reject(err);
+        resolve(result);
+      });
+  });
+};
+
+const determineMotherboardCompatibility = async function(currentBuild) {
+  return new Promise((resolve, reject) => {
+    if (currentBuild.parts.case && currentBuild.parts.cpu) {
+      caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
+        if (err) throw err
+        cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
+          if (err) throw err
+          compatibleWith = [caseResult[0].SupportedMotherboardSizes, cpuResult[0].socket]
+          resolve(compatibleWith)
+        })
+        })
+    } else if (currentBuild.parts.cpu) {
+      cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
+        if (err) throw err; 
+        compatibleWith = cpuResult[0].socket
+        resolve(compatibleWith)
+      })
+    } else if (currentBuild.parts.case) {
+      caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
+        if (err) throw err;
+        compatibleWith = caseResult[0].SupportedMotherboardSizes
+        resolve(compatibleWith)
+      })
+    }
+  })
+}
+
+const storageFilteredSearch = function (query, skip, perpage) {
+  return new Promise((resolve, reject) => {
+    storageCollection.find(query)
+      .skip(skip)
+      .limit(perpage)
+      .sort({diskMark: -1})
+      .toArray(function (err, result) {
+        if (err) reject(err);
+        resolve(result);
+      });
+  });
+};
+
+const caseFilteredSearch = function (query, skip, perpage) {
+  return new Promise((resolve, reject) => {
+    caseCollection.find(query)
+      .skip(skip)
+      .limit(perpage)
+      .sort()
+      .toArray(function (err, result) {
+        if (err) reject(err);
+        resolve(result);
+      });
+  });
+};
+
+const determineCaseCompatibility = async function(currentBuild) {
+  return new Promise((resolve, reject) => {
+    motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+      compatibleWith = result[0].formFactor
+      resolve(compatibleWith)
+    })
+  })
+}
+
+const cpuCoolerFilteredSearch = function (query, skip, perpage) {
+  return new Promise((resolve, reject) => {
+    cpuCoolerCollection.find(query)
+      .skip(skip)
+      .limit(perpage)
+      .sort()
+      .toArray(function (err, result) {
+        if (err) reject(err);
+        resolve(result);
+      });
+  });
+};
+
+const determineCpuCoolerCompatibility = async function(currentBuild) {
+  return new Promise((resolve, reject) => {
+    if (currentBuild.parts.cpu && currentBuild.parts.motherboard) {
+      cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
+        if (err) throw err;
+        motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, motherboardResult) {
+          if (err) throw err;
+          compatibleWith = [cpuResult[0].socket, motherboardResult[0].socket]
+          resolve(compatibleWith)
+        })
+      })
+    }
+    else if (currentBuild.parts.cpu && !currentBuild.parts.motherboard) {
+      cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, result) {
+        if (err) throw err;
+        compatibleWith = [result[0].socket]
+        resolve(compatibleWith)
+      })
+    }
+    else if (currentBuild.parts.motherboard && !currentBuild.parts.cpu) {
+      motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+        if (err) throw err;
+        compatibleWith = [result[0].socket]
+        resolve(compatibleWith)
+      })
+    }
+  })
+}
+
+const powerSupplyFilteredSearch = function (query, skip, perpage) {
+  return new Promise((resolve, reject) => {
+    powerSupplyCollection.find(query)
+      .skip(skip)
+      .limit(perpage)
+      .sort({ powerOutput: -1 })
+      .toArray(function (err, result) {
+        if (err) reject(err);
+        resolve(result);
+      });
+  });
+};
 
 // Route handler for the parts list page
 module.exports = function (app) {
-
-  // app.post('/parts', async (req, res) => {
-  //   const pageExists = req.body.page ? req.body.page : 1;
-  //   var page = parseInt(pageExists);
-  //   const perPage = 15;
-  //   const skip = (page - 1) * perPage;
-  //   let totalParts
-
-  //   const partCategory = req.body.formId;
-  //   // console.log("Passed in part type: " + partCategory);
-
-  //   const withBuild = async function(result, partCategory, page, totalParts) {
-  //   // console.log(req.body.build)
-  //     res.render('partsListPage', {
-  //       parts: result,
-  //       partCategory: partCategory,
-  //       build: req.body.build,
-  //       page: page,
-  //       totalParts: totalParts
-  //     })
-  //   }
   
-  //   const withoutBuild = async function(result, partCategory, page, totalParts) {
-  //     res.render('partsListPage', {
-  //       parts: result,
-  //       partCategory: partCategory,
-  //       build: null,
-  //       page: page,
-  //       totalParts: totalParts
-  //     })
-  //   }
-
-  //   switch (partCategory) {
-
-  //     case 'gpu':  
-  //     gpuCollection.countDocuments({}, function(err, count) {
-  //       if (err) throw err;
-  //       totalParts = count;        
-  //       gpuCollection.find({}).skip(skip).limit(perPage).sort({releaseYear: -1}).toArray(function (err, result) {
-  //         if (err) throw err;
-  //         if (req.body.build) {
-  //           withBuild(result, partCategory, page, totalParts);
-  //         } else {
-  //           withoutBuild(result, partCategory, page, totalParts);
-  //         }
-  //       })
-  //       })
-  //     ;
-  //       break;
-
-  //     case 'ram':
-  //       memoryCollection.countDocuments({}, function(err, count) {
-  //         if (err) throw err;
-  //         totalParts = count;        
-  //         if (req.body.build) {
-  //           currentBuild = JSON.parse(req.body.build)
-  //           if (currentBuild.parts.motherboard) {
-  //             motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-  //               if (err) throw err;
-  //               memoryCollection.find({gen: result[0].supportedRamGeneration[0]}).skip(skip).limit(perPage).sort({latency: 1}).toArray(function (err, result) {
-  //                 if (err) throw err;
-  //                 withBuild(result, partCategory, page, totalParts)
-  //               })})
-  //             // } else if { placeholder for filerting by CPU compatibility as well
-  //             } else {
-  //               memoryCollection.find({}).skip(skip).limit(perPage).sort({latency: 1}).toArray(function (err, result) {
-  //                 if (err) throw err;
-  //                 withBuild(result, partCategory, page, totalParts);
-  //               })}
-  //           } else {
-  //             memoryCollection.find({}).skip(skip).limit(perPage).sort({latency: 1}).toArray(function (err, result) {
-  //               if (err) throw err;
-  //               withoutBuild(result, partCategory, page, totalParts);
-  //           });
-  //           }
-  //           });
-  //       break;
-
-  //     case 'cpu':
-  //       cpuCollection.countDocuments({}, function(err, count) {
-  //         if (err) throw err;
-  //         totalParts = count;
-  //         if (req.body.build) {
-  //           currentBuild = JSON.parse(req.body.build)
-  //           if (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler) {
-  //             motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) { 
-  //               if (err) throw err;
-  //               cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).sort({cpuMark: -1}).toArray(function (err, coolerResult) {
-  //                 if (err) throw err;
-  //                 cpuCollection.find({
-  //                   $and: [
-  //                     { socket: moboResult[0].socket },
-  //                     { socket: { $in: coolerResult[0].supportedSockets } }
-  //                   ]
-  //                 }).skip(skip).limit(perPage).toArray(function (err, result) {
-  //                   if (err) throw err;
-  //                   withBuild(result, partCategory, page, totalParts)
-  //               })
-  //           })})
-  //           } else if (currentBuild.parts.motherboard){
-  //             motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
-  //               if (err) throw err;
-  //               cpuCollection.find({socket: moboResult[0].socket}).skip(skip).limit(perPage).sort({cpuMark: -1}).toArray(function (err, result) {
-  //                 if (err) throw err;
-  //                 withBuild(result, partCategory, page, totalParts)
-  //           })})
-  //           } else if (currentBuild.parts.cpuCooler){
-  //             cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, coolerResult) {
-  //               if (err) throw err;
-  //               cpuCollection.find({socket: { $in: coolerResult[0].supportedSockets }}).skip(skip).limit(perPage).sort({cpuMark: -1}).toArray(function (err, result) {
-  //                 if (err) throw err;
-  //                 withBuild(result, partCategory, page, totalParts)
-  //           })})
-  //           } else {
-  //             cpuCollection.find({}).skip(skip).limit(perPage).sort({cpuMark: -1}).toArray(function (err, result) {
-  //               if (err) throw err;
-  //               withBuild(result, partCategory, page, totalParts);
-  //             })}
-  //         } else {
-  //           cpuCollection.find({}).skip(skip).limit(perPage).sort({cpuMark: -1}).toArray(function (err, result) {
-  //             if (err) throw err;
-  //             withoutBuild(result, partCategory, page, totalParts);
-  //         });
-  //         }
-  //         });
-  //       break;
-
-  //     case 'motherboards':
-  //       motherboardCollection.countDocuments({}, function(err, count) {
-  //         if (err) throw err;
-  //         totalParts = count;
-  //         if (req.body.build) {
-  //           currentBuild = JSON.parse(req.body.build)
-  //           if (currentBuild.parts.case && currentBuild.parts.cpu) {
-  //             caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
-  //               if (err) throw err;
-  //               cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-  //                 if (err) throw err;
-  //                 motherboardCollection.find({formFactor: {$in: caseResult[0].SupportedMotherboardSizes}, socket: cpuResult[0].socket }).skip(skip).limit(perPage).toArray(function (err, result) {
-  //                   if (err) throw err;
-  //                   withBuild(result, partCategory, page, totalParts)
-  //               })
-  //           })})
-  //           } else if (currentBuild.parts.cpu){
-  //             cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-  //               if (err) throw err;
-  //               motherboardCollection.find({socket: cpuResult[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //                 if (err) throw err;
-  //                 withBuild(result, partCategory, page, totalParts)
-  //           })})
-  //           } else if (currentBuild.parts.case){
-  //             caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
-  //               if (err) throw err;
-  //               motherboardCollection.find({formFactor: { $in: caseResult[0].SupportedMotherboardSizes }}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //                 if (err) throw err;
-  //                 withBuild(result, partCategory, page, totalParts)
-  //           })})
-  //           } else {
-  //             motherboardCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //               if (err) throw err;
-  //               withBuild(result, partCategory, page, totalParts);
-  //             })}
-  //         } else {
-  //           motherboardCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //             if (err) throw err;
-  //             withoutBuild(result, partCategory, page, totalParts);
-  //         });
-  //         }
-  //         });
-  //       break;
-
-  //     case 'storage':
-  //       storageCollection.countDocuments({}, function(err, count) {
-  //         if (err) throw err;
-  //         totalParts = count;        
-  //         storageCollection.find({}).skip(skip).limit(perPage).sort({diskMark: -1}).toArray(function (err, result) {
-  //           if (err) throw err;
-  //           if (req.body.build) {
-  //             withBuild(result, partCategory, page, totalParts);
-  //           } else {
-  //             withoutBuild(result, partCategory, page, totalParts);
-  //         };
-  //         })
-  //       });
-  //       break;
-
-  //     case 'case':
-  //       caseCollection.countDocuments({}, function(err, count) {
-  //         if (err) throw err;
-  //         totalParts = count;
-  //         if (req.body.build) {
-  //           currentBuild = JSON.parse(req.body.build)
-  //           if (currentBuild.parts.motherboard) {
-  //             motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-  //               if (err) throw err;
-  //               caseCollection.find({SupportedMotherboardSizes: { $in: [result[0].formFactor] }}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //                 if (err) throw err;
-  //                 withBuild(result, partCategory, page, totalParts)
-  //           })})
-  //           } else {
-  //             caseCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //               if (err) throw err;
-  //               withBuild(result, partCategory, page, totalParts);
-  //             })}
-  //         } else {
-  //           caseCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //             if (err) throw err;
-  //             withoutBuild(result, partCategory, page, totalParts);
-  //         });
-  //         }
-  //         });
-  //       break;
-
-  //     case 'cpucoolers':
-  //       cpuCoolerCollection.countDocuments({}, function(err, count) {
-  //         if (err) throw err;
-  //         totalParts = count;
-  //         if (req.body.build) {
-  //           currentBuild = JSON.parse(req.body.build)
-  //           if (currentBuild.parts.cpu && currentBuild.parts.motherboard) {
-  //             cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-  //               if (err) throw err;
-  //               motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
-  //                 if (err) throw err;
-  //                 console.log(cpuResult[0].socket, moboResult[0].socket)
-  //                 cpuCoolerCollection.find({supportedSockets: {$all: [cpuResult[0].socket, moboResult[0].socket]}}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //                   if (err) throw err;
-  //                   withBuild(result, partCategory, page, totalParts)
-  //               })
-  //           })})
-  //           } else if (currentBuild.parts.cpu){
-  //             cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-  //               if (err) throw err;
-  //               cpuCoolerCollection.find({supportedSockets: cpuResult[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //                 if (err) throw err;
-  //                 withBuild(result, partCategory, page, totalParts)
-  //           })})
-  //           } else if (currentBuild.parts.motherboard){
-  //             motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
-  //               if (err) throw err;
-  //               cpuCoolerCollection.find({supportedSockets: moboResult[0].socket}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //                 if (err) throw err;
-  //                 withBuild(result, partCategory, page, totalParts)
-  //           })})
-  //           } else {
-  //             cpuCoolerCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //               if (err) throw err;
-  //               withBuild(result, partCategory, page, totalParts);
-  //             })}
-  //         } else {        
-  //         cpuCoolerCollection.find({}).skip(skip).limit(perPage).toArray(function (err, result) {
-  //           if (err) throw err;
-  //           if (req.body.build) {
-  //             withBuild(result, partCategory, page, totalParts);
-  //           } else {
-  //             withoutBuild(result, partCategory, page, totalParts);
-  //         };
-  //         })
-  //       }});
-  //       break;
-
-  //     case 'powersupplies':
-  //       powerSupplyCollection.countDocuments({}, function(err, count) {
-  //         if (err) throw err;
-  //         totalParts = count;        
-  //         powerSupplyCollection.find({}).skip(skip).limit(perPage).sort({ powerOutput: -1 }).toArray(function (err, result) {
-  //           if (err) throw err;
-  //           if (req.body.build) {
-  //             withBuild(result, partCategory, page, totalParts);
-  //           } else {
-  //             withoutBuild(result, partCategory, page, totalParts);
-  //         };
-  //         })
-  //       });
-  //       break;
-
-  //     default:
-  //       console.log("Error getting page");
-  //       break;
-  //   }
-  // })
-  const gpuFilteredSearch = function (query, skip, perpage) {
-    return new Promise((resolve, reject) => {
-      gpuCollection.find(query)
-        .skip(skip)
-        .limit(perpage)
-        .sort({releaseYear: -1})
-        .toArray(function (err, result) {
-          if (err) reject(err);
-          resolve(result);
-        });
-    });
-  };
-
-  const memoryFilteredSearch = function (query, skip, perpage) {
-    return new Promise((resolve, reject) => {
-      memoryCollection.find(query)
-        .skip(skip)
-        .limit(perpage)
-        .sort({latency: 1})
-        .toArray(function (err, result) {
-          if (err) reject(err);
-          resolve(result);
-        });
-    });
-  };
-
-  const determineMemoryCompatibility = async function(currentBuild) {
-    return new Promise((resolve, reject) => {
-      motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-        if (err) throw err;
-        console.log(result)
-        compatibleWith = result[0].supportedRamGeneration
-        resolve(compatibleWith)
-      })
-    })
-  }
-
-  const cpuFilteredSearch = function (query, skip, perpage) {
-    return new Promise((resolve, reject) => {
-      cpuCollection.find(query)
-        .skip(skip)
-        .limit(perpage)
-        .sort({cpuMark: -1})
-        .toArray(function (err, result) {
-          if (err) reject(err);
-          resolve(result);
-        });
-    });
-  };
-
-  const determineCpuCompatibility = async function(currentBuild) {
-    return new Promise((resolve, reject) => {
-      if ((currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler) || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)) {
-        motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-          if (err) throw err;
-          console.log(result)
-          compatibleWith = result[0].socket
-          resolve(compatibleWith)
-        })
-    } else if (currentBuild.parts.cpuCooler) {
-      cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, result) {
-        if (err) throw err;
-        console.log(result)
-        compatibleWith = result[0].supportedSockets
-        resolve(compatibleWith)
-    })
-  }
-})}
-
-  const motherboardFilteredSearch = function (query, skip, perpage) {
-    return new Promise((resolve, reject) => {
-      motherboardCollection.find(query)
-        .skip(skip)
-        .limit(perpage)
-        .sort()
-        .toArray(function (err, result) {
-          if (err) reject(err);
-          resolve(result);
-        });
-    });
-  };
-
-  const determineMotherboardCompatibility = async function(currentBuild) {
-    return new Promise((resolve, reject) => {
-      if (currentBuild.parts.case && currentBuild.parts.cpu) {
-        caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
-          if (err) throw err
-          cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-            if (err) throw err
-            compatibleWith = [caseResult[0].SupportedMotherboardSizes, cpuResult[0].socket]
-            resolve(compatibleWith)
-          })
-          })
-      } else if (currentBuild.parts.cpu) {
-        cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-          if (err) throw err; 
-          compatibleWith = cpuResult[0].socket
-          resolve(compatibleWith)
-        })
-      } else if (currentBuild.parts.case) {
-        caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
-          if (err) throw err;
-          compatibleWith = caseResult[0].SupportedMotherboardSizes
-          resolve(compatibleWith)
-        })
-      }
-    })
-  }
-  
-  const storageFilteredSearch = function (query, skip, perpage) {
-    return new Promise((resolve, reject) => {
-      storageCollection.find(query)
-        .skip(skip)
-        .limit(perpage)
-        .sort({diskMark: -1})
-        .toArray(function (err, result) {
-          if (err) reject(err);
-          resolve(result);
-        });
-    });
-  };
-
-  const caseFilteredSearch = function (query, skip, perpage) {
-    return new Promise((resolve, reject) => {
-      caseCollection.find(query)
-        .skip(skip)
-        .limit(perpage)
-        .sort()
-        .toArray(function (err, result) {
-          if (err) reject(err);
-          resolve(result);
-        });
-    });
-  };
-
-  const determineCaseCompatibility = async function(currentBuild) {
-    return new Promise((resolve, reject) => {
-      motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-        compatibleWith = result[0].formFactor
-        resolve(compatibleWith)
-      })
-    })
-  }
-
-  const cpuCoolerFilteredSearch = function (query, skip, perpage) {
-    return new Promise((resolve, reject) => {
-      cpuCoolerCollection.find(query)
-        .skip(skip)
-        .limit(perpage)
-        .sort()
-        .toArray(function (err, result) {
-          if (err) reject(err);
-          resolve(result);
-        });
-    });
-  };
-
-  const determineCpuCoolerCompatibility = async function(currentBuild) {
-    return new Promise((resolve, reject) => {
-      if (currentBuild.parts.cpu && currentBuild.parts.motherboard) {
-        cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-          if (err) throw err;
-          motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, motherboardResult) {
-            if (err) throw err;
-            compatibleWith = [cpuResult[0].socket, motherboardResult[0].socket]
-            resolve(compatibleWith)
-          })
-        })
-      }
-      else if (currentBuild.parts.cpu && !currentBuild.parts.motherboard) {
-        cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, result) {
-          if (err) throw err;
-          compatibleWith = [result[0].socket]
-          resolve(compatibleWith)
-        })
-      }
-      else if (currentBuild.parts.motherboard && !currentBuild.parts.cpu) {
-        motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-          if (err) throw err;
-          compatibleWith = [result[0].socket]
-          resolve(compatibleWith)
-        })
-      }
-    })
-  }
-
-  const powerSupplyFilteredSearch = function (query, skip, perpage) {
-    return new Promise((resolve, reject) => {
-      powerSupplyCollection.find(query)
-        .skip(skip)
-        .limit(perpage)
-        .sort({ powerOutput: -1 })
-        .toArray(function (err, result) {
-          if (err) reject(err);
-          resolve(result);
-        });
-    });
-  };
   app.get('/parts', (req, res) => {
     res.render('partsListPage');
   });
