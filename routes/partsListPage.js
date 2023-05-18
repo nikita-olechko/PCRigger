@@ -387,13 +387,16 @@ module.exports = function (app) {
     switch (partCategory) {
       case 'gpu':
         const minimumMemorySize = req.body.memSize || 0;
+        const desiredManufacturer = [req.body.manufacturer] || ["AMD", "NVIDIA"];
         if (!req.body.query) {
           if (req.body.bus) {query = {
             memSize: { $gte: parseInt(minimumMemorySize) },
-            bus: req.body.bus}
+            bus: req.body.bus,
+            manufacturer: {$in: desiredManufacturer}}
         } else {
           query = {
-            memSize: { $gte: parseInt(minimumMemorySize) }
+            memSize: { $gte: parseInt(minimumMemorySize) },
+            manufacturer: {$in: desiredManufacturer}
           }
         }
         }

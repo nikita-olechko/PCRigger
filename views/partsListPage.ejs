@@ -6,6 +6,32 @@
   <%- include('partials/partsSearch') %>
 
     <main>
+        <!-- This code will add the appropriate filtering options -->
+        <% if (partCategory=="ram") { %>
+          <%- include('partials/filteringOptions/memoryFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="cpu") { %>
+          <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="gpu") { %>
+          <%- include('partials/filteringOptions/gpuFilter', {partCategory: partCategory, build:build, query:null}) %>
+          <% } %> 
+        <% if (partCategory=="motherboards") { %>
+          <%- include('partials/filteringOptions/motherboardFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="storage") { %>
+          <%- include('partials/filteringOptions/storageFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="case") { %>
+          <%- include('partials/filteringOptions/caseFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="cpucoolers") { %>
+          <%- include('partials/filteringOptions/cpuCoolerFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+        <% if (partCategory=="powersupplies") { %>
+          <%- include('partials/filteringOptions/powersupplyFilter', {partCategory: partCategory, build:build}) %>
+          <% } %> 
+
       <hr>
       <div class="text-center">
         <h5>
@@ -42,31 +68,6 @@
     the checkbox should be able to be checked and then the user can click a compare button to compare the parts.
     the compare button should take the user to a page that compares the parts they selected. -->
       <%console.log(partCategory)%>
-        <!-- This code will add the appropriate filtering options -->
-        <% if (partCategory=="ram") { %>
-          <%- include('partials/filteringOptions/memoryFilter', {partCategory: partCategory, build:build}) %>
-          <% } %> 
-        <% if (partCategory=="cpu") { %>
-          <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build}) %>
-          <% } %> 
-        <% if (partCategory=="gpu") { %>
-          <%- include('partials/filteringOptions/gpuFilter', {partCategory: partCategory, build:build}) %>
-          <% } %> 
-        <% if (partCategory=="motherboards") { %>
-          <%- include('partials/filteringOptions/motherboardFilter', {partCategory: partCategory, build:build}) %>
-          <% } %> 
-        <% if (partCategory=="storage") { %>
-          <%- include('partials/filteringOptions/storageFilter', {partCategory: partCategory, build:build}) %>
-          <% } %> 
-        <% if (partCategory=="case") { %>
-          <%- include('partials/filteringOptions/caseFilter', {partCategory: partCategory, build:build}) %>
-          <% } %> 
-        <% if (partCategory=="cpucoolers") { %>
-          <%- include('partials/filteringOptions/cpuCoolerFilter', {partCategory: partCategory, build:build}) %>
-          <% } %> 
-        <% if (partCategory=="powersupplies") { %>
-          <%- include('partials/filteringOptions/powersupplyFilter', {partCategory: partCategory, build:build}) %>
-          <% } %> 
 
         <!-- This code will populate the part cards -->
         <% for (let i=0; i < parts.length ; i++) {%>     
