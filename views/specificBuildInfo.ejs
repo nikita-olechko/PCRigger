@@ -40,7 +40,7 @@
                             <!-- Loop through each CPU document -->
                             <% cpus.forEach(function(cpu) { %>
                                 <form action="/infoSpecs" method="POST">
-                                    <input type="hidden" name="part" value='<%= JSON.stringify(cpu) %>'>
+                                    <input type="hidden" name="part" value='<%= cpu %>'>
                                     <input type="hidden" name="partType" value='cpu'>
                                     <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= cpu %>
@@ -59,7 +59,7 @@
                         <div id="subcategoryList2" class="collapse">
                             <% gpus.forEach(function(gpu) { %>
                                 <form action="/infoSpecs" method="POST">
-                                    <input type="hidden" name="part" value='<%= JSON.stringify(gpu) %>'>
+                                    <input type="hidden" name="part" value='<%= gpu %>'>
                                     <input type="hidden" name="partType" value='gpu'>
                                     <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= gpu %>
@@ -78,7 +78,7 @@
                         <div id="subcategoryList3" class="collapse">
                             <% memory.forEach(function(memory) { %>
                                 <form action="/infoSpecs" method="POST">
-                                    <input type="hidden" name="part" value='<%= JSON.stringify(memory) %>'>
+                                    <input type="hidden" name="part" value='<%= memory %>'>
                                     <input type="hidden" name="partType" value='memory'>
                                     <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= memory %>
@@ -97,7 +97,7 @@
                         <div id="subcategoryList4" class="collapse">
                             <% cpuCoolers.forEach(function(cpuCooler) { %>
                                 <form action="/infoSpecs" method="POST">
-                                    <input type="hidden" name="part" value='<%= JSON.stringify(cpuCooler) %>'>
+                                    <input type="hidden" name="part" value='<%= cpuCooler %>'>
                                     <input type="hidden" name="partType" value='cpucoolers'>
                                     <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= cpuCooler %>
@@ -116,7 +116,7 @@
                         <div id="subcategoryList5" class="collapse">
                             <% motherboards.forEach(function(motherboard) { %>
                                 <form action="/infoSpecs" method="POST">
-                                    <input type="hidden" name="part" value='<%= JSON.stringify(motherboard) %>'>
+                                    <input type="hidden" name="part" value='<%= motherboard %>'>
                                     <input type="hidden" name="partType" value='motherboards'>
                                     <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= motherboard %>
@@ -135,7 +135,7 @@
                         <div id="subcategoryList6" class="collapse">
                             <% storage.forEach(function(storage) { %>
                                 <form action="/infoSpecs" method="POST">
-                                    <input type="hidden" name="part" value='<%= JSON.stringify(storage) %>'>
+                                    <input type="hidden" name="part" value='<%= storage %>'>
                                     <input type="hidden" name="partType" value='storage'>
                                     <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= storage %>
@@ -153,7 +153,7 @@
                         <div id="subcategoryList7" class="collapse">
                             <% powerSupply.forEach(function(powerSupply) { %>
                                 <form action="/infoSpecs" method="POST">
-                                    <input type="hidden" name="part" value='<%= JSON.stringify(powerSupply) %>'>
+                                    <input type="hidden" name="part" value='<%= powerSupply %>'>
                                     <input type="hidden" name="partType" value='powersupplies'>
                                     <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= powerSupply %>
@@ -171,7 +171,7 @@
                         <div id="subcategoryList8" class="collapse">
                             <% cases.forEach(function(caseItem) { %>
                                 <form action="/infoSpecs" method="POST">
-                                    <input type="hidden" name="part" value='<%= JSON.stringify(caseItem) %>'>
+                                    <input type="hidden" name="part" value='<%= caseItem %>'>
                                     <input type="hidden" name="partType" value='case'>
                                     <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= caseItem %>
