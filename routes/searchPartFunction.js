@@ -1,6 +1,9 @@
 const express = require('express');
+const mongoose = require('mongoose');
 router = express.Router();
+const utils = require('../utils');
 
+// Constants
 const mongodb_database = process.env.MONGODB_DATABASE;
 var {
     database
@@ -18,21 +21,13 @@ const caseCollection = database.db(mongodb_database).collection('Cases');
 const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
 
 
-module.exports = async function (app, userCollection) {
-    app.post('/specs', (req, res) => {
+module.exports = function (app) {
+    app.get('/searchPart', async (req, res) => {
+        const searchTerm = req.query.partName;
+        const partCategory = req.query.partCategory;
+        console.log("Search term is: " + searchTerm);
+        console.log("Search cat part type: " + partCategory);
 
-        const part = req.body.part;
-        console.log(part);
-
-        res.render('specsPage', { part: part });
-    })
-
-    app.post('/infoSpecs', async (req, res) => {
-        const partName = req.body.part;
-        var searchTerm = partName;
-        console.log(partName);
-        const partCategory = req.body.partType;
-        console.log(partCategory);
         // Determine which collection to search
         let collectionToSearch;
         if (partCategory == "cpu") {
@@ -59,13 +54,6 @@ module.exports = async function (app, userCollection) {
         }
 
         // // find the field in the document in the colletion that includes the "name" suffix in the field-name
-
-        // // Find the PC part that has a name that matches the search term 
-        // const foundPart = await collectionToSearch.findOne({
-        //     $or: [
-        //         { [partName]: searchTerm },
-        //         { name: searchTerm }]
-        // });
         fieldToSearch = partCategory + "Name";
         console.log("Field to search: " + fieldToSearch);
 
@@ -77,14 +65,13 @@ module.exports = async function (app, userCollection) {
         // });
         const regex = new RegExp(searchTerm, 'i'); // 'i' flag makes the search case-insensitive
         const foundPart = await collectionToSearch.findOne({
-            $or: [
+             $or: [
                 { [fieldToSearch]: regex },
-                { name: regex },
-                { driveName: regex },
-                { productName: regex },
-                { memoryName: regex },
-            ]
-        });
+                 { name: regex },
+                  { driveName: regex },
+                   { productName: regex },
+                   { memoryName: regex },
+                ] });
 
 
         // console.log(foundPart);

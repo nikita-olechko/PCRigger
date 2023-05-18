@@ -1,0 +1,16 @@
+.category-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.collapse-icon {
+    margin-left: 5%;
+    margin-bottom: 5px;
+    transition: transform 0.3s, color 0.3s;
+    color: white;
+}
+
+.collapsed .collapse-icon {
+    transform: rotate(-120deg);
+}

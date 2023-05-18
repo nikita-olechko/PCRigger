@@ -1,0 +1,49 @@
+<%
+let minPowerOutput = 0
+
+if (query) {
+    query = JSON.parse(query)
+    console.log(query)
+    if (query.powerOutput) {
+    minPowerOutput = parseInt(query.powerOutput['$gte'])
+}
+}
+%>
+
+
+<div class="container text-center">
+    <div class="row">
+        <h5>Filter Results</h5>
+        <form action="/parts" method="post">
+            <div class="container">
+                <input type="hidden" value='<%= build%>' name="build">
+                <input type="hidden" value='<%= partCategory%>' name="formId">
+
+                <label for="powerOutput">Power Output: <span id="memSizeValue"><%=minPowerOutput%> Watts or greater</span></label><br>
+                <input class="" type="range" min="0" max="1200" step="100" id="powerOutput" name="powerOutput" value='<%=minPowerOutput%>'>
+
+                <br>
+
+                <input class="form-check-input" type="radio" name="rating" value="Gold" <% if (query){ if (query.rating['$in'].length == 1 && query.rating['$in'][0] === 'Gold') { %> checked <% }}%>>
+                <label>Gold</label>
+                <input class="form-check-input" type="radio" name="rating" value="Platinum" <% if (query){ if (query.rating['$in'].length == 1 && query.rating['$in'][0] === 'Platinum') { %> checked <% }} %>>
+                <label>Platinum</label><br>
+                <input class="form-check-input" type="radio" name="rating" value="Titanium"  <% if (query){ if (query.rating['$in'].length == 1 && query.rating['$in'][0] === 'Titanium') { %> checked <% }} %>>
+                <label>Titanium</label>
+                <br>
+                <input type="submit" value='Apply Filters' class="form-control btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    console.log("poggers")
+    const minPowerOutputSlider = document.getElementById('powerOutput');
+    const minPowerOutputValue = document.getElementById('memSizeValue');
+
+    minPowerOutputSlider.addEventListener('input', () => {
+    minPowerOutputValue.textContent = minPowerOutputSlider.value + " Watts or greater";
+    });
+</script>

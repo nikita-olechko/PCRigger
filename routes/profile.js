@@ -1,4 +1,5 @@
 var express = require('express');
+const { exist } = require('joi');
 const mongoose = require('mongoose');
 router = express.Router();
 
@@ -80,13 +81,30 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
         });
         //update user profile
         if (!validationResult.error) {
-            await userCollection.updateOne(
-                { username: req.session.user.username },
-                { $set: { username: new_UserID } }
-            );
-            req.session.user.username = new_UserID;
-            //update session
-            res.render('templates/notification_page.ejs', {message:'Username has been updated.'})
+            if (new_UserID === req.session.user.username) {
+                res.render('templates/notification_page.ejs', {message:'Username is the same as the current one.'})
+                return;
+            }
+            else if (await userCollection.findOne({ username: new_UserID })) {
+                res.render('templates/notification_page.ejs', {message:'Username already exists.'})
+                return;
+            }
+            else if (new_UserID === 'admin'|| new_UserID === 'Admin') {
+                res.render('templates/notification_page.ejs', {message:'Username cannot be admin.'})
+                return;
+            }
+            else{
+                await userCollection.updateOne(
+                    { username: req.session.user.username },
+                    { $set: { username: new_UserID } }
+                );
+                req.session.user.username = new_UserID;
+                //update session
+                res.render('templates/notification_page.ejs', {message:'Username has been updated.'})
+            }
+        }
+        else{
+            res.render('templates/notification_page.ejs', {message:'Username must be between 3 and 20 characters long.'})
         }
     })
 
@@ -102,28 +120,54 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
 
     app.post('/password_edit', async (req, res) => {
         const schema = Joi.object({
-            new_password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
-            confirm_password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required()
+            new_password: Joi.string()
+            .regex(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{3,30}$/)
+            .required(),
+            confirm_password: Joi.string()
+            .regex(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{3,30}$/)
+            .required(),
+            current_password: Joi.string()
+            .regex(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{3,30}$/)
+            .required(),
         });
-        var { new_password, confirm_password } = req.body;
+        var { new_password, confirm_password, current_password } = req.body;
         const validationResult = schema.validate({
             new_password,
-            confirm_password
+            confirm_password,
+            current_password
         });
         //update user profile
         if (!validationResult.error) {
-            if (new_password === confirm_password) {
-                new_password = await bcrypt.hash(new_password, saltRounds);
-                await userCollection.updateOne(
-                    { username: req.session.user.username },
-                    { $set: { password: new_password } }
-                )
-                req.session.user.password = new_password;
-                //update session
-                res.render('templates/notification_page.ejs', {message:'Password has been updated.'})
-            } else {
-                res.render('templates/notification_page.ejs', {message:'Passwords do not match. Please try again.'})
+            // check if current password is the same as session password
+            if (!await bcrypt.compare(current_password, req.session.user.password)) {
+                res.render('templates/notification_page.ejs', {message:'Current password is incorrect.'})
+                return;
             }
+            else{
+                // check if new password is the same as session password
+                if (await bcrypt.compare(new_password, req.session.user.password)) {
+                    res.render('templates/notification_page.ejs', {message:'New password is the same as the current one.'})
+                    return;
+                }
+                else{
+                    // check if new password is the same as confirm password
+                    if (new_password === confirm_password) {
+                        new_password = await bcrypt.hash(new_password, saltRounds);
+                        await userCollection.updateOne(
+                            { username: req.session.user.username },
+                            { $set: { password: new_password } }
+                        )
+                        req.session.user.password = new_password;
+                        //update session
+                        res.render('templates/notification_page.ejs', {message:'Password has been updated.'})
+                    } else {
+                        res.render('templates/notification_page.ejs', {message:'Passwords do not match. Please try again.'})
+                    }
+                }
+            }
+        }
+        else{
+            res.render('templates/notification_page.ejs', {message:'Password format invalid, please try again.'})
         }
     })
 

@@ -1,0 +1,55 @@
+<%
+let minCores = 2
+let maxTdp = 300
+if (query) {
+    query = JSON.parse(query)
+    console.log(query)
+    if (query.cores) {
+    minCores = parseInt(query.cores['$gte'])
+    } 
+    if (query.TDP) {
+    maxTdp = parseInt(query.TDP['$lte'])
+    }
+} 
+%>
+
+
+<div class="container text-center">
+    <div class="row">
+        <h5>Filter Results</h5>
+        <form action="/parts" method="post">
+            <div class="container">
+                <input type="hidden" value='<%= build%>' name="build">
+                <input type="hidden" value='<%= partCategory%>' name="formId">
+
+                <label for="cores">Cores: <span id="coreCountValue"><%=minCores%> or more Cores</span></label><br>
+                <input type="range" min="2" max="32" step="2" id="cores" name="cores" value='<%=minCores%>'>
+
+                <br>
+
+                <label for="tdp">TDP: <span id="tdpValue"><%=maxTdp%> Watts or less</span></label><br>
+                <input type="range" min="0" max="300" step="15" id="tdp" name="tdp" value='<%=maxTdp%>'>
+
+                <br>
+                <input type="submit" value='Apply Filters' class="form-control btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    const coreCountSlider = document.getElementById('cores');
+    const coreCountValue = document.getElementById('coreCountValue');
+
+    coreCountSlider.addEventListener('input', () => {
+        coreCountValue.textContent = coreCountSlider.value + " or more Cores";
+    });
+
+    const tdpSlider = document.getElementById('tdp');
+    const tdpValue = document.getElementById('tdpValue');
+
+    tdpSlider.addEventListener('input', () => {
+        tdpValue.textContent = tdpSlider.value + " Watts or less";
+    });
+</script>

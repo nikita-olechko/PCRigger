@@ -1,22 +1,41 @@
 <%- include('partials/navbar') %>
-<!-- <img src="images/logo_transparent.png" style="width: 80%;" alt="PRRigger logo img"> -->
+    <!-- <img src="images/logo_transparent.png" style="width: 80%;" alt="PRRigger logo img"> -->
 
-<div id="center_message" class="rounded-3">
-    <div class="container-fluid custom-padding">
-        <h1 class="display-5 fw-bold">
-            PCRigger
-        </h1>
-        <p class="col-md-8 fs-4">
-            By DaWei5.
-        </p>
+    <div id="center_message" class="rounded-3">
+        <div class="container-fluid custom-padding">
+            <h1 class="display-5 fw-bold">
+                PCRigger
+            </h1>
+            <p class="col-md-8 fs-4">
+                By <span id="knuckles">DaWei5</span>.
+            </p>
+        </div>
+        <div id="landing_buttons">
+            <% buttons.forEach(function(button){ %>
+                <%- include('partials/menu_buttons', {route: button.route, description: button.description}) %>
+                    <% }) %>
+        </div>
     </div>
-    <div id="landing_buttons">
-        <% buttons.forEach(function(button){ %>
-            <%- include('partials/menu_buttons', {route: button.route, description: button.description}) %>
-        <% }) %>
-    </div>
-</div>
-<%- include("partials/iconbar") %>
+    <%- include("partials/iconbar") %>
 
-<!-- Link sheet at the end to overwrite buttons css with new properties -->
-<link rel="stylesheet" href="styles/landing_page.css">
+        <!-- Link sheet at the end to overwrite buttons css with new properties -->
+        <link rel="stylesheet" href="styles/landing_page.css">
+
+        <script>
+            if (document.body.innerText.includes("Sign out")) {
+                var counter = 0
+                $("#knuckles").click(function () {
+                    counter++;
+                    console.log(counter)
+                    if (counter === 5) {
+                        alert("Do you know Da Wei?")
+                        //change body bg to a picture
+                        document.body.style.backgroundImage = "url('images/knuckles.png')";
+                        // Adjust the size of the pattern
+                        document.body.style.backgroundSize = "10vh";
+                        // Adjust the position of the pattern  
+                        document.body.style.backgroundPosition = "center";
+                    }
+                })
+            }
+        </script>

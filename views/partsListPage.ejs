@@ -1,104 +1,177 @@
 <%- include('partials/navbar') %>
 
   <h3 class="text-center">Search Parts name/serial number:</h3>
-  <div class="container">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Example: intel i9-9900k" aria-label="Search"
-          aria-describedby="search-button">
-        <button class="btn btn-outline-secondary" type="button" id="search-button">Search</button>
-    </div>
-  </div>
-
-  <main>
-    <hr>
-    <div class="text-center">
-      <h5>
-        Viewing <%= partCategory.toUpperCase()%> options
-      </h5>
-      <p><%=(15 * (page - 1)) + parts.length %> / <%=totalParts%></p>
-    </div> 
-    <div class="row">
-      <% if (parts.length == totalParts) { %> 
-        <p class="text-center">All parts are visible</p>
-      <% } else if (parts.length <= 15 && page == 1) { %>
-        <div class="col text-center">
-          <%- include ('partials/nextComponentPage'), {page: page, partCategory: partCategory, build:build}%>
-        </div>
-      <% } else if (parts.length == 15 && page * 15 < totalParts) { %>
-        <div class="col" style="text-align: right;"><%- include ('partials/previousComponentPage'), {page: page, partCategory: partCategory, build:build}%></div>
-        <div class="col" style="text-align: left;"><%- include ('partials/nextComponentPage'), {page: page, partCategory: partCategory, build:build}%></div>
-        <% } else if (parts.length < 15 || page * 15 <= totalParts) { %>
-        <div class="col text-center">
-          <%- include ('partials/previousComponentPage'), {page: page, partCategory: partCategory, build:build}%>
-        </div>
-        <% }%>
-    </div>
-    <hr>
 
 
-    <!-- create a loop that recieves partsType and result from EJS and returns a card for that part, for a total of 10 cards in order of most new if they have a date.
+  <%- include('partials/partsSearch', {partCategory: partCategory}) %>
+
+    <main>
+        <!-- This code will add the appropriate filtering options -->
+        <% if (partCategory=="ram") { %>
+          <%- include('partials/filteringOptions/memoryFilter', {partCategory: partCategory, build:build, query:null}) %>
+          <% } %> 
+        <% if (partCategory=="cpu") { %>
+          <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build, query:null}) %>
+          <% } %> 
+        <% if (partCategory=="gpu") { %>
+          <%- include('partials/filteringOptions/gpuFilter', {partCategory: partCategory, build:build, query:null}) %>
+          <% } %> 
+        <% if (partCategory=="motherboards") { %>
+          <%- include('partials/filteringOptions/motherboardFilter', {partCategory: partCategory, build:build, query:null}) %>
+          <% } %> 
+        <% if (partCategory=="storage") { %>
+          <%- include('partials/filteringOptions/storageFilter', {partCategory: partCategory, build:build, query:null}) %>
+          <% } %> 
+        <% if (partCategory=="case") { %>
+          <%- include('partials/filteringOptions/caseFilter', {partCategory: partCategory, build:build, query:null}) %>
+          <% } %> 
+        <% if (partCategory=="cpucoolers") { %>
+          <%- include('partials/filteringOptions/cpuCoolerFilter', {partCategory: partCategory, build:build, query:null}) %>
+          <% } %> 
+        <% if (partCategory=="powersupplies") { %>
+          <%- include('partials/filteringOptions/powersupplyFilter', {partCategory: partCategory, build:build, query:null}) %>
+          <% } %> 
+
+      <hr>
+      <div class="text-center">
+        <h5>
+          Viewing <%= partCategory.toUpperCase()%> options
+        </h5>
+        <p>
+          <%=(15 * (page - 1)) + parts.length %> / <%=totalParts%>
+        </p>
+      </div>
+      <div class="row">
+        <% if (parts.length==totalParts) { %>
+          <p class="text-center">All parts are visible</p>
+          <% } else if (parts.length <=15 && page==1) { %>
+            <div class="col text-center">
+              <%- include ('partials/nextComponentPage'), {page: page, partCategory: partCategory, build:build}%>
+            </div>
+            <% } else if (parts.length==15 && page * 15 < totalParts) { %>
+              <div class="col" style="text-align: right;"><%- include ('partials/previousComponentPage'), {page: page,
+                  partCategory: partCategory, build:build}%></div>
+              <div class="col" style="text-align: left;"><%- include ('partials/nextComponentPage'), {page: page,
+                  partCategory: partCategory, build:build}%></div>
+              <% } else if (parts.length < 15 || page * 15 <=totalParts) { %>
+                <div class="col text-center">
+                  <%- include ('partials/previousComponentPage'), {page: page, partCategory: partCategory,
+                    build:build}%>
+                </div>
+                <% }%>
+      </div>
+      <hr>
+
+
+      <!-- create a loop that recieves partsType and result from EJS and returns a card for that part, for a total of 10 cards in order of most new if they have a date.
     each card should have a name, OEM, date of release, and a checkbox. 
     the checkbox should be able to be checked and then the user can click a compare button to compare the parts.
     the compare button should take the user to a page that compares the parts they selected. -->
-    <%console.log(partCategory)%>
-    <% for (let i=0; i < parts.length ; i++) {%>
-      <% if (partCategory == "ram"){ %>
+      <%console.log(partCategory)%>
 
-          <%currentPart = JSON.stringify(parts[i])%>
+        <!-- This code will populate the part cards -->
+        <% for (let i=0; i < parts.length ; i++) {%>     
+          <% if (partCategory=="ram"){ %>
+
+          <%currentPart=JSON.stringify(parts[i])%>
           <%- include('partials/memoryCard', currentPart, build) %>
-        <% } %>
+          <% } %>
 
-      <% if (partCategory == "cpu"){ %>
+          <% if (partCategory=="cpu" ){ %>
 
-        <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/cpuCard', currentPart) %>
-        <% } %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/cpuCard', currentPart, build) %>
+          <% } %>
 
-      <% if (partCategory == "gpu"){ %>
+          <% if (partCategory=="gpu" ){ %>
 
-        <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/gpuCard', currentPart) %>
-        <% } %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/gpuCard', currentPart, build) %>
+          <% } %>
 
-      <% if (partCategory == "motherboards"){ %>
+          <% if (partCategory=="motherboards" ){ %>
 
-          <%currentPart = JSON.stringify(parts[i])%>
+          <%currentPart=JSON.stringify(parts[i])%>
           <%- include('partials/motherboardCard', currentPart, build) %>
-        <% } %>
+          <% } %>
 
 
-      <% if (partCategory == "storage"){ %>
-        <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/storageCard', currentPart, build) %>
-        <% } %>
+          <% if (partCategory=="storage" ){ %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/storageCard', currentPart, build) %>
+          <% } %>
 
-      <% if (partCategory == "case"){ %>
+          <% if (partCategory=="case" ){ %>
 
-        <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/caseCard', currentPart, build) %>
-        <% } %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/caseCard', currentPart, build) %>
+          <% } %>
 
-      <% if (partCategory == "cpucoolers"){ %>
+          <% if (partCategory=="cpucoolers" ){ %>
 
-          <%currentPart = JSON.stringify(parts[i])%>
-          <%- include('partials/cpuCoolerCard', currentPart, build) %>
-        <% } %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/cpuCoolerCard', currentPart, build)
+          %>
+          <% } %>
 
-      <% if (partCategory == "powersupplies"){ %>
+          <% if (partCategory=="powersupplies" ){ %>
 
-        <%currentPart = JSON.stringify(parts[i])%>
-        <%- include('partials/powerSupplyCard', currentPart) %>
-        <% } %>
+          <%currentPart=JSON.stringify(parts[i])%>
+          <%- include('partials/powerSupplyCard',
+          currentPart) %>
+          <% } %>
       <% } %>
 
-        <!-- compare button -->
-        <div class="container">
-          <div class="row text-center">
-            <div class="col-md-8">
-              <button type="button" class="btn btn-lg btn-primary btn-block">Compare</button>
-            </div>
-          </div>
+<!-- compare button form -->
+  <form action="/compare" method="POST" id="compareForm">
+    <input type="hidden" name="selectedFirstPart" id="selectedFirstPart" value=''>
+    <input type="hidden" name="selectedSecondPart" id="selectedSecondPart" value=''>
+    <input type="hidden" name="partsType" id="partsType" value='<%= partCategory %>'>
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-8">
+          <button type="submit" class="btn btn-lg btn-primary btn-block">Compare</button>
         </div>
+      </div>
+    </div>
+  </form>
 
-  </main>
-  <%- include('partials/iconbar') %>
+
+    </main>
+  <script>
+    // Get the Compare form element
+    const compareForm = document.getElementById('compareForm');
+    const selectedFirstPart = document.getElementById('selectedFirstPart');
+    const selectedSecondPart = document.getElementById('selectedSecondPart');
+    // Add a submit event listener to the Compare form
+    compareForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      // Get all the checkboxes
+      const checkboxes = document.getElementsByClassName('form-check-input');
+      const selectedParts = [];
+
+      // Iterate over each checkbox
+      for (let i = 0; i < checkboxes.length; i++) {
+        // Check if the checkbox is checked
+        if (checkboxes[i].checked) {
+          // Get the part ID from the data attribute
+          const partObj = checkboxes[i].getAttribute('value');
+
+          // Add the selected part to the array
+          selectedParts.push(partObj);
+
+        }
+      }
+
+      // Pull the JSON objects (parts) out from Array
+      selectedFirstPart.value = selectedParts[0];
+      selectedSecondPart.value = selectedParts[1];
+      // console.log(selectedFirstPart.value);
+      // console.log(selectedSecondPart.value);
+
+      // Submit the form
+      compareForm.submit();
+    });
+  </script>
+    <%- include('partials/iconbar') %>
