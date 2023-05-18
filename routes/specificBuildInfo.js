@@ -27,12 +27,25 @@ module.exports = function (app, userCollection) {
             // then console.log the array
             const parts = [];
             parts.push(cpus, gpus, memory, storage, motherboards, powerSupply, cases, cpuCoolers);
-            console.log(parts);
+            // console.log(parts);
 
-            const buildDescription = await makeAPIRequest(`Tell me what this build suited for, be detailed: ${parts} `);
-            console.log(buildDescription);
+            // Custom prompt for the AI
+            const promptRequest = (`Tell me what this build suited for, be detailed: ${parts} `);
 
+            // variable to store the AI's response
+            var buildDescription;
 
+            // get the current user
+            const currentUser = req.session.user;
+
+            // check if the buildDescription already exists in the user's document in the mongoDB, if it does, use that, if not, make the API call to the AI
+            if (currentUser.buildDescription) {
+                buildDescription = currentUser.buildDescription;
+                console.log("Build description already exists in the database");
+            } else {
+                buildDescription = await makeAPIRequest(promptRequest);
+                console.log("AI has been propmted to generate a build description");
+            }
 
             res.render('specificBuildInfo', {
                 build: build,
@@ -44,7 +57,7 @@ module.exports = function (app, userCollection) {
                 powerSupply: powerSupply,
                 cases: cases,
                 cpuCoolers: cpuCoolers,
-                buildDescription: buildDescription
+                renderedBuildDescription: buildDescription,
             });
         } catch (error) {
             console.error('Error retrieving data from MongoDB:', error);
