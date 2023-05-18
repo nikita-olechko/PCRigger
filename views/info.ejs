@@ -1,155 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+
+</body>
+
+</html>
 <%- include ('partials/navbar') %>
-
-    <h2>Info Compendium</h2>
-
-
-    <main>
-        <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
-            <div class="container">
-                <div class="category" data-toggle="collapse" data-target="#categoryList" aria-expanded="false"
-                    aria-controls="categoryList">
-                    <h2>Parts Information:</h2>
-                </div>
-                <div id="categoryList" class="collapse">
-
-                    <!-- Category 1 -->
-                    <div class="category" data-toggle="collapse" data-target="#subcategoryList1" aria-expanded="false"
-                        aria-controls="subcategoryList1">
-                        <h5>CPUs</h5>
+    <link rel="stylesheet" type="text/css" href="styles/info.css">
+    <div class="container general-margin">
+        <main>
+            <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
+                <div class="container">
+                    <div class="category-toggle" data-toggle="collapse" data-target="#categoryList"
+                        aria-expanded="false" aria-controls="categoryList">
+                        <h2>Parts Information</h2>
+                        <span class="collapse-icon">▼</span>
                     </div>
-                    <div id="subcategoryList1" class="collapse">
-                        <!-- Loop through each CPU document -->
-                        <% cpus.forEach(function(cpu) { %>
-                            <form action="/specs" method="POST">
-                                <input type="hidden" name="part" value='<%= JSON.stringify(cpu) %>'>
-                                <button type="submit" class="btn btn-secondary mt-2">
-                                    <%= cpu.cpuName %>
-                                </button>
-                            </form>
+                    <div id="categoryList" class="collapse">
+                        <!-- Category 1 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList1"
+                            aria-expanded="false" aria-controls="subcategoryList1">
+                            <h5>CPUs</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList1" class="collapse">
+                            <% CPU_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
                             <% }) %>
+
+                        </div>
+                        <!-- Category 2 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList2"
+                            aria-expanded="false" aria-controls="subcategoryList2">
+                            <h5>GPUs</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList2" class="collapse">
+                            <% GPU_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <!-- Category 3 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList3"
+                            aria-expanded="false" aria-controls="subcategoryList3">
+                            <h5>Memory</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList3" class="collapse">
+                            <% Memory_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <!-- Category 4 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList4"
+                            aria-expanded="false" aria-controls="subcategoryList4">
+                            <h5>CPU Coolers</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList4" class="collapse">
+                            <% CPU_Cooler_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <!-- Category 5 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList5"
+                            aria-expanded="false" aria-controls="subcategoryList5">
+                            <h5>Motherboards</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList5" class="collapse">
+                            <% Motherboards_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <!-- Category 6 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList6"
+                            aria-expanded="false" aria-controls="subcategoryList6">
+                            <h5>Storage</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList6" class="collapse">
+                            <% Storage_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+                        </div>
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList7"
+                            aria-expanded="false" aria-controls="subcategoryList7">
+                            <h5>Power Supplies</h5>
+                            <span class="collapse-icon">▼</span>
+
+                        </div>
+                        <div id="subcategoryList7" class="collapse">
+                            <% Powersupplies_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList8"
+                            aria-expanded="false" aria-controls="subcategoryList8">
+                            <h5>Cases</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList8" class="collapse">
+                            <% Cases_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
                     </div>
-
-
-                    <!-- Category 2 -->
-                    <div class="category" data-toggle="collapse" data-target="#subcategoryList2" aria-expanded="false"
-                        aria-controls="subcategoryList2">
-                        <h5>GPUs</h5>
-
-                    </div>
-                    <div id="subcategoryList2" class="collapse">
-                        <% gpus.forEach(function(gpu) { %>
-                            <form action="/specs" method="POST">
-                                <input type="hidden" name="part" value='<%= JSON.stringify(gpu) %>'>
-                                <button type="submit" class="btn btn-secondary mt-2">
-                                    <%= gpu.name %>
-                                </button>
-                                <% }) %>
-                    </div>
-
-                    <!-- Category 3 -->
-                    <div class="category" data-toggle="collapse" data-target="#subcategoryList3" aria-expanded="false"
-                        aria-controls="subcategoryList3">
-                        <h5>Memory</h5>
-
-                    </div>
-                    <div id="subcategoryList3" class="collapse">
-                        <% memory.forEach(function(memory) { %>
-                            <form action="/specs" method="POST">
-                                <input type="hidden" name="part" value='<%= JSON.stringify(memory) %>'>
-                                <button type="submit" class="btn btn-secondary mt-2">
-                                    <%= memory.name %>
-                                </button>
-                                <% }) %>
-                    </div>
-
-                    <!-- Category 4 -->
-                    <div class="category" data-toggle="collapse" data-target="#subcategoryList4" aria-expanded="false"
-                        aria-controls="subcategoryList4">
-                        <h5>CPU Coolers</h5>
-
-                    </div>
-                    <div id="subcategoryList4" class="collapse">
-                        <% cpuCoolers.forEach(function(cpuCooler) { %>
-                            <form action="/specs" method="POST">
-                                <input type="hidden" name="part" value='<%= JSON.stringify(cpuCooler) %>'>
-                                <button type="submit" class="btn btn-secondary mt-2">
-                                    <%= cpuCooler.name %>
-                                </button>
-                                <% }) %>
-                    </div>
-
-                    <!-- Category 5 -->
-                    <div class="category" data-toggle="collapse" data-target="#subcategoryList5" aria-expanded="false"
-                        aria-controls="subcategoryList5">
-                        <h5>Motherboards</h5>
-
-                    </div>
-                    <div id="subcategoryList5" class="collapse">
-                        <% motherboards.forEach(function(motherboard) { %>
-                            <form action="/specs" method="POST">
-                                <input type="hidden" name="part" value='<%= JSON.stringify(motherboard) %>'>
-                                <button type="submit" class="btn btn-secondary mt-2">
-                                    <%= motherboard.name %>
-                                </button>
-                                <% }) %>
-                    </div>
-
-                    <!-- Category 6 -->
-                    <div class="category" data-toggle="collapse" data-target="#subcategoryList6" aria-expanded="false"
-                        aria-controls="subcategoryList6">
-                        <h5>Storage</h5>
-
-                    </div>
-                    <div id="subcategoryList6" class="collapse">
-                        <% storage.forEach(function(storage) { %>
-                            <form action="/specs" method="POST">
-                                <input type="hidden" name="part" value='<%= JSON.stringify(storage) %>'>
-                                <button type="submit" class="btn btn-secondary mt-2">
-                                    <%= storage.name %>
-                                </button>
-                                <% }) %>
-                    </div>
-
-                    <div class="category" data-toggle="collapse" data-target="#subcategoryList7" aria-expanded="false"
-                        aria-controls="subcategoryList7">
-                        <h5>Power Supplies</h5>
-                    </div>
-                    <div id="subcategoryList7" class="collapse">
-                        <% powerSupply.forEach(function(powerSupply) { %>
-                            <form action="/specs" method="POST">
-                                <input type="hidden" name="part" value='<%= JSON.stringify(powerSupply) %>'>
-                                <button type="submit" class="btn btn-secondary mt-2">
-                                    <%= powerSupply.name %>
-                                </button>
-                                <% }) %>
-                    </div>
-
-                    <div class="category" data-toggle="collapse" data-target="#subcategoryList8" aria-expanded="false"
-                        aria-controls="subcategoryList8">
-                        <h5>Cases</h5>
-
-                    </div>
-                    <div id="subcategoryList8" class="collapse">
-                        <% cases.forEach(function(caseItem) { %>
-                            <form action="/specs" method="POST">
-                                <input type="hidden" name="part" value='<%= JSON.stringify(caseItem) %>'>
-                                <button type="submit" class="btn btn-secondary mt-2">
-                                    <%= caseItem.name %>
-                                </button>
-                                <% }) %>
-                    </div>
-
-
                 </div>
             </div>
 
 
 
+            <script>
+                clickCount = 0;
+                $(document).ready(function () {
+                    if (clickCount == 0) {
+                        $('.category-toggle').addClass('collapsed');
+                        $('.category-toggle').find('.collapse-icon').css('color', 'white');
+                        $('.category-toggle').removeClass('expanded');
+                        clickCount++;
+                    }
+                    $('.category-toggle').on('click', function () {
+                        $(this).toggleClass('collapsed');
+                        if ($(this).hasClass('collapsed')) {
+                            $(this).find('.collapse-icon').css('color', 'white');
 
-            <!-- <div id="buildGuides">
-                <h2>Build Guides</h2>
-               Add your build guides content here
-            </div> -->
-    </main>
+                        } else {
+                            $(this).addClass('expanded');
+                            $(this).find('.collapse-icon').css('color', 'turquoise');
+                        }
+                    });
+                });
+            </script>
 
-    <%- include('partials/iconbar') %>
+
+
+            <%- include('partials/iconbar') %>
