@@ -81,6 +81,8 @@ require('./routes/partsCategoryPage')(app);
 
 require('./routes/specsPage')(app, userCollection);
 
+require('./routes/generateNewBuild')(app, userCollection);
+
 require('./routes/configurator')(app, userCollection);
 
 require('./routes/specificBuildInfo')(app, userCollection);

@@ -26,7 +26,7 @@
                 <div class="container">
                     <div class="category-toggle" data-toggle="collapse" data-target="#categoryList"
                         aria-expanded="false" aria-controls="categoryList">
-                        <h2>Parts Information:</h2>
+                        <h2>Parts Information</h2>
                         <span class="collapse-icon">▼</span>
                     </div>
                     <div id="categoryList" class="collapse">
@@ -220,18 +220,18 @@
             $(document).ready(function () {
                 if (clickCount == 0) {
                     $('.category-toggle').addClass('collapsed');
-                    $('.category-toggle').find('.collapse-icon').css('color', 'green');
+                    $('.category-toggle').find('.collapse-icon').css('color', 'white');
                     $('.category-toggle').removeClass('expanded');
                     clickCount++;
                 }
                 $('.category-toggle').on('click', function () {
                     $(this).toggleClass('collapsed');
                     if ($(this).hasClass('collapsed')) {
-                        $(this).find('.collapse-icon').css('color', 'green');
+                        $(this).find('.collapse-icon').css('color', 'white');
 
                     } else {
                         $(this).addClass('expanded');
-                        $(this).find('.collapse-icon').css('color', 'red');
+                        $(this).find('.collapse-icon').css('color', 'turquoise');
                     }
                 });
             });

@@ -8,7 +8,7 @@
     margin-left: 5%;
     margin-bottom: 5px;
     transition: transform 0.3s, color 0.3s;
-    color: red;
+    color: white;
 }
 
 .collapsed .collapse-icon {
