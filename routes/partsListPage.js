@@ -717,7 +717,9 @@ module.exports = function (app) {
           if (req.body.build) {
             if(currentBuild.parts.cpu || currentBuild.parts.motherboard) {
               compatibility = await determineCpuCoolerCompatibility(currentBuild)
-              query = { supportedSockets: {$all: compatibility}}
+              if (desiredCoolingType == "AirCooling") {query = { supportedSockets: {$all: compatibility}, radiatorSize: "Air"}}
+              if (desiredCoolingType == "LiquidCooling") {query = { supportedSockets: {$all: compatibility}, radiatorSize: {$ne: "Air"}}}
+              else {query = { supportedSockets: {$all: compatibility}}}
             }
           }
           if (desiredCoolingType == "AirCooling") {
