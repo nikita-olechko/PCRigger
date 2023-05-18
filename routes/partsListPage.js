@@ -493,6 +493,15 @@ module.exports = function (app) {
       });
     };
 
+    const determineCaseCompatibility = async function(currentBuild) {
+      return new Promise((resolve, reject) => {
+        motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+          compatibleWith = result[0].formFactor
+          resolve(compatibleWith)
+        })
+      })
+    }
+
     const cpuCoolerFilteredSearch = function (query, skip, perpage) {
       return new Promise((resolve, reject) => {
         cpuCoolerCollection.find(query)
@@ -531,84 +540,84 @@ module.exports = function (app) {
     } 
 
     switch (partCategory) {
-      // case 'gpu':
-      //   const minimumMemorySize = req.body.memSize || 0;
-      //   const desiredManufacturer = req.body.manufacturer ? [req.body.manufacturer] : ["AMD", "NVIDIA"];
-      //   if (!req.body.query) {
-      //     if (req.body.bus) {query = {
-      //       memSize: { $gte: parseInt(minimumMemorySize) },
-      //       bus: req.body.bus,
-      //       manufacturer: {$in: desiredManufacturer}}
-      //   } else {
-      //     query = {
-      //       memSize: { $gte: parseInt(minimumMemorySize) },
-      //       manufacturer: {$in: desiredManufacturer}
-      //     }
-      //   }
-      //   }
-      // gpuCollection.countDocuments(query, async function(err, count) {
-      //   if (err) throw err;
-      //   totalParts = count;     
-      //   results = await gpuFilteredSearch(query, skip, perPage)
-      //   searchFunction(results, partCategory, page, totalParts, query);
-      // })
+      case 'gpu':
+        const minimumMemorySize = req.body.memSize || 0;
+        const desiredManufacturer = req.body.manufacturer ? [req.body.manufacturer] : ["AMD", "NVIDIA"];
+        if (!req.body.query) {
+          if (req.body.bus) {query = {
+            memSize: { $gte: parseInt(minimumMemorySize) },
+            bus: req.body.bus,
+            manufacturer: {$in: desiredManufacturer}}
+        } else {
+          query = {
+            memSize: { $gte: parseInt(minimumMemorySize) },
+            manufacturer: {$in: desiredManufacturer}
+          }
+        }
+        }
+      gpuCollection.countDocuments(query, async function(err, count) {
+        if (err) throw err;
+        totalParts = count;     
+        results = await gpuFilteredSearch(query, skip, perPage)
+        searchFunction(results, partCategory, page, totalParts, query);
+      })
   
-      //   break;
+        break;
 
-      // case 'ram':
-      //   const minimumRamSize = req.body.memSize || 2;
-      //   const desiredGen = req.body.gen ? [req.body.gen] : ["DDR4", "DDR5"];
-      //   defaultQuery = {capacity: { $gte: parseInt(minimumRamSize) }, gen: { $in: desiredGen }};
-      //   if (!req.body.query && !req.body.build) {
-      //       query = defaultQuery
-      //     }
-      //   if (!req.body.query && req.body.build) {
-      //     if (currentBuild.parts.motherboard) {
-      //       compatibility = await determineMemoryCompatibility(currentBuild)
-      //       console.log(compatibility)
-      //       query = {
-      //         capacity: { $gte: parseInt(minimumRamSize) },
-      //         gen: {$in: compatibility}, 
-      //       }
-      //     } if (!currentBuild.parts.motherboard) {
-      //       query = defaultQuery
-      //     }
-      //     }
+      case 'ram':
+        const minimumRamSize = req.body.memSize || 2;
+        const desiredGen = req.body.gen ? [req.body.gen] : ["DDR4", "DDR5"];
+        defaultQuery = {capacity: { $gte: parseInt(minimumRamSize) }, gen: { $in: desiredGen }};
+        if (!req.body.query && !req.body.build) {
+            query = defaultQuery
+          }
+        if (!req.body.query && req.body.build) {
+          if (currentBuild.parts.motherboard) {
+            compatibility = await determineMemoryCompatibility(currentBuild)
+            console.log(compatibility)
+            query = {
+              capacity: { $gte: parseInt(minimumRamSize) },
+              gen: {$in: compatibility}, 
+            }
+          } if (!currentBuild.parts.motherboard) {
+            query = defaultQuery
+          }
+          }
 
-      //   memoryCollection.countDocuments(query, async function(err, count) {
-      //     if (err) throw err;
-      //     totalParts = count;
-      //     results = await memoryFilteredSearch(query, skip, perPage);
-      //     searchFunction(results, partCategory, page, totalParts, query);
-      //   });
+        memoryCollection.countDocuments(query, async function(err, count) {
+          if (err) throw err;
+          totalParts = count;
+          results = await memoryFilteredSearch(query, skip, perPage);
+          searchFunction(results, partCategory, page, totalParts, query);
+        });
 
-      //   break;
+        break;
 
-      // case 'cpu':
-      //   const minimumCoreCount = req.body.cores || 0;
-      //   const maximumTdp = req.body.tdp || 500;
-      //   defaultQuery = {cores: { $gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}}
-      //   if (!req.body.query && !req.body.build) {
-      //       query = defaultQuery;
-      //   }
-      //   if (!req.body.query && req.body.build) {
-      //     if (currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler || currentBuild.parts.motherboard && currentBuild.parts.cpuCooler){
-      //       compatibility = await determineCpuCompatibility(currentBuild)
-      //       query = {cores: { $gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}, socket: compatibility}
-      //     } else if (currentBuild.parts.cpuCooler){
-      //       compatibility = await determineCpuCompatibility(currentBuild)
-      //       query = {cores: {$gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}, socket:{$in: compatibility}}
-      //     } else {
-      //       query = defaultQuery
-      //     }
-      //   }
-      // cpuCollection.countDocuments(query, async function (err, count) {
-      //   if (err) throw err;
-      //   totalParts = count;
-      //   results = await cpuFilteredSearch(query, skip, perPage);
-      //   searchFunction(results, partCategory, page, totalParts, query)
-      // })
-      //   break;
+      case 'cpu':
+        const minimumCoreCount = req.body.cores || 0;
+        const maximumTdp = req.body.tdp || 500;
+        defaultQuery = {cores: { $gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}}
+        if (!req.body.query && !req.body.build) {
+            query = defaultQuery;
+        }
+        if (!req.body.query && req.body.build) {
+          if (currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler || currentBuild.parts.motherboard && currentBuild.parts.cpuCooler){
+            compatibility = await determineCpuCompatibility(currentBuild)
+            query = {cores: { $gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}, socket: compatibility}
+          } else if (currentBuild.parts.cpuCooler){
+            compatibility = await determineCpuCompatibility(currentBuild)
+            query = {cores: {$gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}, socket:{$in: compatibility}}
+          } else {
+            query = defaultQuery
+          }
+        }
+      cpuCollection.countDocuments(query, async function (err, count) {
+        if (err) throw err;
+        totalParts = count;
+        results = await cpuFilteredSearch(query, skip, perPage);
+        searchFunction(results, partCategory, page, totalParts, query)
+      })
+        break;
 
       case 'motherboards':
         const desiredFormFactor = req.body.formFactor ? [req.body.formFactor] : ["ATX", "Micro-ATX"]
@@ -653,12 +662,17 @@ module.exports = function (app) {
           results = await storageFilteredSearch(query, skip, perPage);
           searchFunction(results, partCategory, page, totalParts, query);
         });
-        break;
+          break;
 
       case 'case':
-        if (!req.body.query) {
-            query = {
-            };
+        defaultQuery = {}
+        if (!req.body.query && req.body.build) {
+          if (currentBuild.parts.motherboard) {
+            compatibility = determineCaseCompatibility(currentBuild)
+            query = {SupportedMotherboardSizes: {$in: compatibility}}
+          } else {
+            query = defaultQuery
+          }
           }
         caseCollection.countDocuments(query, async function(err, count) {
           if (err) throw err;
