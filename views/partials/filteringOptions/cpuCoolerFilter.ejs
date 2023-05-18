@@ -1,10 +1,8 @@
 <%
-
 if (query) {
     query = JSON.parse(query)
     console.log((query.radiatorSize))
 }
-
 %>
 
 
@@ -16,10 +14,10 @@ if (query) {
                 <input type="hidden" value='<%= build%>' name="build">
                 <input type="hidden" value='<%= partCategory%>' name="formId">
 
-                <input class="form-check-input" type="radio" name="radiatorSize" value="AirCooling" <% if (query){ if (query.radiatorSize == "Air") { %> checked <% }}%>>
+                <input class="form-check-input" type="radio" name="radiatorSize" value="AirCooling" <% if (query){ if (query.radiatorSize) {if (query.radiatorSize === "Air") { %> checked <% }}}%>>
                 <label>Air Cooled</label>
 
-                <input class="form-check-input" type="radio" name="radiatorSize" value="LiquidCooling" <% if (query){ if (query.radiatorSize  != "Air") { %> checked <% }} %>>
+                <input class="form-check-input" type="radio" name="radiatorSize" value="LiquidCooling" <% if (query){ if (query.radiatorSize) { if (query.radiatorSize  !== "Air") { %> checked <% }}} %>>
                 <label>Liquid Cooled</label><br>
 
                 <br>

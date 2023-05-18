@@ -309,12 +309,8 @@ const powerSupplyFilteredSearch = function (query, skip, perpage) {
 
 // Route handler for the parts list page
 module.exports = function (app) {
-  
-  app.get('/parts', (req, res) => {
-    res.render('partsListPage');
-  });
 
-  app.post('/parts', async (req, res) => {
+app.post('/parts', async (req, res) => {
   /**
   Renders the search results page with the filtered parts list.
   @param {Array} result - The array of search results.
@@ -324,17 +320,17 @@ module.exports = function (app) {
   @param {object} query - The search query object.
   @param {object} build - Object of the users build.
  */
-    const renderSearchFunction = async function(result, partCategory, page, totalParts, query, build) {
-      // console.log(req.body.build)
-        res.render('filteredPartsListPage', {
-          parts: result,
-          partCategory: partCategory,
-          build: build,
-          page: page,
-          totalParts: totalParts,
-          query: query
-        })
-      }
+  const renderSearchFunction = async function(result, partCategory, page, totalParts, query, build) {
+    // console.log(req.body.build)
+      res.render('filteredPartsListPage', {
+        parts: result,
+        partCategory: partCategory,
+        build: build,
+        page: page,
+        totalParts: totalParts,
+        query: query
+      })
+    }
 
     console.log("Filter Page")
     let query
@@ -345,10 +341,10 @@ module.exports = function (app) {
     var page = parseInt(pageExists);
     const perPage = 15;
     const skip = (page - 1) * perPage;
-    searchFunction = renderSearchFunction;
+    searchFunction = renderSearchFunction
 
     const partCategory = req.body.formId;
-    // console.log(req.body.formId)
+    console.log(req.body.formId)
     // console.log("Passed in part type: " + partCategory);
 
     if (req.body.build) {
@@ -359,7 +355,7 @@ module.exports = function (app) {
       query = JSON.parse(req.body.query)
     } 
 
-    switch (partCategory) {
+  switch (partCategory) {
       case 'gpu':
         const minimumMemorySize = req.body.memSize || 0;
         const desiredManufacturer = req.body.manufacturer ? [req.body.manufacturer] : ["AMD", "NVIDIA"];
@@ -494,6 +490,9 @@ module.exports = function (app) {
             query = defaultQuery
           }
           }
+        else {
+          query = defaultQuery
+        }
         caseCollection.countDocuments(query, async function(err, count) {
           if (err) throw err;
           totalParts = count;
@@ -503,21 +502,27 @@ module.exports = function (app) {
         break;
 
       case 'cpucoolers':
-        const desiredCoolingType = req.body.radiatorSize
-        if (!req.body.query) {
-          if (req.body.build) {
-            if(currentBuild.parts.cpu || currentBuild.parts.motherboard) {
+        if (!req.body.query && req.body.build) {
+            if (currentBuild.parts.cpu || currentBuild.parts.motherboard) {
               compatibility = await determineCpuCoolerCompatibility(currentBuild)
-              if (desiredCoolingType == "AirCooling") {query = { supportedSockets: {$all: compatibility}, radiatorSize: "Air"}}
-              if (desiredCoolingType == "LiquidCooling") {query = { supportedSockets: {$all: compatibility}, radiatorSize: {$ne: "Air"}}}
-              else {query = { supportedSockets: {$all: compatibility}}}
+              if (!req.body.radiatorSize) {
+                query = { supportedSockets: {$all: compatibility}}
+              } else if (req.body.radiatorSize) {
+                const desiredCoolingType = req.body.radiatorSize
+                if (desiredCoolingType == "AirCooling") {query = { supportedSockets: {$all: compatibility}, radiatorSize: "Air"}}
+                if (desiredCoolingType == "LiquidCooling") {query = { supportedSockets: {$all: compatibility}, radiatorSize: {$ne: "Air"}}}
+              }
+            } else {
+              query = {}
             }
+        } else {
+          if (req.body.radiatorSize) {
+            const desiredCoolingType = req.body.radiatorSize
+            if (desiredCoolingType == "AirCooling") {query = {radiatorSize: "Air"}}
+            if (desiredCoolingType == "LiquidCooling") {query = {radiatorSize: {$ne: "Air"}}}
+          } else {
+            query = {}
           }
-          if (desiredCoolingType == "AirCooling") {
-            query = {radiatorSize: "Air"}
-          } if (desiredCoolingType == "LiquidCooling") { 
-            query = {radiatorSize: {$ne: "Air"}};
-          } 
         }
       cpuCoolerCollection.countDocuments(query, async function(err, count) {
         if (err) throw err;
