@@ -39,13 +39,16 @@
                         <div id="subcategoryList1" class="collapse">
                             <!-- Loop through each CPU document -->
                             <% cpus.forEach(function(cpu) { %>
-                                <form action="/specs" method="POST">
+                                <form action="/infoSpecs" method="POST">
                                     <input type="hidden" name="part" value='<%= JSON.stringify(cpu) %>'>
-                                    <button type="submit" class="btn btn-secondary mt-2">
+                                    <input type="hidden" name="partType" value='cpu'>
+                                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= cpu %>
                                     </button>
                                 </form>
                                 <% }) %>
+                                    <br>
+
                         </div>
                         <!-- Category 2 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList2"
@@ -55,13 +58,16 @@
                         </div>
                         <div id="subcategoryList2" class="collapse">
                             <% gpus.forEach(function(gpu) { %>
-                                <form action="/specs" method="POST">
+                                <form action="/infoSpecs" method="POST">
                                     <input type="hidden" name="part" value='<%= JSON.stringify(gpu) %>'>
-                                    <button type="submit" class="btn btn-secondary mt-2">
+                                    <input type="hidden" name="partType" value='gpu'>
+                                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= gpu %>
                                     </button>
                                 </form>
                                 <% }) %>
+                                    <br>
+
                         </div>
                         <!-- Category 3 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList3"
@@ -71,13 +77,16 @@
                         </div>
                         <div id="subcategoryList3" class="collapse">
                             <% memory.forEach(function(memory) { %>
-                                <form action="/specs" method="POST">
+                                <form action="/infoSpecs" method="POST">
                                     <input type="hidden" name="part" value='<%= JSON.stringify(memory) %>'>
-                                    <button type="submit" class="btn btn-secondary mt-2">
+                                    <input type="hidden" name="partType" value='memory'>
+                                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= memory %>
                                     </button>
                                 </form>
                                 <% }) %>
+                                    <br>
+
                         </div>
                         <!-- Category 4 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList4"
@@ -87,13 +96,16 @@
                         </div>
                         <div id="subcategoryList4" class="collapse">
                             <% cpuCoolers.forEach(function(cpuCooler) { %>
-                                <form action="/specs" method="POST">
+                                <form action="/infoSpecs" method="POST">
                                     <input type="hidden" name="part" value='<%= JSON.stringify(cpuCooler) %>'>
-                                    <button type="submit" class="btn btn-secondary mt-2">
+                                    <input type="hidden" name="partType" value='cpucoolers'>
+                                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= cpuCooler %>
                                     </button>
                                 </form>
                                 <% }) %>
+                                    <br>
+
                         </div>
                         <!-- Category 5 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList5"
@@ -103,13 +115,16 @@
                         </div>
                         <div id="subcategoryList5" class="collapse">
                             <% motherboards.forEach(function(motherboard) { %>
-                                <form action="/specs" method="POST">
+                                <form action="/infoSpecs" method="POST">
                                     <input type="hidden" name="part" value='<%= JSON.stringify(motherboard) %>'>
-                                    <button type="submit" class="btn btn-secondary mt-2">
+                                    <input type="hidden" name="partType" value='motherboards'>
+                                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= motherboard %>
                                     </button>
                                 </form>
                                 <% }) %>
+                                    <br>
+
                         </div>
                         <!-- Category 6 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList6"
@@ -119,13 +134,15 @@
                         </div>
                         <div id="subcategoryList6" class="collapse">
                             <% storage.forEach(function(storage) { %>
-                                <form action="/specs" method="POST">
+                                <form action="/infoSpecs" method="POST">
                                     <input type="hidden" name="part" value='<%= JSON.stringify(storage) %>'>
-                                    <button type="submit" class="btn btn-secondary mt-2">
+                                    <input type="hidden" name="partType" value='storage'>
+                                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= storage %>
                                     </button>
                                 </form>
                                 <% }) %>
+                                    <br>
                         </div>
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList7"
                             aria-expanded="false" aria-controls="subcategoryList7">
@@ -135,13 +152,16 @@
                         </div>
                         <div id="subcategoryList7" class="collapse">
                             <% powerSupply.forEach(function(powerSupply) { %>
-                                <form action="/specs" method="POST">
+                                <form action="/infoSpecs" method="POST">
                                     <input type="hidden" name="part" value='<%= JSON.stringify(powerSupply) %>'>
-                                    <button type="submit" class="btn btn-secondary mt-2">
+                                    <input type="hidden" name="partType" value='powersupplies'>
+                                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= powerSupply %>
                                     </button>
                                 </form>
                                 <% }) %>
+                                    <br>
+
                         </div>
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList8"
                             aria-expanded="false" aria-controls="subcategoryList8">
@@ -150,13 +170,17 @@
                         </div>
                         <div id="subcategoryList8" class="collapse">
                             <% cases.forEach(function(caseItem) { %>
-                                <form action="/specs" method="POST">
+                                <form action="/infoSpecs" method="POST">
                                     <input type="hidden" name="part" value='<%= JSON.stringify(caseItem) %>'>
-                                    <button type="submit" class="btn btn-secondary mt-2">
+                                    <input type="hidden" name="partType" value='case'>
+                                    <button type="submit" class="btn btn-secondary mt-2 general-margin">
                                         <%= caseItem %>
                                     </button>
                                 </form>
                                 <% }) %>
+
+                                    <br>
+
                         </div>
                     </div>
                 </div>
@@ -174,7 +198,7 @@
         <script>
             clickCount = 0;
             $(document).ready(function () {
-                if (clickCount == 0){
+                if (clickCount == 0) {
                     $('.category-toggle').addClass('collapsed');
                     $('.category-toggle').find('.collapse-icon').css('color', 'green');
                     $('.category-toggle').removeClass('expanded');
@@ -194,24 +218,6 @@
                     }
                 });
             });
-
-                // $(document).ready(function () {
-                //         $('.category-toggle').on('click', function () {
-                //             $(this).toggleClass('collapsed');
-                //             if ($(this).hasClass('collapsed')) {
-                //                 $(this).removeClass('expanded');
-                //                 $(this).find('.collapse-icon').css({
-                //                     transform: 'rotate(-120deg)'
-                //                 });
-                //             } else {
-                //                 $(this).addClass('expanded');
-                //                 $(this).find('.collapse-icon').css({
-                //                     transform: 'rotate(0)'
-                //                 });
-                //             }
-                //         });
-                //     });
-
         </script>
 
 

@@ -79,7 +79,7 @@ require('./routes/searchPartFunction')(app);
 
 require('./routes/partsCategoryPage')(app);
 
-require('./routes/specsPage')(app);
+require('./routes/specsPage')(app, userCollection);
 
 require('./routes/configurator')(app, userCollection);
 
