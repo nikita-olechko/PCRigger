@@ -118,7 +118,7 @@ module.exports = function (app) {
           if (req.body.build) {
             currentBuild = JSON.parse(req.body.build)
             if (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler) {
-              motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) {
+              motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, moboResult) { 
                 if (err) throw err;
                 cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).sort({cpuMark: -1}).toArray(function (err, coolerResult) {
                   if (err) throw err;
@@ -410,7 +410,7 @@ module.exports = function (app) {
 
     const determineCpuCompatibility = async function(currentBuild) {
       return new Promise((resolve, reject) => {
-        if (currentBuild.parts.motherboard) {
+        if (currentBuild.parts.motherboard || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)) {
           motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
             if (err) throw err;
             console.log(result)
@@ -421,7 +421,7 @@ module.exports = function (app) {
         cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, result) {
           if (err) throw err;
           console.log(result)
-          compatibleWith = result[0].socket
+          compatibleWith = result[0].supportedSockets
           resolve(compatibleWith)
       })
     }
@@ -567,9 +567,12 @@ module.exports = function (app) {
             query = defaultQuery;
         }
         if (!req.body.query && req.body.build) {
-          if (currentBuild.parts.motherboard || currentBuild.parts.cpuCooler){
+          if (currentBuild.parts.motherboard || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)){
             compatibility = await determineCpuCompatibility(currentBuild)
-            query = {cores: {$gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}, socket: compatibility}
+            query = compatibility = await determineCpuCompatibility(currentBuild)
+          } else if (currentBuild.parts.cpuCooler){
+            compatibility = await determineCpuCompatibility(currentBuild)
+            query = {cores: {$gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}, socket:{$in: compatibility}}
           } else {
             query = defaultQuery
           }
