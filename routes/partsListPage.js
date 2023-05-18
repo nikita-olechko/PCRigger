@@ -397,6 +397,19 @@ module.exports = function (app) {
       });
     };
 
+    const motherboardFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve, reject) => {
+        motherboardCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort()
+          .toArray(function (err, result) {
+            if (err) reject(err);
+            resolve(result);
+          });
+      });
+    };
+
 
     if (req.body.build) {
       // console.log("there is a build")
@@ -480,6 +493,21 @@ module.exports = function (app) {
         break;
 
       case 'motherboards':
+        const desiredFormFactor = req.body.formFactor ? [req.body.formFactor] : ["ATX", "Micro-ATX"]
+        const desiredPcieGen = req.body.pcieGeneration ? [req.body.pcieGeneration] : ["PCIe 4.0", "PCIe 5.0"];
+        if (!req.body.query) {
+            query = {
+              formFactor: { $in: desiredFormFactor },
+              pcieGeneration: { $in: desiredPcieGen },
+            };
+          }
+        motherboardCollection.countDocuments(query, async function(err, count) {
+          if (err) throw err;
+          totalParts = count;
+          results = await motherboardFilteredSearch(query, skip, perPage);
+          console.log(results)
+          searchFunction(results, partCategory, page, totalParts, query);
+        });
         break;
 
       case 'storage':
