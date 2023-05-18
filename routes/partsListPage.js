@@ -410,14 +410,14 @@ module.exports = function (app) {
 
     const determineCpuCompatibility = async function(currentBuild) {
       return new Promise((resolve, reject) => {
-        if (currentBuild.parts.motherboard || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)) {
+        if ((currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler) || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)) {
           motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
             if (err) throw err;
             console.log(result)
             compatibleWith = result[0].socket
             resolve(compatibleWith)
           })
-      } if (currentBuild.parts.cpuCooler) {
+      } else if (currentBuild.parts.cpuCooler) {
         cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, result) {
           if (err) throw err;
           console.log(result)
@@ -567,9 +567,9 @@ module.exports = function (app) {
             query = defaultQuery;
         }
         if (!req.body.query && req.body.build) {
-          if (currentBuild.parts.motherboard || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)){
+          if (currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler || currentBuild.parts.motherboard && currentBuild.parts.cpuCooler){
             compatibility = await determineCpuCompatibility(currentBuild)
-            query = compatibility = await determineCpuCompatibility(currentBuild)
+            query = {cores: { $gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}, socket: compatibility}
           } else if (currentBuild.parts.cpuCooler){
             compatibility = await determineCpuCompatibility(currentBuild)
             query = {cores: {$gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}, socket:{$in: compatibility}}
