@@ -1,49 +1,43 @@
-<%
-blankOption = {
-    _id: '645c1e50008eb30bebffffff',
-    class: 'performance',
-    name: 'Blank',
-    parts: {
-        cpu: null,
-        gpu: null,
-        ram: null,
-        motherboard: null,
-        cpuCooler: null,
-        storage: null,
-        case: null,
-        powerSupply: null
-    }
-}
-blankBuild = JSON.stringify(blankOption);
-%>
+<% blankOption={ _id: '645c1e50008eb30bebffffff' , class: 'performance' , name: 'Blank' , parts: { cpu: null, gpu: null,
+    ram: null, motherboard: null, cpuCooler: null, storage: null, case: null, powerSupply: null } }
+    blankBuild=JSON.stringify(blankOption); %>
 
 
 
-<%- include('partials/navbar') %>
+    <%- include('partials/navbar') %>
+        <br>
+        <div class="container">
+            <h1>Blank Configurator</h1>
+            <p>Build your own PC from scratch</p>
+            <div id="blankConfigurator" class="rounded-3">
+                <form action="/configurator" method="post">
+                    <input type="hidden" name="build" value='<%=blankBuild%>'>
+                    <input type="submit" value="Blank Configurator" class="form-control btn-primary">
+                </form>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="container">
+            <h1>Prebuilt Options</h1>
+            <p>Select your desired category for a computer</p>
+            <div id="prebuiltCategories" class="rounded-3">
+                <% forms.forEach(function(form){ %>
+                    <%- include('partials/prebuiltForms', { route: form.route, description: form.description, formId:
+                        form.formId }) %>
+                        <% }) %>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="container">
+            <h1>Generate A Build Using AI</h1>
+            <p>Select your priorities</p>
+            <div id="generateNewBuild" class="rounded-3">
+                <%- include('partials/prebuiltForms', { route: "/generateNewBuild", description: "Generate New Build", formId:
+                    "Insert Selected Filters Here" }) %>
 
-<div class="container">
-    <h1>Blank Configurator</h1>
-    <p>Build your own PC from scratch</p>
-    <div id="blankConfigurator" class="rounded-3">
-        <form action="/configurator" method="post">
-            <input type="hidden" name="build" value='<%=blankBuild%>'>
-            <input type="submit" value="Blank Configurator" class="form-control btn-primary">
-        </form>
-    </div>
-</div>
-<br>
-<div class="container">
-    <h1>Prebuilt Options</h1>
-    <p>Select your desired category for a computer</p>
-    <div id="prebuiltCategories" class="rounded-3">
-        <% forms.forEach(function(form){ %>
-            <%- include('partials/prebuiltForms', {
-                route: form.route,
-                description: form.description,
-                formId: form.formId
-                }) %>
-        <% }) %>
-    </div>
-</div>
+            </div>
+        </div>
 
-<%- include("partials/iconbar") %>
+        <%- include("partials/iconbar") %>
