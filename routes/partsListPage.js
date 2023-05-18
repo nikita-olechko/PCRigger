@@ -349,6 +349,9 @@ app.post('/parts', async (req, res) => {
 
     if (req.body.build) {
       currentBuild = JSON.parse(req.body.build)
+      currentBuildToPass = req.body.build
+    } else {
+      currentBuildToPass = null
     }
 
     if (req.body.query) {
@@ -375,7 +378,7 @@ app.post('/parts', async (req, res) => {
         if (err) throw err;
         totalParts = count;     
         results = await gpuFilteredSearch(query, skip, perPage)
-        searchFunction(results, partCategory, page, totalParts, query , req.body.build);
+        searchFunction(results, partCategory, page, totalParts, query , currentBuildToPass);
       })
   
         break;
@@ -404,7 +407,7 @@ app.post('/parts', async (req, res) => {
           if (err) throw err;
           totalParts = count;
           results = await memoryFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query, req.body.build);
+          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
         });
 
         break;
@@ -431,7 +434,7 @@ app.post('/parts', async (req, res) => {
         if (err) throw err;
         totalParts = count;
         results = await cpuFilteredSearch(query, skip, perPage);
-        searchFunction(results, partCategory, page, totalParts, query, req.body.build)
+        searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass)
       })
         break;
 
@@ -456,12 +459,14 @@ app.post('/parts', async (req, res) => {
           } else {
             query = defaultQuery
           }
+          } else {
+            query = defaultQuery
           }
         motherboardCollection.countDocuments(query, async function(err, count) {
           if (err) throw err;
           totalParts = count;
           results = await motherboardFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query, req.body.build);
+          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
         });
         break;
 
@@ -476,7 +481,7 @@ app.post('/parts', async (req, res) => {
           if (err) throw err;
           totalParts = count;
           results = await storageFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query, req.body.build);
+          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
         });
           break;
 
@@ -497,7 +502,7 @@ app.post('/parts', async (req, res) => {
           if (err) throw err;
           totalParts = count;
           results = await caseFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query, req.body.build);
+          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
         });
         break;
 
@@ -529,7 +534,7 @@ app.post('/parts', async (req, res) => {
         totalParts = count;
         results = await cpuCoolerFilteredSearch(query, skip, perPage);
         console.log(results)
-        searchFunction(results, partCategory, page, totalParts, query, req.body.build);
+        searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
       });
         break;
 
@@ -546,7 +551,7 @@ app.post('/parts', async (req, res) => {
         if (err) throw err;
         totalParts = count;     
         results = await powerSupplyFilteredSearch(query, skip, perPage)
-        searchFunction(results, partCategory, page, totalParts, query, req.body.build);
+        searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
       })
         break;
 
