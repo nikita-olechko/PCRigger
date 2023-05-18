@@ -95,11 +95,7 @@ require('./routes/prebuiltOptions.js')(app);
 
 require('./routes/email_confirm')(app, Joi, userCollection, saltRounds, bcrypt);
 
-
-app.get("*", (req, res) => {
-  res.status(404);
-  res.render('404');
-})
+require('./routes/404')(app);
 
 
 const port = process.env.PORT || 3000;
