@@ -35,7 +35,7 @@
     <hr>
     <div class="text-center">
         <h5>
-        Filtered <%= partCategory.toUpperCase()%> options
+        <%= partCategory.toUpperCase()%> options
         </h5>
         <p>
           <%=(15 * (page - 1)) + parts.length %> / <%=totalParts%>
@@ -46,16 +46,16 @@
         <p class="text-center">All parts are visible</p>
         <% } else if (parts.length <=15 && page==1) { %>
             <div class="col text-center">
-            <%- include ('partials/nextFilteredComponentPage'), {page: page, partCategory: partCategory, build:build, query:query}%>
+            <%- include ('partials/nextComponentPage'), {page: page, partCategory: partCategory, build:build, query:query}%>
             </div>
             <% } else if (parts.length==15 && page * 15 < totalParts) { %>
-            <div class="col" style="text-align: right;"><%- include ('partials/previousFilteredComponentPage'), {page: page,
+            <div class="col" style="text-align: right;"><%- include ('partials/previousComponentPage'), {page: page,
                 partCategory: partCategory, build:build, query:query}%></div>
-            <div class="col" style="text-align: left;"><%- include ('partials/nextFilteredComponentPage'), {page: page,
+            <div class="col" style="text-align: left;"><%- include ('partials/nextComponentPage'), {page: page,
                 partCategory: partCategory, build:build, query:query}%></div>
               <% } else if (parts.length < 15 || page * 15 <=totalParts) { %>
                 <div class="col text-center">
-                <%- include ('partials/previousFilteredComponentPage'), {page: page, partCategory: partCategory,
+                <%- include ('partials/previousComponentPage'), {page: page, partCategory: partCategory,
                     build:build, query:query}%>
                 </div>
                 <% }%>

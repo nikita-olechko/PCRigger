@@ -27,6 +27,13 @@ const powerSupplyCollection = database.db(mongodb_database).collection('Powersup
 const caseCollection = database.db(mongodb_database).collection('Cases');
 const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
 
+/**
+  Performs a filtered search in the GPU collection.
+  @param {object} query - The search query object used to filter the GPU collection.
+  @param {number} skip - The number of documents to skip in the search results.
+  @param {number} perpage - The maximum number of documents to return per page.
+  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+*/
 const gpuFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
     gpuCollection.find(query)
@@ -40,6 +47,13 @@ const gpuFilteredSearch = function (query, skip, perpage) {
   });
 };
 
+/**
+  Performs a filtered search in the memory collection.
+  @param {object} query - The search query object used to filter the memory collection.
+  @param {number} skip - The number of documents to skip in the search results.
+  @param {number} perpage - The maximum number of documents to return per page.
+  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+*/
 const memoryFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
     memoryCollection.find(query)
@@ -53,6 +67,14 @@ const memoryFilteredSearch = function (query, skip, perpage) {
   });
 };
 
+/**
+  Performs a filtered search in the memory collection.
+  @param {object} currentBuild - An object of a user's currentBuild.
+  @param {object} query - The search query object used to filter the memory collection.
+  @param {number} skip - The number of documents to skip in the search results.
+  @param {number} perpage - The maximum number of documents to return per page.
+  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+*/
 const determineMemoryCompatibility = async function(currentBuild) {
   return new Promise((resolve, reject) => {
     motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
@@ -64,6 +86,13 @@ const determineMemoryCompatibility = async function(currentBuild) {
   })
 }
 
+/**
+  Performs a filtered search in the CPU collection.
+  @param {object} query - The search query object used to filter the CPU collection.
+  @param {number} skip - The number of documents to skip in the search results.
+  @param {number} perpage - The maximum number of documents to return per page.
+  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+*/
 const cpuFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
     cpuCollection.find(query)
@@ -77,6 +106,11 @@ const cpuFilteredSearch = function (query, skip, perpage) {
   });
 };
 
+/**
+  Determines the CPU compatibility of a current build.
+  @param {object} currentBuild - An object of a user's currentBuild.
+  @returns {Promise} - A Promise that resolves with the compatible socket or rejects with an error.
+*/
 const determineCpuCompatibility = async function(currentBuild) {
   return new Promise((resolve, reject) => {
     if ((currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler) || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)) {
@@ -96,6 +130,13 @@ const determineCpuCompatibility = async function(currentBuild) {
 }
 })}
 
+/**
+  Performs a filtered search in the motherboard collection.
+  @param {object} query - The search query object used to filter the motherboard collection.
+  @param {number} skip - The number of documents to skip in the search results.
+  @param {number} perpage - The maximum number of documents to return per page.
+  @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+*/
 const motherboardFilteredSearch = function (query, skip, perpage) {
   return new Promise((resolve, reject) => {
     motherboardCollection.find(query)
