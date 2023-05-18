@@ -17,16 +17,16 @@
             <%- include('partials/filteringOptions/gpuFilter', {partCategory: partCategory, build:build, query:query}) %>
             <% } %> 
         <% if (partCategory=="motherboards") { %>
-            <%- include('partials/filteringOptions/motherboardFilter', {partCategory: partCategory, build:build}) %>
+            <%- include('partials/filteringOptions/motherboardFilter', {partCategory: partCategory, build:build, query:query}) %>
             <% } %> 
         <% if (partCategory=="storage") { %>
-            <%- include('partials/filteringOptions/storageFilter', {partCategory: partCategory, build:build}) %>
+            <%- include('partials/filteringOptions/storageFilter', {partCategory: partCategory, build:build, query:query}) %>
             <% } %> 
         <% if (partCategory=="case") { %>
-            <%- include('partials/filteringOptions/caseFilter', {partCategory: partCategory, build:build}) %>
+            <%- include('partials/filteringOptions/caseFilter', {partCategory: partCategory, build:build, query:query}) %>
             <% } %> 
         <% if (partCategory=="cpucoolers") { %>
-            <%- include('partials/filteringOptions/cpuCoolerFilter', {partCategory: partCategory, build:build}) %>
+            <%- include('partials/filteringOptions/cpuCoolerFilter', {partCategory: partCategory, build:build, query:query}) %>
             <% } %> 
         <% if (partCategory=="powersupplies") { %>
             <%- include('partials/filteringOptions/powersupplyFilter', {partCategory: partCategory, build:build}) %>

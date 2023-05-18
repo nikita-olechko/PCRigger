@@ -1,0 +1,30 @@
+<%
+
+if (query) {
+    query = JSON.parse(query)
+    console.log((query.radiatorSize))
+}
+
+%>
+
+
+<div class="container text-center">
+    <div class="row">
+        <h5>Filter Results</h5>
+        <form action="/filterParts" method="post">
+            <div class="container">
+                <input type="hidden" value='<%= build%>' name="build">
+                <input type="hidden" value='<%= partCategory%>' name="formId">
+
+                <input class="form-check-input" type="radio" name="radiatorSize" value="AirCooling" <% if (query){ if (query.radiatorSize == "Air") { %> checked <% }}%>>
+                <label>Air Cooled</label>
+
+                <input class="form-check-input" type="radio" name="radiatorSize" value="LiquidCooling" <% if (query){ if (query.radiatorSize  != "Air") { %> checked <% }} %>>
+                <label>Liquid Cooled</label><br>
+
+                <br>
+                <input type="submit" value='Apply Filters' class="form-control btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>

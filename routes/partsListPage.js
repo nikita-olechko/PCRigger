@@ -424,6 +424,32 @@ module.exports = function (app) {
       });
     };
 
+    const caseFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve, reject) => {
+        caseCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort()
+          .toArray(function (err, result) {
+            if (err) reject(err);
+            resolve(result);
+          });
+      });
+    };
+
+    const cpuCoolerFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve, reject) => {
+        cpuCoolerCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort()
+          .toArray(function (err, result) {
+            if (err) reject(err);
+            resolve(result);
+          });
+      });
+    };
+
     if (req.body.build) {
       // console.log("there is a build")
       currentBuild = JSON.parse(req.body.build)
@@ -475,7 +501,6 @@ module.exports = function (app) {
           if (err) throw err;
           totalParts = count;
           results = await memoryFilteredSearch(query, skip, perPage);
-          console.log(results)
           searchFunction(results, partCategory, page, totalParts, query);
         });
 
@@ -538,9 +563,36 @@ module.exports = function (app) {
         break;
 
       case 'case':
+        if (!req.body.query) {
+            query = {
+            };
+          }
+        caseCollection.countDocuments(query, async function(err, count) {
+          if (err) throw err;
+          totalParts = count;
+          results = await caseFilteredSearch(query, skip, perPage);
+          searchFunction(results, partCategory, page, totalParts, query);
+        });
         break;
 
       case 'cpucoolers':
+        const desiredCoolingType = req.body.radiatorSize
+        if (!req.body.query) {
+          if (desiredCoolingType == "AirCooling") {
+            query = {radiatorSize: "Air"}
+          } if (desiredCoolingType == "LiquidCooling") { 
+            query = {
+              radiatorSize: {$ne: "Air"},
+            };
+          } 
+        }
+      cpuCoolerCollection.countDocuments(query, async function(err, count) {
+        if (err) throw err;
+        totalParts = count;
+        results = await cpuCoolerFilteredSearch(query, skip, perPage);
+        console.log(results)
+        searchFunction(results, partCategory, page, totalParts, query);
+      });
         break;
 
       case 'powersupplies':
