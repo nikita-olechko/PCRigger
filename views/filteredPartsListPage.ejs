@@ -8,7 +8,7 @@
     <main>
         <!-- This code will add the appropriate filtering options -->
         <% if (partCategory=="ram") { %>
-            <%- include('partials/filteringOptions/memoryFilter', {partCategory: partCategory, build:build}) %>
+            <%- include('partials/filteringOptions/memoryFilter', {partCategory: partCategory, build:build, query:query}) %>
             <% } %> 
         <% if (partCategory=="cpu") { %>
             <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build}) %>
@@ -68,10 +68,10 @@
     the checkbox should be able to be checked and then the user can click a compare button to compare the parts.
     the compare button should take the user to a page that compares the parts they selected. -->
     <%console.log(partCategory)%>
+    <%console.log(parts.length)%>
         <!-- This code will populate the part cards -->
         <% for (let i=0; i < parts.length ; i++) {%>     
         <% if (partCategory=="ram"){ %>
-
         <%currentPart=JSON.stringify(parts[i])%>
         <%- include('partials/memoryCard', currentPart, build) %>
         <% } %>
@@ -83,7 +83,6 @@
         <% } %>
 
         <% if (partCategory=="gpu" ){ %>
-
         <%currentPart=JSON.stringify(parts[i])%>
         <%- include('partials/gpuCard', currentPart, build) %>
         <% } %>

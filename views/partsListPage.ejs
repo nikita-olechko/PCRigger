@@ -8,28 +8,28 @@
     <main>
         <!-- This code will add the appropriate filtering options -->
         <% if (partCategory=="ram") { %>
-          <%- include('partials/filteringOptions/memoryFilter', {partCategory: partCategory, build:build}) %>
+          <%- include('partials/filteringOptions/memoryFilter', {partCategory: partCategory, build:build, query:null}) %>
           <% } %> 
         <% if (partCategory=="cpu") { %>
-          <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build}) %>
+          <%- include('partials/filteringOptions/cpuFilter', {partCategory: partCategory, build:build, query:null}) %>
           <% } %> 
         <% if (partCategory=="gpu") { %>
           <%- include('partials/filteringOptions/gpuFilter', {partCategory: partCategory, build:build, query:null}) %>
           <% } %> 
         <% if (partCategory=="motherboards") { %>
-          <%- include('partials/filteringOptions/motherboardFilter', {partCategory: partCategory, build:build}) %>
+          <%- include('partials/filteringOptions/motherboardFilter', {partCategory: partCategory, build:build, query:null}) %>
           <% } %> 
         <% if (partCategory=="storage") { %>
-          <%- include('partials/filteringOptions/storageFilter', {partCategory: partCategory, build:build}) %>
+          <%- include('partials/filteringOptions/storageFilter', {partCategory: partCategory, build:build, query:null}) %>
           <% } %> 
         <% if (partCategory=="case") { %>
-          <%- include('partials/filteringOptions/caseFilter', {partCategory: partCategory, build:build}) %>
+          <%- include('partials/filteringOptions/caseFilter', {partCategory: partCategory, build:build, query:null}) %>
           <% } %> 
         <% if (partCategory=="cpucoolers") { %>
-          <%- include('partials/filteringOptions/cpuCoolerFilter', {partCategory: partCategory, build:build}) %>
+          <%- include('partials/filteringOptions/cpuCoolerFilter', {partCategory: partCategory, build:build, query:null}) %>
           <% } %> 
         <% if (partCategory=="powersupplies") { %>
-          <%- include('partials/filteringOptions/powersupplyFilter', {partCategory: partCategory, build:build}) %>
+          <%- include('partials/filteringOptions/powersupplyFilter', {partCategory: partCategory, build:build, query:null}) %>
           <% } %> 
 
       <hr>

@@ -1,0 +1,49 @@
+<%
+let memSizeValue = 2
+
+if (query) {
+    query = JSON.parse(query)
+    console.log(query)
+    if (query.capacity) {
+    memSizeValue = parseInt(query.capacity['$gte'])
+}
+}
+%>
+
+
+<div class="container text-center">
+    <div class="row">
+        <h5>Filter Results</h5>
+        <form action="/filterParts" method="post">
+            <div class="container">
+                <input type="hidden" value='<%= build%>' name="build">
+                <input type="hidden" value='<%= partCategory%>' name="formId">
+
+                <label for="memSize">Capacity: <span id="memSizeValue"><%=memSizeValue%> GB</span></label><br>
+                <input class="" type="range" min="2" max="20" step="2" id="memSize" name="memSize" value='<%=memSizeValue%>'>
+
+                <br>
+
+                <input class="form-check-input" type="radio" name="gen" value="DDR4" <% if (query){ if (query.gen['$in'].length == 1 && query.gen['$in'][0] === 'DDR4') { %> checked <% }}%>>
+                <label>DDR4</label>
+
+                <input class="form-check-input" type="radio" name="gen" value="DDR5" <% if (query){ if (query.gen['$in'].length == 1 && query.gen['$in'][0] === 'DDR5') { %> checked <% }} %>>
+                <label>DDR5</label><br>
+
+                <br>
+                <input type="submit" value='Apply Filters' class="form-control btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    console.log("poggers")
+    const memSizeSlider = document.getElementById('memSize');
+    const memSizeValue = document.getElementById('memSizeValue');
+
+    memSizeSlider.addEventListener('input', () => {
+    memSizeValue.textContent = memSizeSlider.value + " GB";
+    });
+</script>

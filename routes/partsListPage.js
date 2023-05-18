@@ -363,13 +363,27 @@ module.exports = function (app) {
         gpuCollection.find(query)
           .skip(skip)
           .limit(perpage)
-          .sort({})
+          .sort({releaseYear: -1})
           .toArray(function (err, result) {
             if (err) reject(err);
             resolve(result);
           });
       });
     };
+
+    const memoryFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve, reject) => {
+        memoryCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({latency: 1})
+          .toArray(function (err, result) {
+            if (err) reject(err);
+            resolve(result);
+          });
+      });
+    };
+
 
     if (req.body.build) {
       // console.log("there is a build")
@@ -387,7 +401,7 @@ module.exports = function (app) {
     switch (partCategory) {
       case 'gpu':
         const minimumMemorySize = req.body.memSize || 0;
-        const desiredManufacturer = [req.body.manufacturer] || ["AMD", "NVIDIA"];
+        const desiredManufacturer = req.body.manufacturer ? [req.body.manufacturer] : ["AMD", "NVIDIA"];
         if (!req.body.query) {
           if (req.body.bus) {query = {
             memSize: { $gte: parseInt(minimumMemorySize) },
@@ -402,16 +416,30 @@ module.exports = function (app) {
         }
       gpuCollection.countDocuments(query, async function(err, count) {
         if (err) throw err;
-        totalParts = count;  
-        // console.log(count)      
+        totalParts = count;     
         results = await gpuFilteredSearch(query, skip, perPage)
-        // console.log(partCategory, page, totalParts, results.length)
         searchFunction(results, partCategory, page, totalParts, query);
       })
   
         break;
 
       case 'ram':
+        const minimumRamSize = req.body.capacity || 0;
+        const desiredGen = req.body.gen ? [req.body.gen] : ["DDR4", "DDR5"];
+        if (!req.body.query) {
+            query = {
+              capacity: { $gte: parseInt(minimumRamSize) },
+              gen: { $in: desiredGen },
+            };
+          }
+        memoryCollection.countDocuments(query, async function(err, count) {
+          if (err) throw err;
+          totalParts = count;
+          results = await memoryFilteredSearch(query, skip, perPage);
+          console.log(results)
+          searchFunction(results, partCategory, page, totalParts, query);
+        });
+
         break;
 
       case 'cpu':
