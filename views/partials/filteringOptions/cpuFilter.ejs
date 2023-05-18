@@ -6,8 +6,11 @@ if (query) {
     console.log(query)
     if (query.cores) {
     minCores = parseInt(query.cores['$gte'])
-}
-}
+    } 
+    if (query.TDP) {
+    maxTdp = parseInt(query.TDP['$lte'])
+    }
+} 
 %>
 
 
@@ -40,7 +43,7 @@ if (query) {
     const coreCountValue = document.getElementById('coreCountValue');
 
     coreCountSlider.addEventListener('input', () => {
-        coreCountValue.textContent = coreCountSlider.value + " Cores or more";
+        coreCountValue.textContent = coreCountSlider.value + " or more Cores";
     });
 
     const tdpSlider = document.getElementById('tdp');

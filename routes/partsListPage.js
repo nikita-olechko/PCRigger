@@ -371,6 +371,9 @@ module.exports = function (app) {
       });
     };
 
+    const determineGpuCompatibility = async function() { 
+    }
+
     const memoryFilteredSearch = function (query, skip, perpage) {
       return new Promise((resolve, reject) => {
         memoryCollection.find(query)
@@ -383,6 +386,18 @@ module.exports = function (app) {
           });
       });
     };
+
+    const determineMemoryCompatibility = async function() {
+      currentBuild = JSON.parse(req.body.build)
+      if (currentBuild.parts.motherboard) {
+        motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+          if (err) throw err;
+          return result[0].supportedRamGeneration[0]
+        })
+      } else {
+        return {}
+      }
+    }
 
     const cpuFilteredSearch = function (query, skip, perpage) {
       return new Promise((resolve, reject) => {
@@ -464,7 +479,6 @@ module.exports = function (app) {
     };
 
     if (req.body.build) {
-      // console.log("there is a build")
       currentBuild = JSON.parse(req.body.build)
       searchFunction = withBuild
     } else {
@@ -472,7 +486,6 @@ module.exports = function (app) {
     }
 
     if (req.body.query) {
-      // console.log("query exists")
       query = JSON.parse(req.body.query)
     } 
 
@@ -502,6 +515,7 @@ module.exports = function (app) {
         break;
 
       case 'ram':
+        const compatibility = await determineMemoryCompatibility()
         const minimumRamSize = req.body.capacity || 0;
         const desiredGen = req.body.gen ? [req.body.gen] : ["DDR4", "DDR5"];
         if (!req.body.query) {
@@ -523,17 +537,10 @@ module.exports = function (app) {
         const minimumCoreCount = req.body.cores || 0;
         const maximumTdp = req.body.tdp || 500;
         if (!req.body.query) {
-          if (req.body.bus) {
             query = {
               cores: { $gte: parseInt(minimumCoreCount) },
-              TDP: { $lte: parseInt(maximumTdp)}
+              TDP: { $lte: parseInt(maximumTdp)},
             };
-          } else {
-            query = {
-              cores: { $gte: parseInt(minimumCoreCount) },
-              TDP: { $lte: parseInt(maximumTdp)}
-            };
-          }
         }
       cpuCollection.countDocuments(query, async function (err, count) {
         if (err) throw err;
