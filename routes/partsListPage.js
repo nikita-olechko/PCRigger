@@ -8,13 +8,10 @@ const gpuModel = require('../models/gpuModel');
 const storageModel = require('../models/storageModel');
 const utils = require('../utils');
 
-
 /// Constants and global variables
 /* secret information section */
 
 const mongodb_database = process.env.MONGODB_DATABASE;
-
-
 
 var {
   database
@@ -235,7 +232,6 @@ module.exports = function (app) {
   app.get('/parts', (req, res) => {
     res.render('partsListPage');
   });
-
 
   app.post('/parts', async (req, res) => {
     console.log("Filter Page")
