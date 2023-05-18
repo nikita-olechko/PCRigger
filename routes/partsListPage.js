@@ -515,6 +515,35 @@ module.exports = function (app) {
       });
     };
 
+    const determineCpuCoolerCompatibility = async function(currentBuild) {
+      return new Promise((resolve, reject) => {
+        if (currentBuild.parts.cpu && currentBuild.parts.motherboard) {
+          cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
+            if (err) throw err;
+            motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, motherboardResult) {
+              if (err) throw err;
+              compatibleWith = [cpuResult[0].socket, motherboardResult[0].socket]
+              resolve(compatibleWith)
+            })
+          })
+        }
+        else if (currentBuild.parts.cpu && !currentBuild.parts.motherboard) {
+          cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, result) {
+            if (err) throw err;
+            compatibleWith = [result[0].socket]
+            resolve(compatibleWith)
+          })
+        }
+        else if (currentBuild.parts.motherboard && !currentBuild.parts.cpu) {
+          motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
+            if (err) throw err;
+            compatibleWith = [result[0].socket]
+            resolve(compatibleWith)
+          })
+        }
+      })
+    }
+
     const powerSupplyFilteredSearch = function (query, skip, perpage) {
       return new Promise((resolve, reject) => {
         powerSupplyCollection.find(query)
@@ -685,12 +714,16 @@ module.exports = function (app) {
       case 'cpucoolers':
         const desiredCoolingType = req.body.radiatorSize
         if (!req.body.query) {
+          if (req.body.build) {
+            if(currentBuild.parts.cpu || currentBuild.parts.motherboard) {
+              compatibility = await determineCpuCoolerCompatibility(currentBuild)
+              query = { supportedSockets: {$all: compatibility}}
+            }
+          }
           if (desiredCoolingType == "AirCooling") {
             query = {radiatorSize: "Air"}
           } if (desiredCoolingType == "LiquidCooling") { 
-            query = {
-              radiatorSize: {$ne: "Air"},
-            };
+            query = {radiatorSize: {$ne: "Air"}};
           } 
         }
       cpuCoolerCollection.countDocuments(query, async function(err, count) {
