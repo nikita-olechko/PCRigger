@@ -16,10 +16,13 @@
 </html>
 <%- include ('partials/navbar') %>
     <link rel="stylesheet" type="text/css" href="styles/info.css">
+    <% if (noFactorsChosen) { %>
+        <%- include('partials/popUpNotification', { notificationMessage: 'Please select Priority Factors' }) %>
+            <% } %>
     <div class="container general-margin">
         <main>
             <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
-                <form action="/generateNewBuild" method="post">
+                <form action="/generateNewBuild" method="post" id="formID">
                     <div class="container">
                         <div class="d-flex justify-content-center margin-bottom">
                             <div>
@@ -170,7 +173,8 @@
                             </div>
                         </div>
                         <br>
-                        <input type="submit" value="Generate Build" class="form-control btn-primary button-padding">
+                        <input type="submit" value="Generate Build" class="form-control btn-primary button-padding"
+                            onclick="return submitForm()" id="submitButton">
                         <input type="hidden" value="" name="selectedParts" id="selectedParts">
                     </div>
                 </form>
@@ -179,6 +183,17 @@
 
 
             <script>
+                // prevent submission of form if no parts are selected
+                function submitForm() {
+                    var selectedParts = document.getElementById('selectedParts').value;
+                    if (selectedParts === '') {
+                        document.getElementById('formID').action = '/advancedFilterWithNotification';
+                        return true;
+                    }
+                    // Otherwise, allow the form to be submitted
+                    return true;
+                }
+
                 selectedPartsValues = [];
 
                 for (var i = 1; i < 9; i++) {
@@ -187,23 +202,23 @@
                     $(`${subcategoryList} input[type=checkbox]`).on('change', function () {
                         // Get the value of the checkbox
                         var value = $(this).val();
-                        console.log("value is:" + value);
+
                         // Get the category of the checkbox
                         var category = $(this).attr('name');
-                        console.log("category is:" + category);
+
                         // Get the id of the checkbox
                         var id = $(this).attr('id');
-                        console.log("id is:" + id);
+
                         // Get the checked status of the checkbox
                         var checked = $(this).prop('checked');
-                        console.log("checked is:" + checked);
                         // If the checkbox is checked, add the value to the selectedParts array
                         if (checked) {
                             selectedPartsValues.push(
                                 {
                                     "category": category,
                                     "value": value,
-                                    "id": id
+                                    "id": id,
+                                    "selector": "checkbox"
                                 }
                             )
                         } else {
@@ -219,32 +234,30 @@
 
 
 
-                        console.log(selectedPartsValues);
                         $('#selectedParts').val(JSON.stringify(selectedPartsValues));
-                        console.log($('#selectedParts').val());
 
                     });
 
                     $(`${subcategoryList} input[type=radio]`).on('change', function () {
                         // Get the value of the radio button
                         var value = $(this).val();
-                        console.log("value is: " + value);
+
                         // Get the category of the radio button
                         var category = $(this).attr('name');
-                        console.log("category is: " + category);
                         // Get the id of the radio button
                         var id = $(this).attr('id');
-                        console.log("id is: " + id);
+
                         // Get the selected status of the radio button
                         var selected = $(this).prop('checked');
-                        console.log("selected is: " + selected);
+
 
                         // If the radio button is selected, add the value to the selectedParts array
                         if (selected) {
                             selectedPartsValues.push({
                                 "category": category,
                                 "value": value,
-                                "id": id
+                                "id": id,
+                                "selector": "radio"
                             });
                         } else {
                             // If the radio button is unselected, remove the value from the selectedParts array
@@ -269,9 +282,7 @@
                         }
 
 
-                        console.log(selectedPartsValues);
                         $('#selectedParts').val(JSON.stringify(selectedPartsValues));
-                        console.log($('#selectedParts').val());
 
 
                     });
