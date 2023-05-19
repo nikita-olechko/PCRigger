@@ -6,22 +6,22 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
         if (req.session.user) {
             res.redirect('/');
         } else {
-        res.render('email_confirm');
+            res.render('email_confirm');
         }
     })
 
     app.post('/email_confirm', async (req, res) => {
         userEmail = req.body.email;
 
-        
+
         const schema = Joi.object({
             userEmail: Joi.string().required(),
         })
         const valid_input = schema.validate({
             userEmail,
         });
-        if (valid_input.error) {    
-            res.status(400).render('templates/notification_page.ejs', {message:'Invalid Email.'})
+        if (valid_input.error) {
+            res.status(400).render('templates/notification_page.ejs', { message: 'Invalid Email.' })
             return;
         }
         else {
@@ -31,10 +31,10 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             if (existingUser) {
                 userData = existingUser;
                 res.render('recovery_questions', { user: userData });
-            
+
             }
             else {
-                res.status(409).render('templates/notification_page.ejs', {message:'Email does not correspond to any user.'})
+                res.status(409).render('templates/notification_page.ejs', { message: 'Email does not correspond to any user.' })
                 return;
             }
         }
@@ -57,7 +57,7 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             security_answer_3,
         });
         if (valid_input.error) {
-            res.status(400).render('templates/notification_page.ejs', {message:'Invalid Security answers.'})
+            res.status(400).render('templates/notification_page.ejs', { message: 'Invalid Security answers.' })
             return;
         }
         else {
@@ -65,11 +65,11 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
             const matchingAnswers = security_answers.every((answer, index) => {
                 const dbAnswer = userData[`security_answer_${index + 1}`];
                 return bcrypt.compareSync(answer, dbAnswer);
-            });       
+            });
             if (matchingAnswers) {
-                res.render('password_reset', {user: userData});
+                res.render('password_reset', { user: userData });
             } else {
-                res.status(409).render('templates/notification_page.ejs', {message:'Invalid Security answers.'})
+                res.status(409).render('templates/notification_page.ejs', { message: 'Invalid Security answers.' })
                 return;
             }
         }
@@ -78,27 +78,40 @@ module.exports = function (app, Joi, userCollection, saltRounds, bcrypt) {
     app.post('/password_reset', async (req, res) => {
         var userData = JSON.parse(req.body.userData)
         new_password = req.body.new_password;
+        confirm_password = req.body.confirm_password;
         const schema = Joi.object({
-            new_password: Joi.string().required()
+            new_password: Joi.string()
+            .regex(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{3,30}$/)
+            .required(),
+            confirm_password: Joi.string()
+            .regex(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{3,30}$/)
+            .required(),
         })
         const valid_input = schema.validate({
-            new_password
+            new_password,
+            confirm_password
         });
-        if (valid_input.error) {
-            res.status(400).render('templates/notification_page.ejs', {message:'Invalid Password.'})
-            return;
+        if (!valid_input.error) {
+            if (new_password != confirm_password) {
+                res.status(409).render('templates/notification_page.ejs', { message: 'Passwords do not match.' })
+                return;
+            }
+            else {
+                const salt = await bcrypt.genSalt(saltRounds);
+                const hashedPassword = await bcrypt.hash(new_password, salt);
+                await userCollection.updateOne({
+                    email: userData.email
+                }, {
+                    $set: {
+                        password: hashedPassword
+                    }
+                });
+                res.render('templates/notification_page.ejs', { message: 'Your password has been reset.' })
+                return;
+            }
         }
         else {
-            const salt = await bcrypt.genSalt(saltRounds);
-            const hashedPassword = await bcrypt.hash(new_password, salt);
-            await userCollection.updateOne({
-                email: userData.email
-            }, {
-                $set: {
-                    password: hashedPassword
-                }
-            });
-            res.render('templates/notification_page.ejs', {message:'Your password has been resetted.'})
+            res.status(400).render('templates/notification_page.ejs', { message: 'Invalid format for Password.' })
             return;
         }
     })

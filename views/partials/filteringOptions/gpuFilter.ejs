@@ -1,0 +1,66 @@
+<%
+let memSizeValue = 2
+
+if (query) {
+    query = JSON.parse(query)
+    console.log(query)
+    console.log(query.manufacturer)
+    if (query.memSize) {
+    memSizeValue = parseInt(query.memSize['$gte'])
+}
+}
+%>
+
+
+<div class="container text-center">
+    <div class="row">
+        <h5>Filter Results</h5>
+        <form action="/parts" method="post">
+            <div class="container">
+                <input type="hidden" value='<%= build%>' name="build">
+                <input type="hidden" value='<%= partCategory%>' name="formId">
+
+                <label for="memSize">VRAM: <span id="memSizeValue"><%=memSizeValue%> GB or greater</span></label><br>
+                <input class="" type="range" min="2" max="20" step="2" id="memSize" name="memSize" value='<%=memSizeValue%>'>
+
+                <br>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 3.0 x16" id="PCIe 3.0 x16" <% if (query){ if (query.bus === 'PCIe 3.0 x16') { %> checked <% }}%>>
+                <label>PCIe 3.0 x16</label>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 3.0 x8" id="PCIe 3.0 x8" <% if (query){ if (query.bus === 'PCIe 3.0 x8') { %> checked <% }} %>>
+                <label>PCIe 3.0 x8</label><br>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x16" id="PCIe 4.0 x16" <% if (query){ if (query.bus === 'PCIe 4.0 x16') { %> checked <% }} %>>
+                <label>PCIe 4.0 x16</label>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x8" id="PCIe 4.0 x8" <% if (query){ if (query.bus === 'PCIe 4.0 x8') { %> checked <% }} %>>
+                <label>PCIe 4.0 x8</label>
+
+                <input class="form-check-input" type="radio" name="bus" value="PCIe 4.0 x4" id="PCIe 4.0 x4" <% if (query){ if (query.bus === 'PCIe 4.0 x4') { %> checked <% }} %>>
+                <label>PCIe 4.0 x4</label>
+
+                <br>
+
+                <input class="form-check-input" type="radio" name="manufacturer" value="NVIDIA" <% if (query){ if (query.manufacturer['$in'].length == 1 && query.manufacturer['$in'][0] === 'NVIDIA') { %> checked <% }} %>>
+                <label>NVIDIA</label>
+
+                <input class="form-check-input" type="radio" name="manufacturer" value="AMD" <% if (query){ if (query.manufacturer['$in'].length == 1 && query.manufacturer['$in'][0] === 'AMD') { %> checked <% }} %>>
+                <label>AMD</label>
+                <br>
+                <input type="submit" value='Apply Filters' class="form-control btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    console.log("poggers")
+    const memSizeSlider = document.getElementById('memSize');
+    const memSizeValue = document.getElementById('memSizeValue');
+
+    memSizeSlider.addEventListener('input', () => {
+    memSizeValue.textContent = memSizeSlider.value + " GB or greater";
+    });
+</script>

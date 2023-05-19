@@ -75,17 +75,29 @@ require('./routes/signOut')(app);
 
 require('./routes/partsListPage')(app);
 
+require('./routes/searchPartFunction')(app);
+
 require('./routes/partsCategoryPage')(app);
 
-require('./routes/specsPage')(app);
+require('./routes/specsPage')(app, userCollection);
+
+require('./routes/generateNewBuild')(app, userCollection);
 
 require('./routes/configurator')(app, userCollection);
 
+require('./routes/specificBuildInfo')(app, userCollection);
+
 require('./routes/members')(app);
+
+require('./routes/info')(app);
+
+require('./routes/partsComparison')(app);
 
 require('./routes/prebuiltOptions.js')(app);
 
 require('./routes/email_confirm')(app, Joi, userCollection, saltRounds, bcrypt);
+
+require('./routes/404')(app);
 
 
 const port = process.env.PORT || 3000;

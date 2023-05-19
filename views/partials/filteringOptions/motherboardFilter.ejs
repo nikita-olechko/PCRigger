@@ -1,0 +1,37 @@
+<%
+
+if (query) {
+    query = JSON.parse(query)
+}
+
+%>
+
+
+<div class="container text-center">
+    <div class="row">
+        <h5>Filter Results</h5>
+        <form action="/parts" method="post">
+            <div class="container">
+                <input type="hidden" value='<%= build%>' name="build">
+                <input type="hidden" value='<%= partCategory%>' name="formId">
+
+                <input class="form-check-input" type="radio" name="formFactor" value="ATX" <% if (query){ if (query.formFactor) { if (query.formFactor['$in'].length == 1 && query.formFactor['$in'][0] === 'ATX') { %> checked <% }}}%>>
+                <label>ATX</label>
+
+                <input class="form-check-input" type="radio" name="formFactor" value="Micro-ATX" <% if (query){if (query.formFactor){ if (query.formFactor['$in'].length == 1 && query.formFactor['$in'][0] === 'Micro-ATX') { %> checked <% }}} %>>
+                <label>Micro-ATX</label><br>
+
+                <br>
+
+                <input class="form-check-input" type="radio" name="pcieGeneration" value="PCIe 5.0" <% if (query){if (query.pcieGeneration){ if (query.pcieGeneration['$in'].length == 1 && query.pcieGeneration['$in'][0] === 'PCIe 5.0') { %> checked <% }}}%>>
+                <label>PCIe 5.0</label>
+
+                <input class="form-check-input" type="radio" name="pcieGeneration" value="PCIe 4.0" <% if (query){if (query.formFactor){ if (query.pcieGeneration['$in'].length == 1 && query.pcieGeneration['$in'][0] === 'PCIe 4.0') { %> checked <% }}} %>>
+                <label>PCIe 4.0</label><br>
+
+                <br>
+                <input type="submit" value='Apply Filters' class="form-control btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>

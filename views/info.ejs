@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+
+</body>
+
+</html>
+<%- include ('partials/navbar') %>
+    <link rel="stylesheet" type="text/css" href="styles/info.css">
+    <div class="container general-margin">
+        <main>
+            <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
+                <div class="container">
+                    <div class="category-toggle" data-toggle="collapse" data-target="#categoryList"
+                        aria-expanded="false" aria-controls="categoryList">
+                        <h2>Parts Information</h2>
+                        <span class="collapse-icon">▼</span>
+                    </div>
+                    <div id="categoryList" class="collapse">
+                        <!-- Category 1 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList1"
+                            aria-expanded="false" aria-controls="subcategoryList1">
+                            <h5>CPUs</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList1" class="collapse">
+                            <% CPU_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <!-- Category 2 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList2"
+                            aria-expanded="false" aria-controls="subcategoryList2">
+                            <h5>GPUs</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList2" class="collapse">
+                            <% GPU_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <!-- Category 3 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList3"
+                            aria-expanded="false" aria-controls="subcategoryList3">
+                            <h5>Memory</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList3" class="collapse">
+                            <% Memory_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <!-- Category 4 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList4"
+                            aria-expanded="false" aria-controls="subcategoryList4">
+                            <h5>CPU Coolers</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList4" class="collapse">
+                            <% CPU_Cooler_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <!-- Category 5 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList5"
+                            aria-expanded="false" aria-controls="subcategoryList5">
+                            <h5>Motherboards</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList5" class="collapse">
+                            <% Motherboards_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <!-- Category 6 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList6"
+                            aria-expanded="false" aria-controls="subcategoryList6">
+                            <h5>Storage</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList6" class="collapse">
+                            <% Storage_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+                            
+                        </div>
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList7"
+                            aria-expanded="false" aria-controls="subcategoryList7">
+                            <h5>Power Supplies</h5>
+                            <span class="collapse-icon">▼</span>
+
+                        </div>
+                        <div id="subcategoryList7" class="collapse">
+                            <% Powersupplies_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList8"
+                            aria-expanded="false" aria-controls="subcategoryList8">
+                            <h5>Cases</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList8" class="collapse">
+                            <% Cases_QAs.forEach(function(QA){ %>
+                                <%- include('partials/FAQ', {question: QA.question, answer: QA.answer}) %>
+                            <% }) %>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
+                <div class="container">
+                    <div class="category-toggle" data-toggle="collapse" data-target="#buildguides"
+                        aria-expanded="false" aria-controls="buildguides">
+                        <h2>Build guides</h2>
+                        <span class="collapse-icon">▼</span>
+                    </div>
+                    <div id="buildguides" class="collapse">
+                        <!-- Category 1 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList1b"
+                            aria-expanded="false" aria-controls="subcategoryList1b">
+                            <h5>Gather the necessary components</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList1b" class="collapse">
+                            <ul>
+                                <li>Motherboard</li>
+                                <li>CPU (Central Processing Unit)</li>
+                                <li>RAM (Random Access Memory)</li>
+                                <li>Storage devices (hard drive or solid-state drive)</li>
+                                <li>Power supply unit (PSU)</li>
+                                <li>Graphics card (if not integrated into the motherboard)</li>
+                                <li>Case</li>
+                                <li>Monitor</li>
+                                <li>Keyboard and mouse</li>
+                                <li>Cables (SATA, power, etc.)</li>
+                                <li>Thermal paste (if not pre-applied to the CPU cooler)</li>
+                              </ul>
+                        </div>
+                        <!-- Category 2 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList2b"
+                            aria-expanded="false" aria-controls="subcategoryList2b">
+                            <h5>Prepare your workspace</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList2b" class="collapse">
+                            <ol>
+                                <li>Choose a clean, well-lit, and static-free area.</li>
+                                <li>Place the components on an anti-static mat or surface.</li>
+                                <li>Ground yourself by touching a grounded metal object or wearing an anti-static wristband.</li>
+                            </ol>
+                        </div>
+                        <!-- Category 3 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList3b"
+                            aria-expanded="false" aria-controls="subcategoryList3b">
+                            <h5> Install the CPU and CPU cooler</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList3b" class="collapse">
+                            <ol>
+                                <li>Consult the motherboard manual for the CPU socket type and installation steps.</li>
+                                <li>Gently place the CPU into the socket, ensuring proper alignment.</li>
+                                <li>Lock the CPU in place according to the instructions.</li>
+                                <li>Apply a small amount of thermal paste (if not pre-applied) on the CPU.</li>
+                                <li>Attach the CPU cooler, ensuring it's firmly secured but not overly tight.</li>
+                            </ol>
+                        </div>
+                        <!-- Category 4 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList4b"
+                            aria-expanded="false" aria-controls="subcategoryList4b">
+                            <h5>Install the RAM</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList4b" class="collapse">
+                            <ol>
+                                <li>Refer to the motherboard manual for the RAM installation slots and configuration.</li>
+                                <li>Unlock the RAM slots by pushing the retaining clips to the sides.</li>
+                                <li>Align the notch on the RAM module with the slot on the motherboard.</li>
+                                <li>Firmly press down on the module until the retaining clips snap into place.</li>
+                            </ol>
+                        </div>
+                        <!-- Category 5 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList5b"
+                            aria-expanded="false" aria-controls="subcategoryList5b">
+                            <h5>Install storage devices</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList5b" class="collapse">
+                            <ol>
+                                <li>Mount the storage devices (hard drive or SSD) in the appropriate bays within the case.</li>
+                                <li>Connect the SATA data cable to the storage device and the motherboard.</li>
+                                <li>Connect the SATA power cable from the PSU to the storage device.</li>
+                            </ol>
+                        </div>
+                        <!-- Category 6 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList6b"
+                            aria-expanded="false" aria-controls="subcategoryList6b">
+                            <h5>Install the PSU</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList6b" class="collapse">
+                            <ol>
+                                <li>Position the power supply unit in the designated area of the case.</li>
+                                <li>Align the screw holes and secure the PSU with screws provided.</li>
+                                <li>Connect the necessary power cables from the PSU to the motherboard and other components (e.g., CPU power, motherboard power, graphics card power).</li>
+                            </ol>
+                        </div>
+                        <!-- Category 7 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList7b"
+                            aria-expanded="false" aria-controls="subcategoryList7b">
+                            <h5>Install the graphics card</h5>
+                            <span class="collapse-icon">▼</span>
+
+                        </div>
+                        <div id="subcategoryList7b" class="collapse">
+                            <ol>
+                                <li>Locate the PCIe slot(s) on the motherboard.</li>
+                                <li>Remove the corresponding expansion slot covers on the back of the case.</li>
+                                <li>Gently insert the graphics card into the PCIe slot until it is seated properly.</li>
+                                <li>Secure the graphics card to the case using screws.</li>
+                              </ol>
+                        </div>
+                        <!-- Category 8 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList8b"
+                            aria-expanded="false" aria-controls="subcategoryList8b">
+                            <h5>Connect the case components</h5>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList8b" class="collapse">
+                            <ol>
+                                <li>Connect the front panel connectors (power switch, reset switch, LEDs, etc.) to the motherboard according to the manual.</li>
+                                <li>Connect the case fans to the appropriate headers on the motherboard.</li>
+                            </ol>
+                        </div>
+                        <!-- Category 9 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList9b"
+                        aria-expanded="false" aria-controls="subcategoryList9b">
+                        <h5>Final connections</h5>
+                        <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList9b" class="collapse">
+                            <ol>
+                                <li>Connect the monitor to the graphics card or the appropriate video output.</li>
+                                <li>Connect the keyboard and mouse to the USB ports.</li>
+                                <li>Double-check all connections to ensure everything is properly connected.</li>
+                            </ol>
+                        </div>
+                        <!-- Category 10 -->
+                        <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList10b"
+                        aria-expanded="false" aria-controls="subcategoryList10b">
+                        <h5>Power on and install the operating system</h5>
+                        <span class="collapse-icon">▼</span>
+                        </div>
+                        <div id="subcategoryList10b" class="collapse">
+                            <ol>
+                                <li>Connect the power cord to the PSU and plug it into an electrical outlet.</li>
+                                <li>Press the power button on the case to start the computer.</li>
+                                <li>Follow the instructions on the screen to install the operating system of your choice.</li>
+                            </ol>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+
+            <script>
+                clickCount = 0;
+                $(document).ready(function () {
+                    if (clickCount == 0) {
+                        $('.category-toggle').addClass('collapsed');
+                        $('.category-toggle').find('.collapse-icon').css('color', 'white');
+                        $('.category-toggle').removeClass('expanded');
+                        clickCount++;
+                    }
+                    $('.category-toggle').on('click', function () {
+                        $(this).toggleClass('collapsed');
+                        if ($(this).hasClass('collapsed')) {
+                            $(this).find('.collapse-icon').css('color', 'white');
+
+                        } else {
+                            $(this).addClass('expanded');
+                            $(this).find('.collapse-icon').css('color', 'turquoise');
+                        }
+                    });
+                });
+            </script>
+
+
+
+            <%- include('partials/iconbar') %>

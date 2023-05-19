@@ -1,0 +1,72 @@
+<% firstComparedPart=JSON.parse(firstComparedPart);
+ secondComparedPart=JSON.parse(secondComparedPart);
+ %>
+
+    <%- include('partials/navbar') %>
+        <main>
+            
+            <div class="m-4">
+                <h3>
+                    Summary:
+                 </h3>
+            </div>
+
+            
+            <div class="container-fluid m-2 p-1">
+                
+                <p>
+                    <%- resultAI %>
+                </p>
+            </div>
+            
+            <div class="m-4">
+                <h3>
+                    Specs:
+                 </h3>
+            </div>
+            
+            <!-- give me a for loop that goes through the array of parts and displays them in seperate divs with the specs -->
+            <div class="container-fluid">
+
+                <div class="card mt-4 p-4">
+                    <% for(let i=0; i < 1; i++) { %>
+
+                        <% for (const [key, value] of Object.entries(firstComparedPart)) { %>
+                            <% if(key !="_id" ) { %>
+
+                                <div class="row text-center">
+                                    <h4>
+                                        <%= key %>
+                                    </h4>
+                                </div>
+                                <% } %>
+
+
+                                    <div class="row">
+                                        <div class="col-6 text-center">
+                                            <% if(key !="_id" ) { %>
+
+                                                <p>
+                                                    <%= firstComparedPart[key] %>
+                                                </p>
+                                                <% } %>
+                                        </div>
+                                        <div class="col-6 text-center">
+                                            <% if(key !="_id" ) { %>
+
+                                                <p>
+                                                    <%= secondComparedPart[key] %>
+                                                </p>
+                                                <% } %>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <% } %>
+                                        <% } %>
+
+                </div>
+            </div>
+
+        </main>
+
+        <%- include('partials/iconbar') %>
