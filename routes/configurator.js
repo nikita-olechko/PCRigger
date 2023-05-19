@@ -187,7 +187,7 @@ module.exports = function (app, userCollection) {
                 // To rename the build description field that matches the build name
                 // when a user renames their build, in order to preserve description
                 // Note: this is a field that is not nested in 'favourites'
-                // {$rename: { [currentBuildName]: build.name }},
+                // {$rename: { [currentBuildName]: build.name }}, [Abdo]
 
                 function (err, updateResult) {
                     if (err) throw err;

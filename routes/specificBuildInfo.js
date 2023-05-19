@@ -19,18 +19,18 @@ module.exports = function (app, userCollection) {
             const cases = Array.isArray(await build.parts.case) ? await build.parts.case : [await build.parts.case];
             const cpuCoolers = Array.isArray(await build.parts.cpuCooler) ? await build.parts.cpuCooler : [await build.parts.cpuCooler];
 
-            // give me an array and push the parts into it
-            // then console.log the array
+            // An array to store all the parts from the build object to be passed to AI
             const parts = [];
             parts.push(cpus, gpus, memory, storage, motherboards, powerSupply, cases, cpuCoolers);
 
-            // Custom prompt for the AI
+            // Custom prompt for the AI including parts array so it gets context
             const promptRequest = (`Tell me what this build suited for, be detailed: ${parts} `);
 
-            // variable to store the AI's response
+            // Instantiate variable to store the AI's response
             var buildDescription;
-            // get the current user
+            // get the current logged in user
             var currentUser = req.session.user;
+            // Get the current build's name
             var buildTitle = build.name;
             console.log(buildTitle);
 
@@ -54,6 +54,7 @@ module.exports = function (app, userCollection) {
 
             res.render('specificBuildInfo', {
                 build: build,
+                // These components are left in to help debug the code if needed
                 cpus: cpus,
                 gpus: gpus,
                 memory: memory,
@@ -62,12 +63,12 @@ module.exports = function (app, userCollection) {
                 powerSupply: powerSupply,
                 cases: cases,
                 cpuCoolers: cpuCoolers,
+                // AI's response (build description) to be rendered in the ejs file
                 renderedBuildDescription: buildDescription,
             });
         } catch (error) {
             console.error('Error retrieving data from MongoDB:', error);
-            res.status(500).send('Internal Server Error');
-            res.render("500");
+            res.status(500).send('Internal Server Error').render("500");
         }
     });
 }
