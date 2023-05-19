@@ -13,7 +13,7 @@ module.exports = function (app, userCollection) {
         selectedParts = JSON.parse(req.body.selectedParts)
         console.log(selectedParts)
         var startOfPrompt = 'Prioritizing '
-        var endOfPrompt = `Make me a PC Build in this format:
+        var endOfPrompt = `Make me a PC Build in this format. Give it a unique name:
         {
                 "class": "",
                     "name": "",
