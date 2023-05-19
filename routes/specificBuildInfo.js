@@ -49,6 +49,21 @@ module.exports = function (app, userCollection) {
                     { $set: { [buildTitle]: buildDescription } });
             }
 
+            // check if the buildDescription already exists in the user's document in the mongoDB, if it does, use that, if not, make the API call to the AI
+            // if (currentUser[buildTitle]) {
+            //     buildDescription = currentUser.favourites.buildDescription[buildTitle];
+            //     console.log("Build description already exists in the database");
+            // } else {
+            //     // if user doesn't have a build description, make the API call to the AI
+            //     // then insert the build description into the user's document in the mongoDB
+            //     console.log("AI has been propmted to generate a build description, pls wait...");
+            //     buildDescription = await makeAPIRequest(promptRequest);
+            //     await userCollection.updateOne(
+            //         { username: currentUser.username },
+            //         { $set: { 'favourites.buildDescription': buildDescription } });
+            // }
+
+            
             // Refresh Session with freshly updated user from MongoDB
             currentUser = await userCollection.findOne({ username: req.session.user.username });
 
