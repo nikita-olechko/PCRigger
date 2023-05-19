@@ -24,15 +24,3 @@ async function makeAPIRequest(prompt) {
 }
 
 module.exports = makeAPIRequest
-
-
-// Future use
-// const makeAPIRequest = require('./chatAPI.js');
-
-// async function exampleUsage() {
-//   const prompt = "Custom prompt";
-//   const answer = await makeAPIRequest(prompt);
-//   console.log(answer);
-// }
-
-// exampleUsage();
