@@ -50,7 +50,7 @@ module.exports = function (app, userCollection) {
             existingBuild: existingBuild,
             editBuild: false,
             buildSaved: false,
-            invalidName: false
+            invalidName: false, buildCreated: false
         }
         );
     });
@@ -69,7 +69,7 @@ module.exports = function (app, userCollection) {
             existingBuild: false,
             editBuild: true,
             buildSaved: false,
-            invalidName: false
+            invalidName: false, buildCreated: false
         })
     })
 
@@ -84,7 +84,7 @@ module.exports = function (app, userCollection) {
         res.render('configurator', {
             builds: build, existingBuild: false, editBuild: true,
             buildSaved: false,
-            invalidName: false
+            invalidName: false, buildCreated: false
         })
     })
 
@@ -116,7 +116,7 @@ module.exports = function (app, userCollection) {
                     existingBuild: false,
                     editBuild: true,
                     buildSaved: true,
-                    invalidName: true
+                    invalidName: true, buildCreated: false
                 });
                 return
                 // The name exists in existingUser.favourites
@@ -146,7 +146,7 @@ module.exports = function (app, userCollection) {
                 existingBuild: true,
                 editBuild: true,
                 buildSaved: false,
-                invalidName: false
+                invalidName: false, buildCreated: false
             });
 
         } else if (req.body.buttonType === "saveBuild") {
@@ -173,7 +173,7 @@ module.exports = function (app, userCollection) {
                     existingBuild: false,
                     editBuild: true,
                     buildSaved: true,
-                    invalidName: true
+                    invalidName: true, buildCreated: false
                 });
                 return
             }
@@ -201,7 +201,7 @@ module.exports = function (app, userCollection) {
                 existingBuild: false,
                 editBuild: true,
                 buildSaved: true,
-                invalidName: false
+                invalidName: false, buildCreated: false
             });
         }
     });
@@ -224,7 +224,7 @@ module.exports = function (app, userCollection) {
             existingBuild: existingBuild,
             editBuild: true,
             buildSaved: false,
-            invalidName: false
+            invalidName: false, buildCreated: false
         });
 
     });
