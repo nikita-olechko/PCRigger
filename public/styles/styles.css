@@ -407,7 +407,17 @@ h6 {
     }
 }
 
+.floating-button {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    z-index: 9999;
+    /* Ensures the button appears on top of other elements */
+}
 
+.floating-button :hover{
+    background-color: var(--hovered-btn-color-tropblu);
+}
 /*when screen larger than 768px make icon-bar disappear */
 @media screen and (min-width: 768px) {
     #icon-bar {

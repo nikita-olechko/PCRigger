@@ -136,8 +136,11 @@ module.exports = function (app, userCollection) {
                 { username: userID },
                 { $push: { favourites: build } },
                 function (err, updateResult) {
-                    if (err) throw err;
-                    console.log("build added to user!");
+                    if (err) {
+                        res.render('errorPage')
+                    } else {                    
+                        console.log("build added to user!");
+                    }
                 }
             );
 
@@ -187,11 +190,14 @@ module.exports = function (app, userCollection) {
                 // To rename the build description field that matches the build name
                 // when a user renames their build, in order to preserve description
                 // Note: this is a field that is not nested in 'favourites'
-                // {$rename: { [currentBuildName]: build.name }},
+                // {$rename: { [currentBuildName]: build.name }}, [Abdo]
 
                 function (err, updateResult) {
-                    if (err) throw err;
-                    console.log("build updated!");
+                    if (err) {
+                        res.render('errorPage')
+                    } else {                    
+                        console.log("build updated!");
+                    }
                 }
             );
 

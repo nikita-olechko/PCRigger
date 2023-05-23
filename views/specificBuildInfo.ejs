@@ -22,7 +22,7 @@
         </h1>
         <hr>
         <main>
-            <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
+            <div id="partsInfo" class="shadow-sm p-3 mt-3 rounded">
                 <div class="container">
                     <div class="category-toggle" data-toggle="collapse" data-target="#categoryList"
                         aria-expanded="false" aria-controls="categoryList">
@@ -186,14 +186,17 @@
                 </div>
             </div>
 
-            <div class="category-toggle shadow-sm p-3 mb-5 mt-3 rounded" type="button" data-bs-toggle="collapse" data-bs-target="#build-description"
-                aria-expanded="false" aria-controls="build-description">
-                <!-- Button with data-bs-target -->
-                <h2>Build Description</h2>
-                <span class="collapse-icon">▼</span>
-            </div>
+            <!-- Drop down div to display AI generated build description -->
 
-            <div id="build-description" class="container-fluid collapse">
+            <!-- <div class="category-toggle shadow-sm p-3 mb-5 mt-3 rounded" type="button" data-bs-toggle="collapse" data-bs-target="#build-description"
+                aria-expanded="false" aria-controls="build-description">
+                <span class="collapse-icon">▼</span>
+            </div> -->
+
+            <div id="build-description" class="container-fluid shadow-sm p-3 mb-5 rounded">
+                <div class="container">
+                    <h2>Build Description</h2>
+                </div>
                 <div class="card p-4">
                     <%- renderedBuildDescription %>
                 </div>

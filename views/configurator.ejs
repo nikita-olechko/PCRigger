@@ -14,7 +14,7 @@
           <% } %>
             <% if (invalidName==true) { %>
               <div class="col-md notification notification:hover">
-                <input value="That build name already exists, please choose another name."
+                <input value="That build name already exists"
                   class="container notification-button menu_buttons general-margin button-padding">
               </div>
               <% } %>
@@ -33,6 +33,11 @@
                     <h2>
                       <%= builds.name %>
                     </h2>
+                    <% if (builds.parts.budget != null) { %>
+                      <h4>
+                       Original Estimated Budget: USD <%= builds.parts.budget %>
+                      </h4>
+                      <% } %>
                     <div class="row">
                       <div class="col">
                         <h5 class="general-margin">CPU</h5>

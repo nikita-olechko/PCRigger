@@ -19,297 +19,347 @@
     <% if (noFactorsChosen) { %>
         <%- include('partials/popUpNotification', { notificationMessage: 'Please select Priority Factors' }) %>
             <% } %>
-    <div class="container general-margin">
-        <main>
-            <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
-                <form action="/generateNewBuild" method="post" id="formID">
-                    <div class="container">
-                        <div class="d-flex justify-content-center margin-bottom">
-                            <div>
-                                <h1>Create A Build</h1>
-                            </div>
-                        </div>
-                        <h4 class="margin-bottom">Select Priorities:</h4>
-                        <div id="categoryList" class="">
-                            <!-- CPU -->
-                            <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList1"
-                                aria-expanded="false" aria-controls="subcategoryList1">
-                                <h5>CPU</h5>
-                                <span class="collapse-icon">▼</span>
-                            </div>
-                            <div id="subcategoryList1" class="collapse">
-                                <h5 style="font-style: italic; font-size: medium;">Purpose</h5>
-                                <%- include('partials/UsesCheckbox', {value: "Gaming" , category: "CPU" }) %>
-                                    <%- include('partials/UsesCheckbox', {value: "Workstation" , category: "CPU" }) %>
-                                        <%- include('partials/UsesCheckbox', {value: "General Use" , category: "CPU" })
-                                            %>
-                            </div>
-                            <!-- GPU -->
-                            <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList2"
-                                aria-expanded="false" aria-controls="subcategoryList2">
-                                <h5>GPU</h5>
-                                <span class="collapse-icon">▼</span>
-                            </div>
-                            <div id="subcategoryList2" class="collapse">
-                                <h5 style="font-style: italic; font-size: medium;">Purpose</h5>
-                                <%- include('partials/UsesCheckbox', {value: "Gaming" , category: "GPU" }) %>
-                                    <%- include('partials/UsesCheckbox', {value: "Workstation" , category: "GPU" }) %>
-                                        <%- include('partials/UsesCheckbox', {value: "General Use" , category: "GPU" })
-                                            %>
-                                            <h5 style="font-style: italic; font-size: medium;">Prioritize VRAM</h5>
-                                            <%- include('partials/UsesRadiobox', {value: "Yes" , category: "VRAM" }) %>
-                                                <%- include('partials/UsesRadiobox', {value: "No" , category: "VRAM" })
-                                                    %>
-                                                    <br>
-                            </div>
-                            <!-- Motherboard -->
-                            <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList3"
-                                aria-expanded="false" aria-controls="subcategoryList3">
-                                <h5>Motherboard</h5>
-                                <span class="collapse-icon">▼</span>
-                            </div>
-                            <div id="subcategoryList3" class="collapse">
-                                <h5 style="font-style: italic; font-size: medium;">Formfactor</h5>
-                                <%- include('partials/UsesCheckbox', {value: "ATX" , category: "Formfactor" }) %>
-                                    <%- include('partials/UsesCheckbox', {value: "Mircro-ATX" , category: "Formfactor"
-                                        }) %>
-                                        <h5 style="font-style: italic; font-size: medium;">Prioritize Chipset</h5>
-                                        <%- include('partials/UsesRadiobox', {value: "Yes" , category: "Chipset" }) %>
-                                            <%- include('partials/UsesRadiobox', {value: "No" , category: "Chipset" })
+                <div class="container general-margin">
+                    <main>
+                        <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
+                            <form action="/generateNewBuild" method="post" id="formID">
+                                <div class="container">
+                                    <div class="d-flex justify-content-center margin-bottom">
+                                        <div>
+                                            <h1>Create A Build</h1>
+                                        </div>
+                                    </div>
+                                    <h4 class="margin-bottom">Select Priorities:</h4>
+                                    <label for="budget">
+                                        <h5>Budget: USD <span id="budgetValue"></span></h5></span>
+                                    </label><br>
+                                    <input type="range" min="400" max="10000" step="200" id="budget" name="budget"
+                                        value="2000">
+                                    <div id="categoryList" class="">
+                                        <!-- CPU -->
+                                        <div class="category-toggle" data-toggle="collapse"
+                                            data-target="#subcategoryList1" aria-expanded="false"
+                                            aria-controls="subcategoryList1">
+                                            <h5>CPU</h5>
+                                            <span class="collapse-icon">▼</span>
+                                        </div>
+                                        <div id="subcategoryList1" class="collapse">
+                                            <h5 style="font-style: italic; font-size: medium;">Purpose</h5>
+                                            <%- include('partials/UsesCheckbox', {value: "Gaming" , category: "CPU" })
                                                 %>
-                                                <h5 style="font-style: italic; font-size: medium;">Overclocking Support
-                                                </h5>
-                                                <%- include('partials/UsesRadiobox', {value: "Yes" ,
-                                                    category: "Overclocking" }) %>
-                                                    <%- include('partials/UsesRadiobox', {value: "No" ,
-                                                        category: "Overclocking" }) %>
-                                                        <br>
-                            </div>
-                            <!-- RAM -->
-                            <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList4"
-                                aria-expanded="false" aria-controls="subcategoryList4">
-                                <h5>RAM</h5>
-                                <span class="collapse-icon">▼</span>
-                            </div>
-                            <div id="subcategoryList4" class="collapse">
-                                <h5 style="font-style: italic; font-size: medium;">Capacity</h5>
-                                <%- include('partials/UsesCheckbox', {value: 4 , category: "RAM" }) %>
-                                    <%- include('partials/UsesCheckbox', {value: 8 , category: "RAM" }) %>
-                                        <%- include('partials/UsesCheckbox', {value: 16 , category: "RAM" }) %>
-                                            <%- include('partials/UsesCheckbox', {value: 32 , category: "RAM" }) %>
-                                                <%- include('partials/UsesCheckbox', {value: 64 , category: "RAM" }) %>
-                                                    <%- include('partials/UsesCheckbox', {value: 128 , category: "RAM"
-                                                        }) %>
-                                                        <br>
-                            </div>
-                            <!-- CPUCooler -->
-                            <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList5"
-                                aria-expanded="false" aria-controls="subcategoryList5">
-                                <h5>CPU Cooler</h5>
-                                <span class="collapse-icon">▼</span>
-                            </div>
-                            <div id="subcategoryList5" class="collapse">
-                                <h5 style="font-style: italic; font-size: medium;">Type</h5>
-                                <%- include('partials/UsesCheckbox', {value: "Liquid Cooled" , category: "CPUCooler" })
-                                    %>
-                                    <%- include('partials/UsesCheckbox', {value: "Air Cooled" , category: "CPUCooler" })
-                                        %>
-                                        <br>
-                            </div>
-                            <!-- Case -->
-                            <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList6"
-                                aria-expanded="false" aria-controls="subcategoryList6">
-                                <h5>Case</h5>
-                                <span class="collapse-icon">▼</span>
-                            </div>
-                            <div id="subcategoryList6" class="collapse">
-                                <h5 style="font-style: italic; font-size: medium;">Size</h5>
-                                <%- include('partials/UsesCheckbox', {value: "Large tower" , category: "Case" }) %>
-                                    <%- include('partials/UsesCheckbox', {value: "Small" , category: "Case" }) %>
-                                        <br>
-                            </div>
-                            <!-- Storage -->
-                            <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList7"
-                                aria-expanded="false" aria-controls="subcategoryList7">
-                                <h5>Storage</h5>
-                                <span class="collapse-icon">▼</span>
-                            </div>
-                            <div id="subcategoryList7" class="collapse">
-                                <h5 style="font-style: italic; font-size: medium;">Type</h5>
-                                <%- include('partials/UsesCheckbox', {value: "Hard Disk" , category: "Storage" }) %>
-                                    <%- include('partials/UsesCheckbox', {value: "Solid State" , category: "Storage" })
-                                        %>
-                                        <h5 style="font-style: italic; font-size: medium;">Number of drives</h5>
-                                        <%- include('partials/UsesCheckbox', {value: "1" , category: "drives" }) %>
-                                            <%- include('partials/UsesCheckbox', {value: "2" , category: "drives" }) %>
-                                                <h5 style="font-style: italic; font-size: medium;">Capacity</h5>
-                                                <%- include('partials/UsesCheckbox', {value: "128 GB" ,
-                                                    category: "drives_capacity" }) %>
-                                                    <%- include('partials/UsesCheckbox', {value: "256 GB" ,
-                                                        category: "drives_capacity" }) %>
-                                                        <%- include('partials/UsesCheckbox', {value: "512 GB" ,
-                                                            category: "drives_capacity" }) %>
-                                                            <%- include('partials/UsesCheckbox', {value: "1 TB" ,
-                                                                category: "drives_capacity" }) %>
-                                                                <%- include('partials/UsesCheckbox', {value: "2 TB" ,
-                                                                    category: "drives_capacity" }) %>
+                                                <%- include('partials/UsesCheckbox', {value: "Workstation" ,
+                                                    category: "CPU" }) %>
+                                                    <%- include('partials/UsesCheckbox', {value: "General Use" ,
+                                                        category: "CPU" }) %>
+                                        </div>
+                                        <!-- GPU -->
+                                        <div class="category-toggle" data-toggle="collapse"
+                                            data-target="#subcategoryList2" aria-expanded="false"
+                                            aria-controls="subcategoryList2">
+                                            <h5>GPU</h5>
+                                            <span class="collapse-icon">▼</span>
+                                        </div>
+                                        <div id="subcategoryList2" class="collapse">
+                                            <h5 style="font-style: italic; font-size: medium;">Purpose</h5>
+                                            <%- include('partials/UsesCheckbox', {value: "Gaming" , category: "GPU" })
+                                                %>
+                                                <%- include('partials/UsesCheckbox', {value: "Workstation" ,
+                                                    category: "GPU" }) %>
+                                                    <%- include('partials/UsesCheckbox', {value: "General Use" ,
+                                                        category: "GPU" }) %>
+                                                        <h5 style="font-style: italic; font-size: medium;">Prioritize
+                                                            VRAM</h5>
+                                                        <%- include('partials/UsesRadiobox', {value: "Yes" ,
+                                                            category: "VRAM" }) %>
+                                                            <%- include('partials/UsesRadiobox', {value: "No" ,
+                                                                category: "VRAM" }) %>
+                                                                <br>
+                                        </div>
+                                        <!-- Motherboard -->
+                                        <div class="category-toggle" data-toggle="collapse"
+                                            data-target="#subcategoryList3" aria-expanded="false"
+                                            aria-controls="subcategoryList3">
+                                            <h5>Motherboard</h5>
+                                            <span class="collapse-icon">▼</span>
+                                        </div>
+                                        <div id="subcategoryList3" class="collapse">
+                                            <h5 style="font-style: italic; font-size: medium;">Formfactor</h5>
+                                            <%- include('partials/UsesCheckbox', {value: "ATX" , category: "Formfactor"
+                                                }) %>
+                                                <%- include('partials/UsesCheckbox', {value: "Mircro-ATX" ,
+                                                    category: "Formfactor" }) %>
+                                                    <h5 style="font-style: italic; font-size: medium;">Prioritize
+                                                        Chipset</h5>
+                                                    <%- include('partials/UsesRadiobox', {value: "Yes" ,
+                                                        category: "Chipset" }) %>
+                                                        <%- include('partials/UsesRadiobox', {value: "No" ,
+                                                            category: "Chipset" }) %>
+                                                            <h5 style="font-style: italic; font-size: medium;">
+                                                                Overclocking Support
+                                                            </h5>
+                                                            <%- include('partials/UsesRadiobox', {value: "Yes" ,
+                                                                category: "Overclocking" }) %>
+                                                                <%- include('partials/UsesRadiobox', {value: "No" ,
+                                                                    category: "Overclocking" }) %>
                                                                     <br>
-                            </div>
-                            <!-- Powersupply -->
-                            <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList8"
-                                aria-expanded="false" aria-controls="subcategoryList8">
-                                <h5>Powersupply</h5>
-                                <span class="collapse-icon">▼</span>
-                            </div>
-                            <div id="subcategoryList8" class="collapse">
-                                <h5 style="font-style: italic; font-size: medium;">80 Plus Rating</h5>
-                                <%- include('partials/UsesCheckbox', {value: "Goldr" , category: "Powersupply" }) %>
-                                    <%- include('partials/UsesCheckbox', {value: "Platinum" , category: "Powersupply" })
-                                        %>
-                                        <%- include('partials/UsesCheckbox', {value: "Titanium" ,
-                                            category: "Powersupply" }) %>
+                                        </div>
+                                        <!-- RAM -->
+                                        <div class="category-toggle" data-toggle="collapse"
+                                            data-target="#subcategoryList4" aria-expanded="false"
+                                            aria-controls="subcategoryList4">
+                                            <h5>RAM</h5>
+                                            <span class="collapse-icon">▼</span>
+                                        </div>
+                                        <div id="subcategoryList4" class="collapse">
+                                            <h5 style="font-style: italic; font-size: medium;">Capacity</h5>
+                                            <%- include('partials/UsesCheckbox', {value: 4 , category: "RAM" }) %>
+                                                <%- include('partials/UsesCheckbox', {value: 8 , category: "RAM" }) %>
+                                                    <%- include('partials/UsesCheckbox', {value: 16 , category: "RAM" })
+                                                        %>
+                                                        <%- include('partials/UsesCheckbox', {value: 32 ,
+                                                            category: "RAM" }) %>
+                                                            <%- include('partials/UsesCheckbox', {value: 64 ,
+                                                                category: "RAM" }) %>
+                                                                <%- include('partials/UsesCheckbox', {value: 128 ,
+                                                                    category: "RAM" }) %>
+                                                                    <br>
+                                        </div>
+                                        <!-- CPUCooler -->
+                                        <div class="category-toggle" data-toggle="collapse"
+                                            data-target="#subcategoryList5" aria-expanded="false"
+                                            aria-controls="subcategoryList5">
+                                            <h5>CPU Cooler</h5>
+                                            <span class="collapse-icon">▼</span>
+                                        </div>
+                                        <div id="subcategoryList5" class="collapse">
+                                            <h5 style="font-style: italic; font-size: medium;">Type</h5>
+                                            <%- include('partials/UsesCheckbox', {value: "Liquid Cooled" ,
+                                                category: "CPUCooler" }) %>
+                                                <%- include('partials/UsesCheckbox', {value: "Air Cooled" ,
+                                                    category: "CPUCooler" }) %>
+                                                    <br>
+                                        </div>
+                                        <!-- Case -->
+                                        <div class="category-toggle" data-toggle="collapse"
+                                            data-target="#subcategoryList6" aria-expanded="false"
+                                            aria-controls="subcategoryList6">
+                                            <h5>Case</h5>
+                                            <span class="collapse-icon">▼</span>
+                                        </div>
+                                        <div id="subcategoryList6" class="collapse">
+                                            <h5 style="font-style: italic; font-size: medium;">Size</h5>
+                                            <%- include('partials/UsesCheckbox', {value: "Large tower" ,
+                                                category: "Case" }) %>
+                                                <%- include('partials/UsesCheckbox', {value: "Small" , category: "Case"
+                                                    }) %>
+                                                    <br>
+                                        </div>
+                                        <!-- Storage -->
+                                        <div class="category-toggle" data-toggle="collapse"
+                                            data-target="#subcategoryList7" aria-expanded="false"
+                                            aria-controls="subcategoryList7">
+                                            <h5>Storage</h5>
+                                            <span class="collapse-icon">▼</span>
+                                        </div>
+                                        <div id="subcategoryList7" class="collapse">
+                                            <h5 style="font-style: italic; font-size: medium;">Type</h5>
+                                            <%- include('partials/UsesCheckbox', {value: "Hard Disk" ,
+                                                category: "Storage" }) %>
+                                                <%- include('partials/UsesCheckbox', {value: "Solid State" ,
+                                                    category: "Storage" }) %>
+                                                    <h5 style="font-style: italic; font-size: medium;">Number of drives
+                                                    </h5>
+                                                    <%- include('partials/UsesCheckbox', {value: "1" ,
+                                                        category: "drives" }) %>
+                                                        <%- include('partials/UsesCheckbox', {value: "2" ,
+                                                            category: "drives" }) %>
+                                                            <h5 style="font-style: italic; font-size: medium;">Capacity
+                                                            </h5>
+                                                            <%- include('partials/UsesCheckbox', {value: "128 GB" ,
+                                                                category: "drives_capacity" }) %>
+                                                                <%- include('partials/UsesCheckbox', {value: "256 GB" ,
+                                                                    category: "drives_capacity" }) %>
+                                                                    <%- include('partials/UsesCheckbox',
+                                                                        {value: "512 GB" , category: "drives_capacity"
+                                                                        }) %>
+                                                                        <%- include('partials/UsesCheckbox',
+                                                                            {value: "1 TB" , category: "drives_capacity"
+                                                                            }) %>
+                                                                            <%- include('partials/UsesCheckbox',
+                                                                                {value: "2 TB" ,
+                                                                                category: "drives_capacity" }) %>
+                                                                                <br>
+                                        </div>
+                                        <!-- Powersupply -->
+                                        <div class="category-toggle" data-toggle="collapse"
+                                            data-target="#subcategoryList8" aria-expanded="false"
+                                            aria-controls="subcategoryList8">
+                                            <h5>Powersupply</h5>
+                                            <span class="collapse-icon">▼</span>
+                                        </div>
+                                        <div id="subcategoryList8" class="collapse">
+                                            <h5 style="font-style: italic; font-size: medium;">80 Plus Rating</h5>
+                                            <%- include('partials/UsesCheckbox', {value: "Goldr" ,
+                                                category: "Powersupply" }) %>
+                                                <%- include('partials/UsesCheckbox', {value: "Platinum" ,
+                                                    category: "Powersupply" }) %>
+                                                    <%- include('partials/UsesCheckbox', {value: "Titanium" ,
+                                                        category: "Powersupply" }) %>
 
-                                            <br>
-                            </div>
+                                                        <br>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <input type="submit" value="Generate Build"
+                                        class="form-control btn-primary button-padding" onclick="submitForm()"
+                                        id="submitButton">
+                                    <input type="hidden" value="" name="selectedParts" id="selectedParts">
+                                </div>
+                            </form>
                         </div>
-                        <br>
-                        <input type="submit" value="Generate Build" class="form-control btn-primary button-padding"
-                            onclick="return submitForm()" id="submitButton">
-                        <input type="hidden" value="" name="selectedParts" id="selectedParts">
-                    </div>
-                </form>
-            </div>
 
 
 
-            <script>
-                // prevent submission of form if no parts are selected
-                function submitForm() {
-                    var selectedParts = document.getElementById('selectedParts').value;
-                    if (selectedParts === '') {
-                        document.getElementById('formID').action = '/advancedFilterWithNotification';
-                        return true;
-                    }
-                    // Otherwise, allow the form to be submitted
-                    return true;
-                }
+                        <script>
+                            // Get the range input and the value span element
+                            var budgetInput = document.getElementById("budget");
+                            var budgetValue = document.getElementById("budgetValue");
 
-                selectedPartsValues = [];
-
-                for (var i = 1; i < 9; i++) {
-                    var subcategoryList = '#subcategoryList' + i;
-                    // Get all the checkboxes and radio buttons within the subcategoryLists
-                    $(`${subcategoryList} input[type=checkbox]`).on('change', function () {
-                        // Get the value of the checkbox
-                        var value = $(this).val();
-
-                        // Get the category of the checkbox
-                        var category = $(this).attr('name');
-
-                        // Get the id of the checkbox
-                        var id = $(this).attr('id');
-
-                        // Get the checked status of the checkbox
-                        var checked = $(this).prop('checked');
-                        // If the checkbox is checked, add the value to the selectedParts array
-                        if (checked) {
-                            selectedPartsValues.push(
-                                {
-                                    "category": category,
-                                    "value": value,
-                                    "id": id,
-                                    "selector": "checkbox"
-                                }
-                            )
-                        } else {
-                            // If the checkbox is unchecked, remove the value from the selectedParts array
-                            for (var i = 0; i < selectedPartsValues.length; i++) {
-                                if (selectedPartsValues[i].id == id) {
-                                    selectedPartsValues.splice(i, 1);
-                                }
-                            }
-                        }
-
-
-
-
-
-                        $('#selectedParts').val(JSON.stringify(selectedPartsValues));
-
-                    });
-
-                    $(`${subcategoryList} input[type=radio]`).on('change', function () {
-                        // Get the value of the radio button
-                        var value = $(this).val();
-
-                        // Get the category of the radio button
-                        var category = $(this).attr('name');
-                        // Get the id of the radio button
-                        var id = $(this).attr('id');
-
-                        // Get the selected status of the radio button
-                        var selected = $(this).prop('checked');
-
-
-                        // If the radio button is selected, add the value to the selectedParts array
-                        if (selected) {
-                            selectedPartsValues.push({
-                                "category": category,
-                                "value": value,
-                                "id": id,
-                                "selector": "radio"
+                            // Update the value span when the range input value changes
+                            budgetInput.addEventListener("input", function () {
+                                budgetValue.textContent = budgetInput.value;
                             });
-                        } else {
-                            // If the radio button is unselected, remove the value from the selectedParts array
-                            for (var i = 0; i < selectedPartsValues.length; i++) {
-                                if (selectedPartsValues[i].id == id) {
-                                    selectedPartsValues.splice(i, 1);
-                                    break; // Exit the loop after removing the item
+
+                            // Initial update of the value span
+                            budgetValue.textContent = budgetInput.value;
+                            // prevent submission of form if no parts are selected
+                            function submitForm() {
+                                var selectedParts = document.getElementById('selectedParts').value;
+                                if (selectedParts === '') {
+                                    document.getElementById('formID').action = '/advancedFilterWithNotification';
+                                }
+                                // Otherwise, allow the form to be submitted
+                                else {
+                                    document.getElementById('formID').action = '/generateNewBuild';
                                 }
                             }
-                        }
 
-                        // If the id is "No", remove the radio button from the selectedParts array
-                        if (id === "No") {
-                            outerLoop: // Label for the outer loop
-                            for (var i = 0; i < selectedPartsValues.length; i++) {
-                                if (selectedPartsValues[i].category == category) {
-                                    selectedPartsValues.splice(i, 1);
-                                    i = -1; // Reset the loop counter to -1
-                                    continue outerLoop; // Restart the outer loop
-                                }
+                            selectedPartsValues = [];
+
+                            for (var i = 1; i < 9; i++) {
+                                var subcategoryList = '#subcategoryList' + i;
+                                // Get all the checkboxes and radio buttons within the subcategoryLists
+                                $(`${subcategoryList} input[type=checkbox]`).on('change', function () {
+                                    // Get the value of the checkbox
+                                    var value = $(this).val();
+
+                                    // Get the category of the checkbox
+                                    var category = $(this).attr('name');
+
+                                    // Get the id of the checkbox
+                                    var id = $(this).attr('id');
+
+                                    // Get the checked status of the checkbox
+                                    var checked = $(this).prop('checked');
+                                    // If the checkbox is checked, add the value to the selectedParts array
+                                    if (checked) {
+                                        selectedPartsValues.push(
+                                            {
+                                                "category": category,
+                                                "value": value,
+                                                "id": id,
+                                                "selector": "checkbox"
+                                            }
+                                        )
+                                    } else {
+                                        // If the checkbox is unchecked, remove the value from the selectedParts array
+                                        for (var i = 0; i < selectedPartsValues.length; i++) {
+                                            if (selectedPartsValues[i].id == id) {
+                                                selectedPartsValues.splice(i, 1);
+                                            }
+                                        }
+                                    }
+
+
+
+
+
+                                    $('#selectedParts').val(JSON.stringify(selectedPartsValues));
+
+                                });
+
+                                $(`${subcategoryList} input[type=radio]`).on('change', function () {
+                                    // Get the value of the radio button
+                                    var value = $(this).val();
+
+                                    // Get the category of the radio button
+                                    var category = $(this).attr('name');
+                                    // Get the id of the radio button
+                                    var id = $(this).attr('id');
+
+                                    // Get the selected status of the radio button
+                                    var selected = $(this).prop('checked');
+
+
+                                    // If the radio button is selected, add the value to the selectedParts array
+                                    if (selected) {
+                                        selectedPartsValues.push({
+                                            "category": category,
+                                            "value": value,
+                                            "id": id,
+                                            "selector": "radio"
+                                        });
+                                    } else {
+                                        // If the radio button is unselected, remove the value from the selectedParts array
+                                        for (var i = 0; i < selectedPartsValues.length; i++) {
+                                            if (selectedPartsValues[i].id == id) {
+                                                selectedPartsValues.splice(i, 1);
+                                                break; // Exit the loop after removing the item
+                                            }
+                                        }
+                                    }
+
+                                    // If the id is "No", remove the radio button from the selectedParts array
+                                    if (id === "No") {
+                                        outerLoop: // Label for the outer loop
+                                        for (var i = 0; i < selectedPartsValues.length; i++) {
+                                            if (selectedPartsValues[i].category == category) {
+                                                selectedPartsValues.splice(i, 1);
+                                                i = -1; // Reset the loop counter to -1
+                                                continue outerLoop; // Restart the outer loop
+                                            }
+                                        }
+                                    }
+
+
+                                    $('#selectedParts').val(JSON.stringify(selectedPartsValues));
+
+
+                                });
+
                             }
-                        }
 
+                            clickCount = 0;
+                            $(document).ready(function () {
+                                if (clickCount == 0) {
+                                    $('.category-toggle').addClass('collapsed');
+                                    $('.category-toggle').find('.collapse-icon').css('color', 'white');
+                                    $('.category-toggle').removeClass('expanded');
+                                    clickCount++;
+                                }
+                                $('.category-toggle').on('click', function () {
+                                    $(this).toggleClass('collapsed');
+                                    if ($(this).hasClass('collapsed')) {
+                                        $(this).find('.collapse-icon').css('color', 'white');
 
-                        $('#selectedParts').val(JSON.stringify(selectedPartsValues));
-
-
-                    });
-
-                }
-
-                clickCount = 0;
-                $(document).ready(function () {
-                    if (clickCount == 0) {
-                        $('.category-toggle').addClass('collapsed');
-                        $('.category-toggle').find('.collapse-icon').css('color', 'white');
-                        $('.category-toggle').removeClass('expanded');
-                        clickCount++;
-                    }
-                    $('.category-toggle').on('click', function () {
-                        $(this).toggleClass('collapsed');
-                        if ($(this).hasClass('collapsed')) {
-                            $(this).find('.collapse-icon').css('color', 'white');
-
-                        } else {
-                            $(this).addClass('expanded');
-                            $(this).find('.collapse-icon').css('color', 'turquoise');
-                        }
-                    });
-                });
-            </script>
+                                    } else {
+                                        $(this).addClass('expanded');
+                                        $(this).find('.collapse-icon').css('color', 'turquoise');
+                                    }
+                                });
+                            });
+                        </script>
 
 
 
-            <%- include('partials/iconbar') %>
+                        <%- include('partials/iconbar') %>

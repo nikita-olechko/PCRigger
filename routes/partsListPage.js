@@ -35,14 +35,17 @@ Performs a filtered search in the GPU collection.
 @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const gpuFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     gpuCollection.find(query)
       .skip(skip)
       .limit(perpage)
       .sort({releaseYear: -1})
       .toArray(function (err, result) {
-        if (err) reject(err);
-        resolve(result);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          resolve(result);
+        }
       });
   });
 };
@@ -55,14 +58,17 @@ Performs a filtered search in the memory collection.
 @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const memoryFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     memoryCollection.find(query)
       .skip(skip)
       .limit(perpage)
       .sort({latency: 1})
       .toArray(function (err, result) {
-        if (err) reject(err);
-        resolve(result);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          resolve(result);
+        }
       });
   });
 };
@@ -73,12 +79,15 @@ Performs a filtered search in the memory collection.
 @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const determineMemoryCompatibility = async function(currentBuild) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-      if (err) throw err;
-      console.log(result)
-      compatibleWith = result[0].supportedRamGeneration
-      resolve(compatibleWith)
+      if (err) {
+        res.render('errorPage')
+      } else {                    
+        console.log(result)
+        compatibleWith = result[0].supportedRamGeneration
+        resolve(compatibleWith)
+      }
     })
   })
 }
@@ -91,14 +100,17 @@ Performs a filtered search in the CPU collection.
 @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const cpuFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     cpuCollection.find(query)
       .skip(skip)
       .limit(perpage)
       .sort({cpuMark: -1})
       .toArray(function (err, result) {
-        if (err) reject(err);
-        resolve(result);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          resolve(result);
+        }
       });
   });
 };
@@ -109,20 +121,26 @@ Determines the CPU compatibility of a current build.
 @returns {Promise} - A Promise that resolves with the compatible socket or rejects with an error.
 */
 const determineCpuCompatibility = async function(currentBuild) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if ((currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler) || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)) {
       motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-        if (err) throw err;
-        console.log(result)
-        compatibleWith = result[0].socket
-        resolve(compatibleWith)
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          console.log(result)
+          compatibleWith = result[0].socket
+          resolve(compatibleWith)
+        }
       })
   } else if (currentBuild.parts.cpuCooler) {
     cpuCoolerCollection.find({name: currentBuild.parts.cpuCooler}).toArray(function (err, result) {
-      if (err) throw err;
-      console.log(result)
-      compatibleWith = result[0].supportedSockets
-      resolve(compatibleWith)
+      if (err) {
+        res.render('errorPage')
+      } else {                    
+        console.log(result)
+        compatibleWith = result[0].supportedSockets
+        resolve(compatibleWith)
+      }
   })
 }
 })}
@@ -135,14 +153,17 @@ Performs a filtered search in the motherboard collection.
 @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const motherboardFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     motherboardCollection.find(query)
       .skip(skip)
       .limit(perpage)
       .sort()
       .toArray(function (err, result) {
-        if (err) reject(err);
-        resolve(result);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          resolve(result);
+        }
       });
   });
 };
@@ -153,27 +174,36 @@ Determines the motherboard compatibility of a current build.
 @returns {Promise} - A Promise that resolves with the compatible motherboard sizes or socket, or rejects with an error.
 */
 const determineMotherboardCompatibility = async function(currentBuild) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (currentBuild.parts.case && currentBuild.parts.cpu) {
       caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
         if (err) throw err
         cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-          if (err) throw err
-          compatibleWith = [caseResult[0].SupportedMotherboardSizes, cpuResult[0].socket]
-          resolve(compatibleWith)
+          if (err) {
+            res.render('errorPage')
+          } else {                    
+            compatibleWith = [caseResult[0].SupportedMotherboardSizes, cpuResult[0].socket]
+            resolve(compatibleWith)
+          }
         })
         })
     } else if (currentBuild.parts.cpu) {
       cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
-        if (err) throw err; 
-        compatibleWith = cpuResult[0].socket
-        resolve(compatibleWith)
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          compatibleWith = cpuResult[0].socket
+          resolve(compatibleWith)
+        }
       })
     } else if (currentBuild.parts.case) {
       caseCollection.find({name: currentBuild.parts.case}).toArray(function (err, caseResult) {
-        if (err) throw err;
-        compatibleWith = caseResult[0].SupportedMotherboardSizes
-        resolve(compatibleWith)
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          compatibleWith = caseResult[0].SupportedMotherboardSizes
+          resolve(compatibleWith)
+        }
       })
     }
   })
@@ -187,14 +217,17 @@ Performs a filtered search in the storage collection.
 @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const storageFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     storageCollection.find(query)
       .skip(skip)
       .limit(perpage)
       .sort({diskMark: -1})
       .toArray(function (err, result) {
-        if (err) reject(err);
-        resolve(result);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          resolve(result);
+        }
       });
   });
 };
@@ -207,14 +240,17 @@ Performs a filtered search in the case collection.
 @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const caseFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     caseCollection.find(query)
       .skip(skip)
       .limit(perpage)
       .sort()
       .toArray(function (err, result) {
-        if (err) reject(err);
-        resolve(result);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          resolve(result);
+        }
       });
   });
 };
@@ -225,10 +261,14 @@ Determines the case compatibility for a given current build.
 @returns {Promise} - A Promise that resolves with the case compatibility or rejects with an error.
 */
 const determineCaseCompatibility = async function(currentBuild) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-      compatibleWith = result[0].formFactor
-      resolve(compatibleWith)
+      if (err) {
+        res.render('errorPage')
+      } else {                    
+        compatibleWith = result[0].formFactor
+        resolve(compatibleWith)
+      }
     })
   })
 }
@@ -247,8 +287,11 @@ const cpuCoolerFilteredSearch = function (query, skip, perpage) {
       .limit(perpage)
       .sort()
       .toArray(function (err, result) {
-        if (err) reject(err);
-        resolve(result);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          resolve(result);
+        }
       });
   });
 };
@@ -259,29 +302,38 @@ Determines the CPU cooler compatibility for a given current build.
 @returns {Promise} - A Promise that resolves with the CPU cooler compatibility or rejects with an error.
 */
 const determineCpuCoolerCompatibility = async function(currentBuild) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (currentBuild.parts.cpu && currentBuild.parts.motherboard) {
       cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, cpuResult) {
         if (err) throw err;
         motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, motherboardResult) {
-          if (err) throw err;
-          compatibleWith = [cpuResult[0].socket, motherboardResult[0].socket]
-          resolve(compatibleWith)
+          if (err) {
+            res.render('errorPage')
+          } else {                    
+            compatibleWith = [cpuResult[0].socket, motherboardResult[0].socket]
+            resolve(compatibleWith)
+          }
         })
       })
     }
     else if (currentBuild.parts.cpu && !currentBuild.parts.motherboard) {
       cpuCollection.find({cpuName: currentBuild.parts.cpu}).toArray(function (err, result) {
-        if (err) throw err;
-        compatibleWith = [result[0].socket]
-        resolve(compatibleWith)
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          compatibleWith = [result[0].socket]
+          resolve(compatibleWith)
+        }
       })
     }
     else if (currentBuild.parts.motherboard && !currentBuild.parts.cpu) {
       motherboardCollection.find({name: currentBuild.parts.motherboard}).toArray(function (err, result) {
-        if (err) throw err;
-        compatibleWith = [result[0].socket]
-        resolve(compatibleWith)
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          compatibleWith = [result[0].socket]
+          resolve(compatibleWith)
+        }
       })
     }
   })
@@ -295,14 +347,17 @@ Performs a filtered search in the power supply collection.
 @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
 */
 const powerSupplyFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     powerSupplyCollection.find(query)
       .skip(skip)
       .limit(perpage)
       .sort({ powerOutput: -1 })
       .toArray(function (err, result) {
-        if (err) reject(err);
-        resolve(result);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          resolve(result);
+        }
       });
   });
 };
@@ -360,6 +415,8 @@ app.post('/parts', async (req, res) => {
 
   switch (partCategory) {
       case 'gpu':
+        // If a filter for VRAM has been selected, use it, otherwise default to 0
+        // If a filter for preferred manufacturer has been selected, use it, otherwise default to all available options
         const minimumMemorySize = req.body.memSize || 0;
         const desiredManufacturer = req.body.manufacturer ? [req.body.manufacturer] : ["AMD", "NVIDIA"];
         if (!req.body.query) {
@@ -374,18 +431,25 @@ app.post('/parts', async (req, res) => {
           }
         }
         }
+      // Count the numer of gpus that match the query
       gpuCollection.countDocuments(query, async function(err, count) {
-        if (err) throw err;
-        totalParts = count;     
-        results = await gpuFilteredSearch(query, skip, perPage)
-        searchFunction(results, partCategory, page, totalParts, query , currentBuildToPass);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          totalParts = count;     
+          results = await gpuFilteredSearch(query, skip, perPage)
+          searchFunction(results, partCategory, page, totalParts, query , currentBuildToPass);
+        }
       })
   
         break;
 
       case 'ram':
+        // If a filter for memory size is selected, use it, otherwise default to 2
+        // If a filter for desired memory generation is selected, use it, otherwise default to all available options
         const minimumRamSize = req.body.memSize || 2;
         const desiredGen = req.body.gen ? [req.body.gen] : ["DDR4", "DDR5"];
+        // Select the appropriate query based on the filters selected/build data
         defaultQuery = {capacity: { $gte: parseInt(minimumRamSize) }, gen: { $in: desiredGen }};
         if (!req.body.query && !req.body.build) {
             query = defaultQuery
@@ -402,19 +466,25 @@ app.post('/parts', async (req, res) => {
             query = defaultQuery
           }
           }
-
+        // Count the number of ram modules that match the query
         memoryCollection.countDocuments(query, async function(err, count) {
-          if (err) throw err;
-          totalParts = count;
-          results = await memoryFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+          if (err) {
+            res.render('errorPage')
+          } else {                    
+            totalParts = count;
+            results = await memoryFilteredSearch(query, skip, perPage);
+            searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+          }
         });
 
         break;
 
       case 'cpu':
+        // If a filter for cores has been selected, use it, otherwise default to 0
         const minimumCoreCount = req.body.cores || 0;
+        // If a filter for TDP has been selected, use it, otherwise default to 500
         const maximumTdp = req.body.tdp || 500;
+        // Select the appropriate query based on the filters selected/build data
         defaultQuery = {cores: { $gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}}
         if (!req.body.query && !req.body.build) {
             query = defaultQuery;
@@ -430,17 +500,24 @@ app.post('/parts', async (req, res) => {
             query = defaultQuery
           }
         }
+      // Count the number of cpus that match the query
       cpuCollection.countDocuments(query, async function (err, count) {
-        if (err) throw err;
-        totalParts = count;
-        results = await cpuFilteredSearch(query, skip, perPage);
-        searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass)
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          totalParts = count;
+          results = await cpuFilteredSearch(query, skip, perPage);
+          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass)
+        }
       })
         break;
 
       case 'motherboards':
+        // If a filter for form factor has been selected, use it, otherwise default to both ATX and Micro-ATX
         const desiredFormFactor = req.body.formFactor ? [req.body.formFactor] : ["ATX", "Micro-ATX"]
+        // If a filter for PCIe generation has been selected, use it, otherwise default to both PCIe 4.0 and PCIe 5.0
         const desiredPcieGen = req.body.pcieGeneration ? [req.body.pcieGeneration] : ["PCIe 4.0", "PCIe 5.0"];
+        // Select the appropriate query based on the filters selected/build data
         defaultQuery = {formFactor: { $in: desiredFormFactor }, pcieGeneration: { $in: desiredPcieGen }};
         if (!req.body.query && req.body.build) {
           if (currentBuild.parts.case && currentBuild.parts.cpu) {
@@ -462,35 +539,46 @@ app.post('/parts', async (req, res) => {
           } else {
             query = defaultQuery
           }
+        // Count the number of motherboards that match the query
         motherboardCollection.countDocuments(query, async function(err, count) {
-          if (err) throw err;
-          totalParts = count;
-          results = await motherboardFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+          if (err) {
+            res.render('errorPage')
+          } else {                    
+            totalParts = count;
+            results = await motherboardFilteredSearch(query, skip, perPage);
+            searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+          }
         });
         break;
 
       case 'storage':
+        // If a filter for storage capacity has been selected, use it, otherwise default to 0
         const desiredCapacity = req.body.diskCapacity || 0;
+        // Select the appropriate query based on the filters selected / build data
         if (!req.body.query) {
             query = {
               diskCapacity: { $gte: parseInt(desiredCapacity) },
             };
           }
+        // Count the number of storage devices that match the query
         storageCollection.countDocuments(query, async function(err, count) {
-          if (err) throw err;
-          totalParts = count;
-          results = await storageFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+          if (err) {
+            res.render('errorPage')
+          } else {                    
+            totalParts = count;
+            results = await storageFilteredSearch(query, skip, perPage);
+            searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+          }
         });
           break;
 
       case 'case':
+        // Select the appropraite query based on build data
         defaultQuery = {}
         if (!req.body.query && req.body.build) {
           if (currentBuild.parts.motherboard) {
-            compatibility = determineCaseCompatibility(currentBuild)
-            query = {SupportedMotherboardSizes: {$in: compatibility}}
+            compatibility = await determineCaseCompatibility(currentBuild)
+            query = {SupportedMotherboardSizes: { $in: [compatibility] } }
           } else {
             query = defaultQuery
           }
@@ -498,15 +586,22 @@ app.post('/parts', async (req, res) => {
         else {
           query = defaultQuery
         }
+        // Count the number of cases that match the query
         caseCollection.countDocuments(query, async function(err, count) {
-          if (err) throw err;
-          totalParts = count;
-          results = await caseFilteredSearch(query, skip, perPage);
-          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+          if (err) {
+            console.log(err)
+            res.render('errorPage')
+          } else {                    
+            totalParts = count;
+            results = await caseFilteredSearch(query, skip, perPage);
+            searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+          }
         });
         break;
 
       case 'cpucoolers':
+        // If a filter for cooling type has been selected, use it, otherwise default to both air and liquid cooling
+        // Select the appropriate query based on the filters selected/build data
         if (!req.body.query && req.body.build) {
             if (currentBuild.parts.cpu || currentBuild.parts.motherboard) {
               compatibility = await determineCpuCoolerCompatibility(currentBuild)
@@ -529,16 +624,20 @@ app.post('/parts', async (req, res) => {
             query = {}
           }
         }
+      // Count the number of CPU coolers that match the query
       cpuCoolerCollection.countDocuments(query, async function(err, count) {
-        if (err) throw err;
-        totalParts = count;
-        results = await cpuCoolerFilteredSearch(query, skip, perPage);
-        console.log(results)
-        searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          totalParts = count;
+          results = await cpuCoolerFilteredSearch(query, skip, perPage);
+          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+        }
       });
         break;
 
       case 'powersupplies':
+        // If a filter for power output has been selected, use it, otherwise default to 0
         const minPowerOutput = req.body.powerOutput || 0;
         const desiredRating = req.body.rating ? [req.body.rating] : ["Gold", "Platinum", "Titanium"];
         if (!req.body.query) {
@@ -547,11 +646,15 @@ app.post('/parts', async (req, res) => {
             rating: {$in: desiredRating},
         }}
       }
+      // Count the number of power supplies that match the query
       powerSupplyCollection.countDocuments(query, async function(err, count) {
-        if (err) throw err;
-        totalParts = count;     
-        results = await powerSupplyFilteredSearch(query, skip, perPage)
-        searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+        if (err) {
+          res.render('errorPage')
+        } else {                    
+          totalParts = count;     
+          results = await powerSupplyFilteredSearch(query, skip, perPage)
+          searchFunction(results, partCategory, page, totalParts, query, currentBuildToPass);
+        }
       })
         break;
 
