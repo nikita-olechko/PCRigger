@@ -1,29 +1,29 @@
 <%- include('partials/navbar') %>
 
-    <main>
-
-
-    </main>
-
+<main>
+    
+    
     <% if(partNotFound) { %>
         <!-- If part doesn't exist, display this message -->
         <div class="col-md notification notification:hover">
             <input value="Can't find part matching <%= searchTerm %>!" type="button"
-                class="container notification-button menu_buttons general-margin button-padding">
+            class="container notification-button menu_buttons general-margin button-padding">
         </div>
         <% } else { %>
-            <!-- If the part exists, display this message -->
-            <% part=JSON.parse(part); <!-- Parse through part object to find the name of the part -->
-                if (part.name) { partName=part.name; }
-                if (part.cpuName) { partName=part.cpuName; }
-                if (part.driveName) { partName=part.driveName; }
-                if (part.memoryName) { partName=part.memoryName; }
-                if (part.productName) { partName=part.productName; } %>
+            
+            <% part=JSON.parse(part);
+             <!-- Parse through part object to find the name of the part -->
+            if (part.name) { partName=part.name; }
+            if (part.cpuName) { partName=part.cpuName; }
+            if (part.driveName) { partName=part.driveName; }
+            if (part.memoryName) { partName=part.memoryName; }
+            if (part.productName) { partName=part.productName; }
+             %>
 
                 <h1 class="text-center mt-4">
                     <%= partName %>
                 </h1>
-
+                
                 <div class=" container-fluid mt-2">
                     <h3>Specs breakdown:</h3>
                     <div class="container-fluid">
@@ -38,9 +38,10 @@
                                     </span>
                                 </p>
                                 <% } %>
-                                    <% } %>
-                    </div>
-                </div>
-                <% } %>
-
-                    <%- include('partials/iconbar') %>
+                                <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+                        
+                        <%- include('partials/iconbar') %>
+                    </main>
