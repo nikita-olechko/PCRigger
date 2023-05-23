@@ -28,7 +28,7 @@ module.exports = function (app) {
         console.log("Search term is: " + searchTerm);
         console.log("Search cat part type: " + partCategory);
 
-        // Determine which collection to search
+        // Determine which collection to search, ugly but works...
         let collectionToSearch;
         if (partCategory == "cpu") {
             collectionToSearch = cpuCollection;
@@ -81,11 +81,18 @@ module.exports = function (app) {
             res.status(200);
             res.render('specsPage', {
                 part: JSON.stringify(foundPart),
-                partCategory: partCategory
+                partCategory: partCategory,
+                searchTerm: searchTerm,
+                partNotFound: false
             });
 
         } else {
-            res.status(404).send("No matching part found");
-        };
+            // If the part doesn't exist in the database, render the specs page with a null part and a part not found message for pop up 
+            res.render('specsPage', {
+                part: null,
+                partCategory: partCategory,
+                searchTerm: searchTerm,
+                partNotFound: true
+            });        };
     })
 }

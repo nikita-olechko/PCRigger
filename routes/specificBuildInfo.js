@@ -19,41 +19,57 @@ module.exports = function (app, userCollection) {
             const cases = Array.isArray(await build.parts.case) ? await build.parts.case : [await build.parts.case];
             const cpuCoolers = Array.isArray(await build.parts.cpuCooler) ? await build.parts.cpuCooler : [await build.parts.cpuCooler];
 
-            // give me an array and push the parts into it
-            // then console.log the array
+            // An array to store all the parts from the build object to be passed to AI
             const parts = [];
             parts.push(cpus, gpus, memory, storage, motherboards, powerSupply, cases, cpuCoolers);
 
-            // Custom prompt for the AI
+            // Custom prompt for the AI including parts array so it gets context
             const promptRequest = (`Tell me what this build suited for, be detailed: ${parts} `);
 
-            // variable to store the AI's response
+            // Instantiate variable to store the AI's response
             var buildDescription;
-            // get the current user
+            // get the current logged in user
             var currentUser = req.session.user;
+            // Get the current build's name
             var buildTitle = build.name;
             console.log(buildTitle);
 
 
-            // check if the buildDescription already exists in the user's document in the mongoDB, if it does, use that, if not, make the API call to the AI
-            if (currentUser[buildTitle]) {
-                buildDescription = currentUser[buildTitle];
-                console.log("Build description already exists in the database");
+            // check if the buildDescription already exists in the user's document in MongoDB, if it does, use that, if not, make the API call to the AI
+            if (currentUser.descriptions && currentUser.descriptions.length > 0) {
+                const existingDescription = currentUser.descriptions.find((desc) => desc.buildTitle === buildTitle);
+                if (existingDescription) {
+                    buildDescription = existingDescription.description;
+                    console.log("Build description already exists in the database");
+                } else {
+                    // If the build exists but has no description, make the API call to the AI
+                    console.log("AI has been prompted to generate a build description, please wait...");
+                    buildDescription = await makeAPIRequest(promptRequest);
+                    const descriptionObj = { buildTitle: buildTitle, description: buildDescription };
+                    await userCollection.updateOne(
+                        { username: currentUser.username },
+                        { $push: { descriptions: descriptionObj } }
+                    );
+                }
             } else {
-                // if user doesn't have a build description, make the API call to the AI
-                // then insert the build description into the user's document in the mongoDB
-                console.log("AI has been propmted to generate a build description, pls wait...");
+                // If user doesn't have any descriptions yet, make the API call to the AI
+                console.log("AI has been prompted to generate a build description, please wait...");
                 buildDescription = await makeAPIRequest(promptRequest);
+                const descriptionObj = { buildTitle: buildTitle, description: buildDescription };
                 await userCollection.updateOne(
                     { username: currentUser.username },
-                    { $set: { [buildTitle]: buildDescription } });
+                    { $push: { descriptions: descriptionObj } }
+                );
             }
 
             // Refresh Session with freshly updated user from MongoDB
             currentUser = await userCollection.findOne({ username: req.session.user.username });
+            req.session.user = currentUser;
+
 
             res.render('specificBuildInfo', {
                 build: build,
+                // These components are left in to help debug the code if needed
                 cpus: cpus,
                 gpus: gpus,
                 memory: memory,
@@ -62,12 +78,12 @@ module.exports = function (app, userCollection) {
                 powerSupply: powerSupply,
                 cases: cases,
                 cpuCoolers: cpuCoolers,
+                // AI's response (build description) to be rendered in the ejs file
                 renderedBuildDescription: buildDescription,
             });
         } catch (error) {
             console.error('Error retrieving data from MongoDB:', error);
-            res.status(500).send('Internal Server Error');
-            res.render("500");
+            res.status(500).send('Internal Server Error').render("500");
         }
     });
 }

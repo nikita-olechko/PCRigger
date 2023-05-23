@@ -118,7 +118,7 @@
     <% } %>
 
 <!-- compare button form -->
-<form form action="/compare" method="POST" id="compareForm">
+<!-- <form form action="/compare" method="POST" id="compareForm">
     <input type="hidden" name="selectedFirstPart" id="selectedFirstPart" value=''>
     <input type="hidden" name="selectedSecondPart" id="selectedSecondPart" value=''>
     <input type="hidden" name="partsType" id="partsType" value='<%= partCategory %>'>
@@ -129,8 +129,23 @@
         </div>
     </div>
     </div>
-</form>
+</form> -->
 
+<!-- compare button form -->
+<form form action="/compare" method="POST" id="compareForm">
+    <input type="hidden" name="selectedFirstPart" id="selectedFirstPart" value=''>
+    <input type="hidden" name="selectedSecondPart" id="selectedSecondPart" value=''>
+    <input type="hidden" name="partsType" id="partsType" value='<%= partCategory %>'>
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-8"></div> <!-- Add an empty column to push the button to the right -->
+        <div class="col-md-4"> <!-- Add a column for the floating button -->
+          <button type="submit" class="btn btn-lg btn-primary btn-block floating-button">Compare</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  
 
     </main>
 <script>
