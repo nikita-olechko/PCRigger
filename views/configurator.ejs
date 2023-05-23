@@ -33,6 +33,11 @@
                     <h2>
                       <%= builds.name %>
                     </h2>
+                    <% if (typeof builds.parts.budget !== null) { %>
+                      <h2>
+                       Estimated Price: USD <%= builds.parts.budget %>
+                      </h2>
+                      <% } %>
                     <div class="row">
                       <div class="col">
                         <h5 class="general-margin">CPU</h5>
