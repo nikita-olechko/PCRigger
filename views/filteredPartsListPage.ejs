@@ -1,6 +1,6 @@
 <%- include('partials/navbar') %>
 <% query = JSON.stringify(query)%>
-<h3 class="text-center">Search Parts name/serial number:</h3>
+<h3 class="text-center" id="search_text">Search Parts name/serial number:</h3>
 
 
 <%- include('partials/partsSearch', {partCategory: partCategory}) %>
@@ -178,9 +178,22 @@
         compareForm.addEventListener('submit', function(event) {
           event.preventDefault(); // Prevent the default form submission
       
-          // Submit the form
-          compareForm.submit();
+
+        //Load loading page
+        loadingpage();
+        // Submit the form
+        compareForm.submit();
         });
+
+        function loadingpage(){
+            var main = document.querySelector("main");
+            var searchbar = document.querySelector("#search_bar");
+            var search_text = document.querySelector("#search_text");
+            main.style.display = "none";
+            searchbar.style.display = "none";
+            search_text.style.display = "none";
+
+        }
       </script>
       
       
