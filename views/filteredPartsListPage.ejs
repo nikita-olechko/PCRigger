@@ -118,20 +118,6 @@
     <% } %>
 
 <!-- compare button form -->
-<!-- <form form action="/compare" method="POST" id="compareForm">
-    <input type="hidden" name="selectedFirstPart" id="selectedFirstPart" value=''>
-    <input type="hidden" name="selectedSecondPart" id="selectedSecondPart" value=''>
-    <input type="hidden" name="partsType" id="partsType" value='<%= partCategory %>'>
-    <div class="container">
-    <div class="row text-center">
-        <div class="col-md-8">
-        <button type="submit" class="btn btn-lg btn-primary btn-block">Compare</button>
-        </div>
-    </div>
-    </div>
-</form> -->
-
-<!-- compare button form -->
 <form form action="/compare" method="POST" id="compareForm">
     <input type="hidden" name="selectedFirstPart" id="selectedFirstPart" value=''>
     <input type="hidden" name="selectedSecondPart" id="selectedSecondPart" value=''>
@@ -140,7 +126,7 @@
       <div class="row text-center">
         <div class="col-md-8"></div> <!-- Add an empty column to push the button to the right -->
         <div class="col-md-4"> <!-- Add a column for the floating button -->
-          <button type="submit" class="btn btn-lg btn-primary btn-block floating-button">Compare</button>
+          <button id="compare-btn" type="submit" class="btn btn-lg btn-primary btn-block floating-button">Compare</button>
         </div>
       </div>
     </div>
@@ -148,40 +134,54 @@
   
 
     </main>
-<script>
-    // Get the Compare form element
-    const compareForm = document.getElementById('compareForm');
-    const selectedFirstPart = document.getElementById('selectedFirstPart');
-    const selectedSecondPart = document.getElementById('selectedSecondPart');
-    // Add a submit event listener to the Compare form
-    compareForm.addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent the default form submission
-
-      // Get all the checkboxes
-    const checkboxes = document.getElementsByClassName('form-check-input');
-    const selectedParts = [];
-
-      // Iterate over each checkbox
-    for (let i = 0; i < checkboxes.length; i++) {
-        // Check if the checkbox is checked
-        if (checkboxes[i].checked) {
-          // Get the part ID from the data attribute
-        const partObj = checkboxes[i].getAttribute('value');
-
-          // Add the selected part to the array
-        selectedParts.push(partObj);
-
+    <script>
+        // Get the Compare form element
+        const compareForm = document.getElementById('compareForm');
+        const compareButton = document.getElementById('compare-btn');
+        const selectedFirstPart = document.getElementById('selectedFirstPart');
+        const selectedSecondPart = document.getElementById('selectedSecondPart');
+        var numberOfCheckedParts = 0;
+      
+        // Disable the button initially
+        compareButton.disabled = true;
+      
+        // Add change event listeners to the checkboxes
+        const checkboxes = document.getElementsByClassName('form-check-input');
+        for (let i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].addEventListener('change', function() {
+            numberOfCheckedParts = 0;
+            const selectedParts = [];
+      
+            // Iterate over each checkbox
+            for (let j = 0; j < checkboxes.length; j++) {
+              // Check if the checkbox is checked
+              if (checkboxes[j].checked) {
+                numberOfCheckedParts++;
+                // Get the part ID from the data attribute
+                const partObj = checkboxes[j].getAttribute('value');
+      
+                // Add the selected part to the array
+                selectedParts.push(partObj);
+              }
+            }
+      
+            // Disable the button unless exactly 2 checkboxes are checked
+            compareButton.disabled = (numberOfCheckedParts !== 2);
+      
+            // Update the selected parts in the hidden input fields
+            selectedFirstPart.value = (selectedParts.length >= 1) ? selectedParts[0] : '';
+            selectedSecondPart.value = (selectedParts.length >= 2) ? selectedParts[1] : '';
+          });
         }
-    }
-
-      // Pull the JSON objects (parts) out from Array
-    selectedFirstPart.value = selectedParts[0];
-    selectedSecondPart.value = selectedParts[1];
-      // console.log(selectedFirstPart.value);
-      // console.log(selectedSecondPart.value);
-
-      // Submit the form
-    compareForm.submit();
-    });
-</script>
+      
+        // Add a submit event listener to the Compare form
+        compareForm.addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+      
+          // Submit the form
+          compareForm.submit();
+        });
+      </script>
+      
+      
     <%- include('partials/iconbar') %>

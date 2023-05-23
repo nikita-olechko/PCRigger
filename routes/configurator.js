@@ -136,8 +136,11 @@ module.exports = function (app, userCollection) {
                 { username: userID },
                 { $push: { favourites: build } },
                 function (err, updateResult) {
-                    if (err) throw err;
-                    console.log("build added to user!");
+                    if (err) {
+                        res.render('errorPage')
+                    } else {                    
+                        console.log("build added to user!");
+                    }
                 }
             );
 
@@ -190,8 +193,11 @@ module.exports = function (app, userCollection) {
                 // {$rename: { [currentBuildName]: build.name }}, [Abdo]
 
                 function (err, updateResult) {
-                    if (err) throw err;
-                    console.log("build updated!");
+                    if (err) {
+                        res.render('errorPage')
+                    } else {                    
+                        console.log("build updated!");
+                    }
                 }
             );
 
