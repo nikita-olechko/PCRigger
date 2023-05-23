@@ -169,123 +169,97 @@ module.exports = function (app, userCollection) {
 "oem": string,
 "modular": boolean,
 "powerOutput": number,
-"rating": 80plusrating as a string,
+"rating": 80plus rating as a string of either (Bronze, Silver, Gold, Platinum, Titanium),
 }`
         }
         return startOfPrompt + endOfPrompt
     }
 
-    async function checkPartsInDatabase(parsedBuildDescription) {
-        // modify the parseBuildDescription so that it only has one part per category
-        for (var key in parsedBuildDescription.parts) {
-            if (!Array.isArray(parsedBuildDescription.parts[key])) {
-                parsedBuildDescription.parts[key] = [parsedBuildDescription.parts[key]];
+    async function getNewPart(schemaPrompt, internalErrorCount = 0) {
+        newPart = await makeAPIRequest(schemaPrompt);
+        console.log("newPart: " + newPart)
+        console.log("getNewPart iteration: " + internalErrorCount)
+        // if newPart is null, try again up to 5 times
+        if (newPart == null) {
+            internalErrorCount++;
+            if (internalErrorCount > 5) {
+                return newPart
             }
             else {
-                parsedBuildDescription.parts[key] = parsedBuildDescription.parts[key][0];
+                newPart = await getNewPart(schemaPrompt, internalErrorCount);
+            }
+        }
+        return newPart
+    }
+
+    async function checkPartsInDatabase(parsedBuildDescription) {
+        // modify the parseBuildDescription so that it only has one part per category
+        //replace all , "" with ""
+        for (var key in parsedBuildDescription.parts) {
+            // console.log("iterable keys: " + JSON.stringify(parsedBuildDescription.parts))
+            if (!Array.isArray(parsedBuildDescription.parts[key])) {
+                parsedBuildDescription.parts[key] = [parsedBuildDescription.parts[key]];
+                // console.log("Current parts list: " + JSON.stringify(parsedBuildDescription.parts[key]))
+            } else {
+                parsedBuildDescription.parts[key] = [parsedBuildDescription.parts[key][0]];
+                // console.log("Current parts list: " + JSON.stringify(parsedBuildDescription.parts[key]))
             }
             console.log("modified PraseBuildDescription" + JSON.stringify(parsedBuildDescription))
             for (let part of parsedBuildDescription.parts[key]) {
+                console.log("iterable: " + parsedBuildDescription.parts[key])
+                console.log("part: " + part)
+                console.log("key: " + key)
                 let collection
                 let partsInDatabase
                 if (key == 'ram') {
-                    partInDatabase = await memoryCollection.findOne({ memoryName: part });
+                    collection = memoryCollection
+                    partInDatabase = await collection.findOne({ memoryName: part });
                     partsInDatabase = partInDatabase !== null;
-                    if (!partsInDatabase) {
-                        schemaPrompt = getSchemaPrompt(key, part);
-                        newPart = await makeAPIRequest(schemaPrompt);
-                        console.log("newPart is: " + newPart)
-                        newPart = JSON.parse(newPart);
-                        console.log("newPart is: " + newPart)
-                        await memoryCollection.insertOne(newPart);
-                    }
                 }
                 else if (key == 'storage') {
-                    partInDatabase = await storageCollection.findOne({ driveName: part });
+                    collection = storageCollection
+                    partInDatabase = await collection.findOne({ driveName: part });
                     partsInDatabase = partInDatabase !== null;
-                    if (!partsInDatabase) {
-                        schemaPrompt = getSchemaPrompt(key, part);
-                        newPart = await makeAPIRequest(schemaPrompt);
-                        console.log("newPart is: " + newPart)
-                        newPart = JSON.parse(newPart);
-                        console.log("newPart is: " + newPart)
-                        await storageCollection.insertOne(newPart);
-                    }
                 }
                 else if (key == 'case') {
-                    partInDatabase = await caseCollection.findOne({ name: part });
+                    collection = caseCollection;
+                    partInDatabase = await collection.findOne({ name: part });
                     partsInDatabase = partInDatabase !== null;
-                    if (!partsInDatabase) {
-                        schemaPrompt = getSchemaPrompt(key, part);
-                        newPart = await makeAPIRequest(schemaPrompt);
-                        console.log("newPart is: " + newPart)
-                        newPart = JSON.parse(newPart);
-                        console.log("newPart is: " + newPart)
-                        await caseCollection.insertOne(newPart);
-                    }
                 }
                 else if (key == 'powerSupply') {
-                    partInDatabase = await powerSupplyCollection.findOne({ name: part });
+                    collection = powerSupplyCollection;
+                    partInDatabase = await collection.findOne({ name: part });
                     partsInDatabase = partInDatabase !== null;
-                    if (!partsInDatabase) {
-                        schemaPrompt = getSchemaPrompt(key, part);
-                        newPart = await makeAPIRequest(schemaPrompt);
-                        console.log("newPart is: " + newPart)
-                        newPart = JSON.parse(newPart);
-                        console.log("newPart is: " + newPart)
-                        await powerSupplyCollection.insertOne(newPart);
-                    }
                 }
                 else if (key == 'cpuCooler') {
-                    partInDatabase = await cpuCoolerCollection.findOne({ name: part });
+                    collection = cpuCoolerCollection;
+                    partInDatabase = await collection.findOne({ name: part });
                     partsInDatabase = partInDatabase !== null;
-                    if (!partsInDatabase) {
-                        schemaPrompt = getSchemaPrompt(key, part);
-                        newPart = await makeAPIRequest(schemaPrompt);
-                        console.log("newPart is: " + newPart)
-                        newPart = JSON.parse(newPart);
-                        console.log("newPart is: " + newPart)
-                        await cpuCoolerCollection.insertOne(newPart);
-                    }
-
                 }
                 else if (key == 'motherboard') {
-                    partInDatabase = await motherboardCollection.findOne({ name: part });
+                    collection = motherboardCollection;
+                    partInDatabase = await collection.findOne({ name: part });
                     partsInDatabase = partInDatabase !== null;
-                    if (!partsInDatabase) {
-                        schemaPrompt = getSchemaPrompt(key, part);
-                        newPart = await makeAPIRequest(schemaPrompt);
-                        console.log("newPart is: " + newPart)
-                        newPart = JSON.parse(newPart);
-                        console.log("newPart is: " + newPart)
-                        await motherboardCollection.insertOne(newPart);
-                    }
                 }
                 else if (key == 'gpu') {
-                    partInDatabase = await gpuCollection.findOne({ productName: part });
+                    collection = gpuCollection;
+                    partInDatabase = await collection.findOne({ productName: part });
                     partsInDatabase = partInDatabase !== null;
-                    if (!partsInDatabase) {
-                        schemaPrompt = getSchemaPrompt(key, part);
-                        newPart = await makeAPIRequest(schemaPrompt);
-                        console.log("newPart is: " + newPart)
-                        newPart = JSON.parse(newPart);
-                        console.log("newPart is: " + newPart)
-                        await gpuCollection.insertOne(newPart);
-                    }
                 }
                 else if (key == 'cpu') {
-                    partInDatabase = await cpuCollection.findOne({ cpuName: part });
+                    collection = cpuCollection;
+                    partInDatabase = await collection.findOne({ cpuName: part });
                     partsInDatabase = partInDatabase !== null;
-                    if (!partsInDatabase) {
-                        console.log("part is: " + part)
-                        schemaPrompt = getSchemaPrompt(key, part);
-                        console.log(schemaPrompt)
-                        newPart = await makeAPIRequest(schemaPrompt);
-                        console.log("newPart is: " + newPart)
-                        newPart = JSON.parse(newPart);
-                        console.log("newPart is: " + newPart)
-                        await cpuCollection.insertOne(newPart);
-                    }
+                }
+                console.log("partInDatabase: " + partInDatabase)
+                if (!partsInDatabase) {
+                    internalErrorCount = 0;
+                    schemaPrompt = getSchemaPrompt(key, part);
+                    console.log("schema prompt is: " + schemaPrompt)
+                    newPart = await getNewPart(schemaPrompt);
+                    console.log("newPart is: " + newPart)
+                    newPart = JSON.parse(newPart);
+                    await collection.insertOne(newPart);
                 }
             }
         }
@@ -299,28 +273,8 @@ module.exports = function (app, userCollection) {
 
         // console.log(fullPrompt)
 
-        // buildDescription = await makeAPIRequest(fullPrompt);
-        buildDescription = `{
-"class": "PC Build",
-"name": "Mighty Micro",
-"parts": {
-"cpu": "Intel Core i9-11900K",
-"gpu": "NVIDIA GeForce RTX 3080",
-"ram": [
-"Corsair Vengeance RGB Pro 32GB (2 x 16GB) DDR4-3200",
-"Corsair Vengeance RGB Pro 32GB (2 x 16GB) DDR4-3200",
-"Corsair Vengeance RGB Pro 32GB (2 x 16GB) DDR4-3200",
-"Corsair Vengeance RGB Pro 32GB (2 x 16GB) DDR4-3200"
-],
-"motherboard": "ASUS ROG Strix Z590-G Gaming WiFi",
-"cpuCooler": "NZXT Kraken X73",
-"storage": "Samsung 980 Pro 1TB NVMe SSD",
-"case": "NZXT H510 Elite",
-"powerSupply": "Corsair RM750x"
-}
-}`
-
-        //replace quotations in keys
+        buildDescription = await makeAPIRequest(fullPrompt);
+        
         parsedBuildDescription = JSON.parse(buildDescription)
 
         var existingBuild = false
