@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 router = express.Router();
 const makeAPIRequest = require('./OpenAIcall');
-const { schema } = require('../models/cpuModel');
 
 
 module.exports = function (app, userCollection) {
