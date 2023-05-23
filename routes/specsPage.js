@@ -24,7 +24,10 @@ module.exports = async function (app, userCollection) {
         const part = req.body.part;
         console.log(part);
 
-        res.render('specsPage', { part: part });
+        res.render('specsPage', {
+            part: part,
+            partNotFound: false
+        });
     })
 
     app.post('/infoSpecs', async (req, res) => {
@@ -94,11 +97,18 @@ module.exports = async function (app, userCollection) {
             res.status(200);
             res.render('specsPage', {
                 part: JSON.stringify(foundPart),
-                partCategory: partCategory
+                partCategory: partCategory,
+                partNotFound: false
             });
 
         } else {
-            res.status(404).send("No matching part found");
+            res.status(200);
+            res.render('specsPage', {
+                part: null,
+                partCategory: partCategory,
+                partNotFound: true
+            });
+
         };
     })
 }

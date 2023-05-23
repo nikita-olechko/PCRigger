@@ -142,6 +142,9 @@
         const selectedSecondPart = document.getElementById('selectedSecondPart');
         var numberOfCheckedParts = 0;
       
+        // Disable the button initially
+        compareButton.disabled = true;
+      
         // Add change event listeners to the checkboxes
         const checkboxes = document.getElementsByClassName('form-check-input');
         for (let i = 0; i < checkboxes.length; i++) {
@@ -170,7 +173,7 @@
             selectedSecondPart.value = (selectedParts.length >= 2) ? selectedParts[1] : '';
           });
         }
-
+      
         // Add a submit event listener to the Compare form
         compareForm.addEventListener('submit', function(event) {
           event.preventDefault(); // Prevent the default form submission
@@ -179,5 +182,6 @@
           compareForm.submit();
         });
       </script>
+      
       
     <%- include('partials/iconbar') %>
