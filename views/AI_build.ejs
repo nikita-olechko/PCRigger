@@ -174,7 +174,7 @@
                         </div>
                         <br>
                         <input type="submit" value="Generate Build" class="form-control btn-primary button-padding"
-                            onclick="return submitForm()" id="submitButton">
+                            onclick="submitForm()" id="submitButton">
                         <input type="hidden" value="" name="selectedParts" id="selectedParts">
                     </div>
                 </form>
@@ -188,10 +188,11 @@
                     var selectedParts = document.getElementById('selectedParts').value;
                     if (selectedParts === '') {
                         document.getElementById('formID').action = '/advancedFilterWithNotification';
-                        return true;
                     }
                     // Otherwise, allow the form to be submitted
-                    return true;
+                    else {
+                        document.getElementById('formID').action = '/generateNewBuild';
+                    }
                 }
 
                 selectedPartsValues = [];
