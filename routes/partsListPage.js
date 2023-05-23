@@ -360,6 +360,8 @@ app.post('/parts', async (req, res) => {
 
   switch (partCategory) {
       case 'gpu':
+        // If a filter for VRAM has been selected, use it, otherwise default to 0
+        // If a filter for preferred manufacturer has been selected, use it, otherwise default to all available options
         const minimumMemorySize = req.body.memSize || 0;
         const desiredManufacturer = req.body.manufacturer ? [req.body.manufacturer] : ["AMD", "NVIDIA"];
         if (!req.body.query) {
@@ -374,6 +376,7 @@ app.post('/parts', async (req, res) => {
           }
         }
         }
+      // Count the numer of gpus that match the query
       gpuCollection.countDocuments(query, async function(err, count) {
         if (err) throw err;
         totalParts = count;     
@@ -384,8 +387,11 @@ app.post('/parts', async (req, res) => {
         break;
 
       case 'ram':
+        // If a filter for memory size is selected, use it, otherwise default to 2
+        // If a filter for desired memory generation is selected, use it, otherwise default to all available options
         const minimumRamSize = req.body.memSize || 2;
         const desiredGen = req.body.gen ? [req.body.gen] : ["DDR4", "DDR5"];
+        // Select the appropriate query based on the filters selected/build data
         defaultQuery = {capacity: { $gte: parseInt(minimumRamSize) }, gen: { $in: desiredGen }};
         if (!req.body.query && !req.body.build) {
             query = defaultQuery
@@ -402,7 +408,7 @@ app.post('/parts', async (req, res) => {
             query = defaultQuery
           }
           }
-
+        // Count the number of ram modules that match the query
         memoryCollection.countDocuments(query, async function(err, count) {
           if (err) throw err;
           totalParts = count;
@@ -413,8 +419,11 @@ app.post('/parts', async (req, res) => {
         break;
 
       case 'cpu':
+        // If a filter for cores has been selected, use it, otherwise default to 0
         const minimumCoreCount = req.body.cores || 0;
+        // If a filter for TDP has been selected, use it, otherwise default to 500
         const maximumTdp = req.body.tdp || 500;
+        // Select the appropriate query based on the filters selected/build data
         defaultQuery = {cores: { $gte: parseInt(minimumCoreCount) },TDP: { $lte: parseInt(maximumTdp)}}
         if (!req.body.query && !req.body.build) {
             query = defaultQuery;
@@ -430,6 +439,7 @@ app.post('/parts', async (req, res) => {
             query = defaultQuery
           }
         }
+      // Count the number of cpus that match the query
       cpuCollection.countDocuments(query, async function (err, count) {
         if (err) throw err;
         totalParts = count;
@@ -439,8 +449,11 @@ app.post('/parts', async (req, res) => {
         break;
 
       case 'motherboards':
+        // If a filter for form factor has been selected, use it, otherwise default to both ATX and Micro-ATX
         const desiredFormFactor = req.body.formFactor ? [req.body.formFactor] : ["ATX", "Micro-ATX"]
+        // If a filter for PCIe generation has been selected, use it, otherwise default to both PCIe 4.0 and PCIe 5.0
         const desiredPcieGen = req.body.pcieGeneration ? [req.body.pcieGeneration] : ["PCIe 4.0", "PCIe 5.0"];
+        // Select the appropriate query based on the filters selected/build data
         defaultQuery = {formFactor: { $in: desiredFormFactor }, pcieGeneration: { $in: desiredPcieGen }};
         if (!req.body.query && req.body.build) {
           if (currentBuild.parts.case && currentBuild.parts.cpu) {
@@ -462,6 +475,7 @@ app.post('/parts', async (req, res) => {
           } else {
             query = defaultQuery
           }
+        // Count the number of motherboards that match the query
         motherboardCollection.countDocuments(query, async function(err, count) {
           if (err) throw err;
           totalParts = count;
@@ -471,12 +485,15 @@ app.post('/parts', async (req, res) => {
         break;
 
       case 'storage':
+        // If a filter for storage capacity has been selected, use it, otherwise default to 0
         const desiredCapacity = req.body.diskCapacity || 0;
+        // Select the appropriate query based on the filters selected / build data
         if (!req.body.query) {
             query = {
               diskCapacity: { $gte: parseInt(desiredCapacity) },
             };
           }
+        // Count the number of storage devices that match the query
         storageCollection.countDocuments(query, async function(err, count) {
           if (err) throw err;
           totalParts = count;
@@ -486,6 +503,7 @@ app.post('/parts', async (req, res) => {
           break;
 
       case 'case':
+        // Select the appropraite query based on build data
         defaultQuery = {}
         if (!req.body.query && req.body.build) {
           if (currentBuild.parts.motherboard) {
@@ -498,6 +516,7 @@ app.post('/parts', async (req, res) => {
         else {
           query = defaultQuery
         }
+        // Count the number of cases that match the query
         caseCollection.countDocuments(query, async function(err, count) {
           if (err) throw err;
           totalParts = count;
@@ -507,6 +526,8 @@ app.post('/parts', async (req, res) => {
         break;
 
       case 'cpucoolers':
+        // If a filter for cooling type has been selected, use it, otherwise default to both air and liquid cooling
+        // Select the appropriate query based on the filters selected/build data
         if (!req.body.query && req.body.build) {
             if (currentBuild.parts.cpu || currentBuild.parts.motherboard) {
               compatibility = await determineCpuCoolerCompatibility(currentBuild)
@@ -529,6 +550,7 @@ app.post('/parts', async (req, res) => {
             query = {}
           }
         }
+      // Count the number of CPU coolers that match the query
       cpuCoolerCollection.countDocuments(query, async function(err, count) {
         if (err) throw err;
         totalParts = count;
@@ -539,6 +561,7 @@ app.post('/parts', async (req, res) => {
         break;
 
       case 'powersupplies':
+        // If a filter for power output has been selected, use it, otherwise default to 0
         const minPowerOutput = req.body.powerOutput || 0;
         const desiredRating = req.body.rating ? [req.body.rating] : ["Gold", "Platinum", "Titanium"];
         if (!req.body.query) {
@@ -547,6 +570,7 @@ app.post('/parts', async (req, res) => {
             rating: {$in: desiredRating},
         }}
       }
+      // Count the number of power supplies that match the query
       powerSupplyCollection.countDocuments(query, async function(err, count) {
         if (err) throw err;
         totalParts = count;     
