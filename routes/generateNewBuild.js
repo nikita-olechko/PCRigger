@@ -26,19 +26,14 @@ module.exports = function (app, userCollection) {
 
     function createBuildPrompt(selectedParts, budget) {
         var startOfPrompt = 'Prioritizing '
-        var endOfPrompt = `Make me a PC Build in this format. The max budget should be approximately $${budget}. Give it a unique name:
+        var endOfPrompt = `Make me a PC Build in this format. The budget should be $${budget}. Give the build a unique name:
         {
                 "class": "",
                     "name": "",
                         "parts": {
                 "cpu": "",
                     "gpu": "",
-                        "ram": [
-                            "",
-                            "",
-                            "",
-                            ""
-                        ],
+                        "ram": ["", ...],
                             "motherboard": "",
                                 "cpuCooler": "",
                                     "storage": "",
@@ -279,6 +274,7 @@ module.exports = function (app, userCollection) {
         // console.log(fullPrompt)
 
         buildDescription = await makeAPIRequest(fullPrompt);
+        console.log(buildDescription)
         
         parsedBuildDescription = JSON.parse(buildDescription)
 
@@ -294,7 +290,7 @@ module.exports = function (app, userCollection) {
         // Usage
         checkPartsInDatabase(parsedBuildDescription);
 
-        console.log(parsedBuildDescription.budget)
+        console.log(parsedBuildDescription.parts.budget)
 
         res.render('configurator', {
             builds: parsedBuildDescription,

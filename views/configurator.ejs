@@ -33,10 +33,10 @@
                     <h2>
                       <%= builds.name %>
                     </h2>
-                    <% if (typeof builds.parts.budget !== null) { %>
-                      <h2>
-                       Estimated Price: USD <%= builds.parts.budget %>
-                      </h2>
+                    <% if (builds.parts.budget != null) { %>
+                      <h4>
+                       Original Estimated Budget: USD <%= builds.parts.budget %>
+                      </h4>
                       <% } %>
                     <div class="row">
                       <div class="col">
