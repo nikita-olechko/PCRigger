@@ -19,6 +19,9 @@
     <% if (noFactorsChosen) { %>
         <%- include('partials/popUpNotification', { notificationMessage: 'Please select Priority Factors' }) %>
             <% } %>
+    <% if (reset) { %>
+        <%- include('partials/popUpNotification', { notificationMessage: 'Filters Reset' }) %>
+            <% } %>
                 <div class="container general-margin">
                     <%- include('partials/loadingpage', {message:"Generating your build"}) %>
                     <main>
@@ -215,6 +218,9 @@
                                         class="form-control btn-primary button-padding" onclick="submitForm()"
                                         id="submitButton">
                                     <input type="hidden" value="" name="selectedParts" id="selectedParts">
+                                    <br>
+                                    <input type="submit" value="Reset Filters" class="form-control btn btn-primary button-padding"
+                                    onclick="resetFilters()" id="resetButton">
                                 </div>
                             </form>
                         </div>
@@ -233,6 +239,14 @@
 
                             // Initial update of the value span
                             budgetValue.textContent = budgetInput.value;
+
+                            //function to reset all filters
+                            function resetFilters() {
+                                    // For each category, reset all checkboxes and set radio buttons to default
+                                    document.getElementById('selectedParts').value = '';
+                                    document.getElementById('formID').action = '/advancedFiltersReset';
+                                }
+
                             // prevent submission of form if no parts are selected
                             function submitForm() {
                                 var selectedParts = document.getElementById('selectedParts').value;
