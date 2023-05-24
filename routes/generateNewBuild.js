@@ -284,7 +284,7 @@ module.exports = function (app, userCollection) {
             var existingUser = await userCollection.findOne({ username: req.session.user.username });
         } catch (err) {
             console.log(err)
-            res.render('/login')
+            res.render('login')
             return
         }        // console.log(existingUser)
         if (parsedBuildDescription in existingUser.favourites) {

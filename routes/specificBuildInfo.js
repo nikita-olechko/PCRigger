@@ -34,7 +34,7 @@ module.exports = function (app, userCollection) {
             }
             catch (err) {
                 console.log(err)
-                res.render('/login')
+                res.render('login')
                 return
             }
             // Get the current build's name
@@ -76,7 +76,7 @@ module.exports = function (app, userCollection) {
             }
             catch (err) {
                 console.log(err)
-                res.render('/login')
+                res.render('login')
                 return
             }
 

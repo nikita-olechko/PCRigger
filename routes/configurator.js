@@ -16,7 +16,7 @@ module.exports = function (app, userCollection) {
         var existingUser = await userCollection.findOne({ username: req.session.user.username });
         } catch (err) {
             console.log(err)
-            res.render('/login')
+            res.render('login')
             return
         }
         while (true) {
@@ -49,7 +49,7 @@ module.exports = function (app, userCollection) {
             var existingUser = await userCollection.findOne({ username: req.session.user.username });
         } catch (err) {
             console.log(err)
-            res.render('/login')
+            res.render('login')
             return
         }
         // console.log(existingUser)
@@ -122,7 +122,7 @@ module.exports = function (app, userCollection) {
                 var existingUser = await userCollection.findOne({ username: userID });
             } catch (err) {
                 console.log(err)
-                res.render('/login')
+                res.render('login')
                 return
             }
 
@@ -179,7 +179,7 @@ module.exports = function (app, userCollection) {
                 var existingUser = await userCollection.findOne({ username: userID });
             } catch (err) {
                 console.log(err)
-                res.render('/login')
+                res.render('login')
                 return
             }
             var nameExists = false;
@@ -245,7 +245,7 @@ module.exports = function (app, userCollection) {
             var existingUser = await userCollection.findOne({ username: req.session.user.username });
         } catch (err) {
             console.log(err)
-            res.render('/login')
+            res.render('login')
             return
         }        // console.log(existingUser)
         if (build in existingUser.favourites) {
