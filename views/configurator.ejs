@@ -108,7 +108,7 @@
                               </form>
                           <% } else { %>
                               <%let currentBuild = JSON.stringify(builds)%>
-                              <form method=" post" action="/parts">
+                              <form method="post" action="/parts">
                                       <input type="hidden" name="build" value='<%=currentBuild%>'>
                                       <input type="hidden" name="formId" value="cpucoolers">
                                       <input type="submit" value="+" class="btn btn-success">
