@@ -13,9 +13,9 @@ Our Team, DaWei5, is developing PCRigger, to help guide first-time builders thro
 
 ## Technologies Used
 
-- Node.js
 - JavaScript
-- EJS
+- Node.js
+- Express.js
 - MongoDB
 - OpenAI gpt-3.5-turbo Api
 
