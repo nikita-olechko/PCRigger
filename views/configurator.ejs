@@ -296,13 +296,18 @@
                                     window.open('https://www.youtube.com/watch?v=2qgxAHW1w78', '_blank');
                                   }
                                 }
+
+                                var main = document.querySelector("main");
+                                main.style.position = "relative";
+                                main.style.zIndex = 2;
+
                                 new CircleType(document.getElementById('circle_text'));
                                 var build_info = document.querySelector('#getBuildInfo');
                                 build_info.addEventListener('click', function (event) {
                                   loadingpage();
                                 });
+                                
                                 function loadingpage() {
-                                  var main = document.querySelector("main");
                                   var loading_window = document.querySelector("#loading_window");
                                   main.style.display = "none";
                                   loading_window.style.opacity = "1";
