@@ -4,7 +4,7 @@
 
 
 <%- include('partials/partsSearch', {partCategory: partCategory}) %>
-
+<%- include('partials/loadingpage', {message:"Comparing parts"}) %>
     <main>
         <!-- This code will add the appropriate filtering options -->
         <% if (partCategory=="ram") { %>
@@ -185,14 +185,20 @@
         compareForm.submit();
         });
 
-        function loadingpage(){
-            var main = document.querySelector("main");
-            var searchbar = document.querySelector("#search_bar");
-            var search_text = document.querySelector("#search_text");
-            main.style.display = "none";
-            searchbar.style.display = "none";
-            search_text.style.display = "none";
+        //make the main page at the top, so everything is clickable
+        var main = document.querySelector("main");
+        main.style.position = "relative";
+        main.style.zIndex = 2;
 
+        new CircleType(document.getElementById('circle_text'));
+        function loadingpage() {
+          var search_text = document.querySelector("#search_text");
+          var search_bar = document.querySelector("#search_bar");
+          var loading_window = document.querySelector("#loading_window");
+          main.style.display = "none";
+          search_text.style.display = "none";
+          search_bar.style.display = "none";
+          loading_window.style.opacity = "1";
         }
       </script>
       
