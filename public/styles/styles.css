@@ -363,6 +363,53 @@ h6 {
     border-radius: 7px;
 }
 
+#loading_window{
+    position: fixed;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -80%);
+    text-align: center;
+    z-index: 9999;
+    opacity: 0;
+}
+
+#loading_window img{
+    width: 75px;
+
+}
+
+#loading_window h1{
+    margin-bottom: 70px;
+}
+
+#circle_text{
+    letter-spacing: 6px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#rotating_container{
+    animation: rotate360 5s linear infinite;
+    transform-origin: 50% 50%;
+    position: relative;
+
+}
+
+@keyframes rotate360 {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+
+
+
 /* .checkbox_container {
     margin-bottom: 1vh;
 }
