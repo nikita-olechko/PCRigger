@@ -12,7 +12,13 @@ const mime = require('mime');
 module.exports = function (app, userCollection) {
 
     async function generateRandomUniqueID(length, req) {
+        try {
         var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        } catch (err) {
+            console.log(err)
+            res.render('/login')
+            return
+        }
         while (true) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let randomID = '';
@@ -39,7 +45,13 @@ module.exports = function (app, userCollection) {
         var build = JSON.parse(req.body.build)
         // console.log(build)
 
-        var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        try {
+            var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        } catch (err) {
+            console.log(err)
+            res.render('/login')
+            return
+        }
         // console.log(existingUser)
         if (build in existingUser.favourites) {
             existingBuild = true
@@ -105,8 +117,14 @@ module.exports = function (app, userCollection) {
             // }
 
 
-            const userID = req.session.user.username;
-            var existingUser = await userCollection.findOne({ username: req.session.user.username });
+            try {
+                const userID = req.session.user.username;
+                var existingUser = await userCollection.findOne({ username: userID });
+            } catch (err) {
+                console.log(err)
+                res.render('/login')
+                return
+            }
 
             const nameExists = existingUser.favourites.some((item) => item.name === build.name);
 
@@ -138,7 +156,7 @@ module.exports = function (app, userCollection) {
                 function (err, updateResult) {
                     if (err) {
                         res.render('errorPage')
-                    } else {                    
+                    } else {
                         console.log("build added to user!");
                     }
                 }
@@ -156,12 +174,17 @@ module.exports = function (app, userCollection) {
             console.log("At save route");
             var build = JSON.parse(req.body.build)
             var currentBuildName = build.name
-            const userID = req.session.user.username;
-            var existingUser = await userCollection.findOne({ username: req.session.user.username });
-
-            var nameExists = false;   
-            console.log("req.body.buildTitle: " + req.body.buildTitle) 
-            console.log("req.body.build.name: " + currentBuildName) 
+            try {
+                const userID = req.session.user.username;
+                var existingUser = await userCollection.findOne({ username: userID });
+            } catch (err) {
+                console.log(err)
+                res.render('/login')
+                return
+            }
+            var nameExists = false;
+            console.log("req.body.buildTitle: " + req.body.buildTitle)
+            console.log("req.body.build.name: " + currentBuildName)
 
             if (req.body.buildTitle === currentBuildName) {
                 var nameExists = false;
@@ -185,7 +208,7 @@ module.exports = function (app, userCollection) {
 
             await userCollection.updateOne(
                 { username: userID, "favourites._id": build._id },
-                { $set: { "favourites.$": build }},
+                { $set: { "favourites.$": build } },
 
                 // To rename the build description field that matches the build name
                 // when a user renames their build, in order to preserve description
@@ -195,7 +218,7 @@ module.exports = function (app, userCollection) {
                 function (err, updateResult) {
                     if (err) {
                         res.render('errorPage')
-                    } else {                    
+                    } else {
                         console.log("build updated!");
                     }
                 }
@@ -218,8 +241,13 @@ module.exports = function (app, userCollection) {
         var existingBuild = false
         // console.log(build)
         //get user profile
-        var existingUser = await userCollection.findOne({ username: req.session.user.username });
-        // console.log(existingUser)
+        try {
+            var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        } catch (err) {
+            console.log(err)
+            res.render('/login')
+            return
+        }        // console.log(existingUser)
         if (build in existingUser.favourites) {
             existingBuild = true
         }

@@ -29,7 +29,14 @@ module.exports = function (app, userCollection) {
             // Instantiate variable to store the AI's response
             var buildDescription;
             // get the current logged in user
+            try {
             var currentUser = req.session.user;
+            }
+            catch (err) {
+                console.log(err)
+                res.render('/login')
+                return
+            }
             // Get the current build's name
             var buildTitle = build.name;
             console.log(buildTitle);
@@ -63,8 +70,15 @@ module.exports = function (app, userCollection) {
             }
 
             // Refresh Session with freshly updated user from MongoDB
+            try {
             currentUser = await userCollection.findOne({ username: req.session.user.username });
             req.session.user = currentUser;
+            }
+            catch (err) {
+                console.log(err)
+                res.render('/login')
+                return
+            }
 
 
             res.render('specificBuildInfo', {
