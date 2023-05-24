@@ -182,7 +182,5 @@ module.exports = async function (app, Joi, bcrypt, saltRounds) {
             { $pull: { favourites: build } }
         )
         res.redirect('/profile');
-
-
     })
 }
