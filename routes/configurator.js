@@ -118,8 +118,7 @@ module.exports = function (app, userCollection) {
 
 
             try {
-                const userID = req.session.user.username;
-                var existingUser = await userCollection.findOne({ username: userID });
+                var existingUser = await userCollection.findOne({ username: req.session.user.username });
             } catch (err) {
                 console.log(err)
                 res.render('login')
@@ -149,7 +148,7 @@ module.exports = function (app, userCollection) {
                 build._id = newId
             }
 
-
+            const userID = req.session.user.username;
             await userCollection.updateOne(
                 { username: userID },
                 { $push: { favourites: build } },
@@ -176,7 +175,7 @@ module.exports = function (app, userCollection) {
             var currentBuildName = build.name
             try {
                 const userID = req.session.user.username;
-                var existingUser = await userCollection.findOne({ username: userID });
+                var existingUser = await userCollection.findOne({ username: req.session.user.username });
             } catch (err) {
                 console.log(err)
                 res.render('login')
@@ -242,6 +241,7 @@ module.exports = function (app, userCollection) {
         // console.log(build)
         //get user profile
         try {
+            const userID = req.session.user.username;
             var existingUser = await userCollection.findOne({ username: req.session.user.username });
         } catch (err) {
             console.log(err)
