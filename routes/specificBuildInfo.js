@@ -15,7 +15,7 @@ module.exports = function (app, userCollection) {
             const memory = Array.isArray(await build.parts.ram) ? await build.parts.ram : [await build.parts.ram];
             const storage = Array.isArray(await build.parts.storage) ? await build.parts.storage : [await build.parts.storage];
             const motherboards = Array.isArray(await build.parts.motherboard) ? await build.parts.motherboard : [await build.parts.motherboard];
-            const powerSupply = Array.isArray(await build.parts.powersupply) ? await build.parts.powersupply : [await build.parts.powersupply];
+            const powerSupply = Array.isArray(await build.parts.powerSupply) ? await build.parts.powerSupply : [await build.parts.powerSupply];
             const cases = Array.isArray(await build.parts.case) ? await build.parts.case : [await build.parts.case];
             const cpuCoolers = Array.isArray(await build.parts.cpuCooler) ? await build.parts.cpuCooler : [await build.parts.cpuCooler];
 
