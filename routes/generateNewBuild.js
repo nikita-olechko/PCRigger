@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 router = express.Router();
 const makeAPIRequest = require('./OpenAIcall');
-const { schema } = require('../models/cpuModel');
 
 
 module.exports = function (app, userCollection) {
@@ -24,26 +23,22 @@ module.exports = function (app, userCollection) {
     const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
 
 
-    function createBuildPrompt(selectedParts) {
+    function createBuildPrompt(selectedParts, budget) {
         var startOfPrompt = 'Prioritizing '
-        var endOfPrompt = `Make me a PC Build in this format. Give it a unique name:
+        var endOfPrompt = `Make me a PC Build in this format. The budget should be $${budget}. Give the build a unique name:
         {
                 "class": "",
                     "name": "",
                         "parts": {
                 "cpu": "",
                     "gpu": "",
-                        "ram": [
-                            "",
-                            "",
-                            "",
-                            ""
-                        ],
+                        "ram": ["", ...],
                             "motherboard": "",
                                 "cpuCooler": "",
                                     "storage": "",
                                         "case": "",
-                                            "powerSupply": ""
+                                            "powerSupply": "",
+                                            "budget": number
             }
         }`
         var checkboxStrings = ''
@@ -251,7 +246,10 @@ module.exports = function (app, userCollection) {
                     partInDatabase = await collection.findOne({ cpuName: part });
                     partsInDatabase = partInDatabase !== null;
                 }
-                console.log("partInDatabase: " + partInDatabase)
+                else if (key == 'budget') {
+                    continue;
+                }
+                console.log("partsInDatabase: " + partsInDatabase)
                 if (!partsInDatabase) {
                     internalErrorCount = 0;
                     schemaPrompt = getSchemaPrompt(key, part);
@@ -268,12 +266,14 @@ module.exports = function (app, userCollection) {
     app.post('/generateNewBuild', async (req, res) => {
         selectedParts = JSON.parse(req.body.selectedParts)
         // console.log(selectedParts)
+        budget = req.body.budget
 
-        var fullPrompt = createBuildPrompt(selectedParts)
+        var fullPrompt = createBuildPrompt(selectedParts, budget)
 
         // console.log(fullPrompt)
 
         buildDescription = await makeAPIRequest(fullPrompt);
+        console.log(buildDescription)
         
         parsedBuildDescription = JSON.parse(buildDescription)
 
@@ -288,6 +288,8 @@ module.exports = function (app, userCollection) {
         // check if parts are in database        
         // Usage
         checkPartsInDatabase(parsedBuildDescription);
+
+        console.log(parsedBuildDescription.parts.budget)
 
         res.render('configurator', {
             builds: parsedBuildDescription,

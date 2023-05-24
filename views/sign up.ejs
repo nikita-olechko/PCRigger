@@ -14,7 +14,7 @@
                     <div class="form-group general-margin">
                         <label for='username'>Username:</label>
                         <input type='text' class="form-control title-margin" id='username' name='username' required minlength="3"
-                            maxlength="20" pattern="[A-Za-z0-9]+"
+                            maxlength="20" pattern="[A-Za-z0-9]+" placeholder="Enter your Username"
                             title="Username must be alphanumeric and between 3 and 20 characters long." <% if (typeof
                             existingFields.username !='undefined' ) {%>
                         value="<%= existingFields.username %>" <% } %>>
@@ -23,14 +23,14 @@
                             <div class="form-group general-margin">
                                 <label for='password'>Password:</label>
                                 <input type='password' class="form-control title-margin" id='password' name='password' required
-                                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,30}$"
+                                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,30}$" placeholder="Enter your Password"
                                     title="Password must be alphanumeric, between 6 and 30 characters long, and contain at least one letter and one number."
                                     <% if (typeof existingFields.password !='undefined' ) {%>
                                 value="<%= existingFields.password %>" <% } %>>
                             </div>
                             <div class="form-group general-margin">
                                 <label for='email'>Email:</label>
-                                <input type='email' class="form-control title-margin" id='email' name='email' required
+                                <input type='email' class="form-control title-margin" id='email' name='email' required placeholder="Enter a valid Email Address"
                                     title="Please enter a valid email address." <% if (typeof existingFields.email
                                     !='undefined' ) {%>
                                 value="<%= existingFields.email %>" <% } %>>
