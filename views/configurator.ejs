@@ -24,12 +24,6 @@
                       class="container notification-button menu_buttons general-margin button-padding">
                   </div>
                   <% } %>
-                  <% if (typeof partsNotInDatabase != null) { %>
-                  <div class="col-md notification notification:hover">
-                    <input value="Populating database with parts - please wait"
-                      class="container notification-button menu_buttons general-margin button-padding">
-                  </div>
-                  <% } %>
                     <%- include('partials/navbar') %>
                     <%- include('partials/loadingpage', {message:"Generating your build information"}) %>
                       <main>
