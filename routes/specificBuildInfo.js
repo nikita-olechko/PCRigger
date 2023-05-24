@@ -6,7 +6,7 @@ const makeAPIRequest = require('./OpenAIcall');
 module.exports = function (app, userCollection) {
 
     app.post('/specificBuildInfo', async (req, res) => {
-        var build = JSON.parse(req.body.build)
+        var build = JSON.parse(req.body.build);
         // console.log("CPU Is" + build.parts.cpu)
 
         try { // console.log("At configurator post route")
@@ -33,9 +33,9 @@ module.exports = function (app, userCollection) {
             var currentUser = req.session.user;
             }
             catch (err) {
-                console.log(err)
-                res.render('login')
-                return
+                console.log(err);
+                res.render('login');
+                return;
             }
             // Get the current build's name
             var buildTitle = build.name;
@@ -75,9 +75,9 @@ module.exports = function (app, userCollection) {
             req.session.user = currentUser;
             }
             catch (err) {
-                console.log(err)
-                res.render('login')
-                return
+                console.log(err);
+                res.render('login');
+                return;
             }
 
 
@@ -96,7 +96,7 @@ module.exports = function (app, userCollection) {
                 renderedBuildDescription: buildDescription,
             });
         } catch (error) {
-            res.render('errorPage')
+            res.render('errorPage');
         }
     });
-}
+};

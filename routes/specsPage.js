@@ -28,7 +28,7 @@ module.exports = async function (app, userCollection) {
             part: part,
             partNotFound: false
         });
-    })
+    });
 
     app.post('/infoSpecs', async (req, res) => {
         const partName = req.body.part;
@@ -111,6 +111,6 @@ module.exports = async function (app, userCollection) {
                 searchTerm: searchTerm,
             });
 
-        };
-    })
-}
+        }
+    });
+};
