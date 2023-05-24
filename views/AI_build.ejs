@@ -20,6 +20,7 @@
         <%- include('partials/popUpNotification', { notificationMessage: 'Please select Priority Factors' }) %>
             <% } %>
                 <div class="container general-margin">
+                    <%- include('partials/loadingpage', {message:"Generating your build"}) %>
                     <main>
                         <div id="partsInfo" class="shadow-sm p-3 mb-5 mt-3 rounded">
                             <form action="/generateNewBuild" method="post" id="formID">
@@ -240,8 +241,20 @@
                                 }
                                 // Otherwise, allow the form to be submitted
                                 else {
+                                    loadingpage();
                                     document.getElementById('formID').action = '/generateNewBuild';
                                 }
+                            }
+
+                            var main = document.querySelector("main");
+                            main.style.position = "relative";
+                            main.style.zIndex = 2;
+
+                            new CircleType(document.getElementById('circle_text'));
+                            function loadingpage() {
+                              var loading_window = document.querySelector("#loading_window");
+                              main.style.display = "none";
+                              loading_window.style.opacity = "1";
                             }
 
                             selectedPartsValues = [];
@@ -359,6 +372,7 @@
                                 });
                             });
                         </script>
+                    </main>
 
 
 
