@@ -36,6 +36,7 @@
                             <h5>CPUs</h5>
                             <span class="collapse-icon">▼</span>
                         </div>
+                        <% if (cpus[0] != null) {%>
                         <div id="subcategoryList1" class="collapse">
                             <!-- Loop through each CPU document -->
                             <% cpus.forEach(function(cpu) { %>
@@ -50,12 +51,15 @@
                                     <br>
 
                         </div>
+                        <% } %>
+                        
                         <!-- Category 2 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList2"
                             aria-expanded="false" aria-controls="subcategoryList2">
                             <h5>GPUs</h5>
                             <span class="collapse-icon">▼</span>
                         </div>
+                        <% if (gpus[0] != null) {%>
                         <div id="subcategoryList2" class="collapse">
                             <% gpus.forEach(function(gpu) { %>
                                 <form action="/infoSpecs" method="POST">
@@ -67,14 +71,16 @@
                                 </form>
                                 <% }) %>
                                     <br>
-
                         </div>
+                        <% } %>
+
                         <!-- Category 3 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList3"
                             aria-expanded="false" aria-controls="subcategoryList3">
                             <h5>Memory</h5>
                             <span class="collapse-icon">▼</span>
                         </div>
+                        <% if (memory[0] != null) {%>
                         <div id="subcategoryList3" class="collapse">
                             <% memory.forEach(function(memory) { %>
                                 <form action="/infoSpecs" method="POST">
@@ -88,12 +94,15 @@
                                     <br>
 
                         </div>
+                        <% } %>
+
                         <!-- Category 4 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList4"
                             aria-expanded="false" aria-controls="subcategoryList4">
                             <h5>CPU Coolers</h5>
                             <span class="collapse-icon">▼</span>
                         </div>
+                        <% if (cpuCoolers[0] != null) {%>
                         <div id="subcategoryList4" class="collapse">
                             <% cpuCoolers.forEach(function(cpuCooler) { %>
                                 <form action="/infoSpecs" method="POST">
@@ -107,12 +116,15 @@
                                     <br>
 
                         </div>
+                        <% } %>
+
                         <!-- Category 5 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList5"
                             aria-expanded="false" aria-controls="subcategoryList5">
                             <h5>Motherboards</h5>
                             <span class="collapse-icon">▼</span>
                         </div>
+                        <% if (motherboards[0] != null) {%>
                         <div id="subcategoryList5" class="collapse">
                             <% motherboards.forEach(function(motherboard) { %>
                                 <form action="/infoSpecs" method="POST">
@@ -126,12 +138,15 @@
                                     <br>
 
                         </div>
+                    <% } %>
+
                         <!-- Category 6 -->
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList6"
                             aria-expanded="false" aria-controls="subcategoryList6">
                             <h5>Storage</h5>
                             <span class="collapse-icon">▼</span>
                         </div>
+                        <% if (storage[0] != null) {%>
                         <div id="subcategoryList6" class="collapse">
                             <% storage.forEach(function(storage) { %>
                                 <form action="/infoSpecs" method="POST">
@@ -144,12 +159,14 @@
                                 <% }) %>
                                     <br>
                         </div>
+                        <% } %>
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList7"
                             aria-expanded="false" aria-controls="subcategoryList7">
                             <h5>Power Supply</h5>
                             <span class="collapse-icon">▼</span>
-
                         </div>
+
+                        <% if (powerSupply[0] != null) {%>
                         <div id="subcategoryList7" class="collapse">
                             <% powerSupply.forEach(function(powerSupply) { %>
                                 <form action="/infoSpecs" method="POST">
@@ -161,13 +178,15 @@
                                 </form>
                                 <% }) %>
                                     <br>
-
                         </div>
+                        <% } %>
                         <div class="category-toggle" data-toggle="collapse" data-target="#subcategoryList8"
                             aria-expanded="false" aria-controls="subcategoryList8">
                             <h5>Cases</h5>
                             <span class="collapse-icon">▼</span>
                         </div>
+
+                        <% if (cases[0] != null) {%>
                         <div id="subcategoryList8" class="collapse">
                             <% cases.forEach(function(caseItem) { %>
                                 <form action="/infoSpecs" method="POST">
@@ -182,6 +201,7 @@
                                     <br>
 
                         </div>
+                        <% } %>
                     </div>
                 </div>
             </div>
