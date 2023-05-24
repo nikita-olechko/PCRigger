@@ -22,7 +22,160 @@ Our Team, DaWei5, is developing PCRigger, to help guide first-time builders thro
 ---
 
 ## File Contents
-
+<pre>
+│   .env
+│   .gitignore
+│   databaseConnection.js
+│   index.js
+│   package-lock.json
+│   package.json
+│   README.md
+│   utils.js
+│
+├───.vscode
+│       settings.json
+│
+├───extras
+│   └───database_data
+│           cpuBenchmarkData.csv
+│           csvConversion.js
+│           gpuBenchmarkData.csv
+│           gpuSpecData.csv
+│           memorySpecData.csv
+│           storageSpecData.csv
+│
+├───models
+│       buildsModel.js
+│       caseModel.js
+│       cpuCoolerModel.js
+│       cpuModel.js
+│       gpuModel.js
+│       memoryModel.js
+│       motherboardsModel.js
+│       storageModel.js
+│
+├───public
+│   ├───icons
+│   │       back.png
+│   │       delete-trashcan.png
+│   │       editButton.png
+│   │       home.png
+│   │       options.png
+│   │       pencil.png
+│   │       user_profile.png
+│   │
+│   ├───images
+│   │       favicon.png
+│   │       knuckles.png
+│   │       logo.png
+│   │       logo_transparent.png
+│   │
+│   └───styles
+│           info.css
+│           landing_page.css
+│           members.css
+│           menu_buttons.css
+│           notification_page.css
+│           styles.css
+│
+├───routes
+│       404.js
+│       admin.js
+│       configurator.js
+│       email_confirm.js
+│       generateNewBuild.js
+│       info.js
+│       instructions.md
+│       landing_page.js
+│       login.js
+│       members.js
+│       OpenAIcall.js
+│       partsCategoryPage.js
+│       partsComparison.js
+│       partsListPage.js
+│       prebuiltOptions.js
+│       profile.js
+│       sampleRoute.js
+│       searchPartFunction.js
+│       signOut.js
+│       signUp.js
+│       specificBuildInfo.js
+│       specsPage.js
+│
+└───views
+│   404.ejs
+│   500.ejs
+│   admin.ejs
+│   AI_build.ejs
+│   buildList.ejs
+│   comparisonPage.ejs
+│   configurator.ejs
+│   email_confirm.ejs
+│   errorPage.ejs
+│   filteredPartsListPage.ejs
+│   index.ejs
+│   info.ejs
+│   landing_page.ejs
+│   login.ejs
+│   members.ejs
+│   notAuthorized.ejs
+│   partsCategoryPage.ejs
+│   partsListPage.ejs
+│   password_edit.ejs
+│   password_reset.ejs
+│   prebuiltOptions.ejs
+│   profile.ejs
+│   profile_edit.ejs
+│   recovery_questions.ejs
+│   sign up.ejs
+│   specificBuildInfo.ejs
+│   specsPage.ejs
+│   username_edit.ejs
+│
+├───partials
+│   │   advancedFilterComponents.ejs
+│   │   caseCard.ejs
+│   │   configuratorEntries.ejs
+│   │   cpuCard.ejs
+│   │   cpuCoolerCard.ejs
+│   │   FAQ.ejs
+│   │   form_group.ejs
+│   │   gpuCard.ejs
+│   │   iconbar.ejs
+│   │   loadingpage.ejs
+│   │   memoryCard.ejs
+│   │   menu_buttons.ejs
+│   │   motherboardCard.ejs
+│   │   navbar.ejs
+│   │   nextComponentPage.ejs
+│   │   nextFilteredComponentPage.ejs
+│   │   partsSearch.ejs
+│   │   part_card.ejs
+│   │   popUpNotification.ejs
+│   │   powerSupplyCard.ejs
+│   │   prebuiltForms.ejs
+│   │   prebuiltOption.ejs
+│   │   previousComponentPage.ejs
+│   │   previousFilteredComponentPage.ejs
+│   │   storageCard.ejs
+│   │   UsesCheckbox.ejs
+│   │   UsesRadiobox.ejs
+│   │
+│   └───filteringOptions
+│           cpuCoolerFilter.ejs
+│           cpuFilter.ejs
+│           gpuFilter.ejs
+│           memoryFilter.ejs
+│           motherboardFilter.ejs
+│           powersupplyFilter.ejs
+│           storageFilter.ejs
+│
+└───templates
+        demoteForm.ejs
+        notification_page.ejs
+        promoteForm.ejs
+        skeleton_template.ejs
+</pre>
 ---
 
 ## How-To's
