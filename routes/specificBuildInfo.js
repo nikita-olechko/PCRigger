@@ -96,8 +96,7 @@ module.exports = function (app, userCollection) {
                 renderedBuildDescription: buildDescription,
             });
         } catch (error) {
-            console.error('Error retrieving data from MongoDB:', error);
-            res.status(500).send('Internal Server Error').render("500");
+            res.render('errorPage')
         }
     });
 }
