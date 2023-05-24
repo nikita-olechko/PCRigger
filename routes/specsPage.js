@@ -28,7 +28,7 @@ module.exports = async function (app, userCollection) {
             part: part,
             partNotFound: false
         });
-    })
+    });
 
     app.post('/infoSpecs', async (req, res) => {
         const partName = req.body.part;
@@ -98,7 +98,8 @@ module.exports = async function (app, userCollection) {
             res.render('specsPage', {
                 part: JSON.stringify(foundPart),
                 partCategory: partCategory,
-                partNotFound: false
+                partNotFound: false,
+                searchTerm: searchTerm,
             });
 
         } else {
@@ -106,9 +107,10 @@ module.exports = async function (app, userCollection) {
             res.render('specsPage', {
                 part: null,
                 partCategory: partCategory,
-                partNotFound: true
+                partNotFound: true,
+                searchTerm: searchTerm,
             });
 
-        };
-    })
-}
+        }
+    });
+};

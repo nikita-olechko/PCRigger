@@ -52,7 +52,7 @@ module.exports = async function (app, userCollection) {
             .then(result => {
                 console.log(`Updated ${result.modifiedCount} document.`);
             })
-            .catch(err => console.error(`Failed to update document: ${err}`));
+            .catch(err => res.render("errorPage"));
 
         res.redirect('/admin');
     });
@@ -67,7 +67,7 @@ module.exports = async function (app, userCollection) {
             .then(result => {
                 console.log(`Updated ${result.modifiedCount} document.`);
             })
-            .catch(err => console.error(`Failed to update document: ${err}`));
+            .catch(err => res.render("errorPage"));
 
         res.redirect('/admin');
     });

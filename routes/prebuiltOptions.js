@@ -14,7 +14,7 @@ module.exports = function(app){
 
         await prebuilts.find({}).toArray(function (err, result) {
         if (err) {
-            throw err
+            res.render("errorPage")
         } else {
             buildTypes = new Set()
             result.forEach(object => {
@@ -36,7 +36,7 @@ module.exports = function(app){
         console.log(desiredCategory)
         await prebuilts.find({class: `${desiredCategory}`}).toArray(function (err, result) {
             if (err) {
-                throw err
+                res.render("errorPage")
             } else {
                 console.log(result)
                 res.render('buildList', {

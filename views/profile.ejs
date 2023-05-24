@@ -50,12 +50,20 @@
                                     </button>
                                 </div>
                             </form>
-                            <form method="post" action="/delete">
-                                <button class="trash-can-container">
-                                    <input type="hidden" name="build" value='<%=current_build%>'>
+                            <div>
+                                <button class="trash-can-container" data-toggle="dropdown">
                                     <img src="icons/delete-trashcan.png" alt="Image" class="bottom-right-image">
                                 </button>
-                            </form>
+                                <div class="dropdown-menu">
+                                    <p class="dropdown-item">Delete Build?</p>
+                                    <div class="dropdown-divider"></div>
+                                    <form method="post" action="/delete">
+                                        <input type="hidden" name="build" value='<%=current_build%>'>
+                                        <input type="submit" value="Delete" class="dropdown-item"/>
+                                    </form>
+                                    <button class="dropdown-item"> Cancel </button>
+                                </div>
+                            </div>
                         </div>
                         <% }) %>
             </div>
