@@ -11,7 +11,7 @@ module.exports = async function (app) {
             }
             res.clearCookie('connect.sid');
             res.redirect('/');
-            return
+            return;
         });
     });
 
@@ -25,7 +25,7 @@ module.exports = async function (app) {
             }
             res.clearCookie('connect.sid');
             res.redirect('/');
-            return
+            return;
         });
     });
-}
+};
