@@ -59,4 +59,4 @@ module.exports = async function (app, userCollection, Joi, bcrypt,) {
         res.redirect('/');
     });
 
-}
+};
