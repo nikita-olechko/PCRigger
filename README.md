@@ -186,9 +186,9 @@ Our Team, DaWei5, is developing PCRigger, to help guide first-time builders thro
 
 ### Install node modules
 1. Launch the project in VSCode
-2. Open the integrated terminal (Crtl + `)
+2. Open the integrated terminal (Ctrl + `)
 3. Type "npm install" in the terminal and press enter to install all packages required for use of this repo
-4. (Optional but recommended) Install nodemon. Type "npm install --global nodemon" in the integrated termanl and presa enter
+4. (Optional but recommended) Install nodemon. Type "npm install --global nodemon" in the integrated terminal and press enter
 
 ### Configure Environment Variables
 1. If you are an approved contributor a .env file will be sent to you via Email that will contain all the required environment variables
