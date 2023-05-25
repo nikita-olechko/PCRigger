@@ -307,4 +307,12 @@ module.exports = function (app, userCollection) {
             budget: parsedBuildDescription.parts.budget,
         });
     });
+
+    app.post('/renderBuildFilters', async (req, res) => {
+        res.render('AI_build', { noFactorsChosen: false })
+    });
+
+    app.post('/advancedFilterWithNotification', async (req, res) => {
+        res.render('AI_build', { noFactorsChosen: true })
+    });
 };
