@@ -482,7 +482,7 @@ module.exports = function (app) {
         // If a filter for TDP has been selected, use it, otherwise default to 500
         const maximumTdp = req.body.tdp || 500;
         // Select the appropriate query based on the filters selected/build data
-        const defaultQuery = { cores: { $gte: parseInt(minimumCoreCount) }, TDP: { $lte: parseInt(maximumTdp) } };
+        defaultQuery = { cores: { $gte: parseInt(minimumCoreCount) }, TDP: { $lte: parseInt(maximumTdp) } };
         if (!req.body.query && !req.body.build) {
           query = defaultQuery;
         }
@@ -515,7 +515,7 @@ module.exports = function (app) {
         // If a filter for PCIe generation has been selected, use it, otherwise default to both PCIe 4.0 and PCIe 5.0
         const desiredPcieGen = req.body.pcieGeneration ? [req.body.pcieGeneration] : ["PCIe 4.0", "PCIe 5.0"];
         // Select the appropriate query based on the filters selected/build data
-        defaultQuery = { formFactor: { $in: desiredFormFactor }, pcieGeneration: { $in: desiredPcieGen } };
+        defaultQuery = { formFactor: { $in: desiredFormFactor }, pcieGeneration: { $in: desiredPcieGen } }
         if (!req.body.query && req.body.build) {
           if (currentBuild.parts.case && currentBuild.parts.cpu) {
             compatibility = await determineMotherboardCompatibility(currentBuild);
