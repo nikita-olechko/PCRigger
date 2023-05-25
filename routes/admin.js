@@ -22,7 +22,7 @@ module.exports = async function (app, userCollection) {
     }
 
     function isValidSession(req) {
-        console.log("checking session")
+        console.log("checking session");
         if (req.session.user) {
             return true;
         }
@@ -36,7 +36,7 @@ module.exports = async function (app, userCollection) {
         }
         userIsAdmin = adminAuthorization(req, res);
         if (userIsAdmin) {
-            console.log("admin found")
+            console.log("admin found");
             const result = await userCollection.find({}).toArray();
             res.render('admin', { user: req.session.user, users: result });
         }
@@ -72,4 +72,4 @@ module.exports = async function (app, userCollection) {
         res.redirect('/admin');
     });
 
-}
+};

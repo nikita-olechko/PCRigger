@@ -210,9 +210,15 @@ Our Team, DaWei5, is developing PCRigger, to help guide first-time builders thro
 ### PC Build Saving / Editing
 
 ### PC Component Comparison
-
+1. From the members page, navigate to 'Compare Parts' page.
+2. Select a part category from the list presented.
+3. Scroll and discover parts that are available in our DB.
+4. Choose two parts by clicking the checkbox on the part's card.
+5. Once two parts have been selected, the compare button is now enabled, click it and wait for AI to do its magic.
 ### AI PC Build Descriptions
-
+1. From anywhere in the app, go to the navbar options to access 'Profile' page.
+2. Choose one of your saved builds.
+3. Scroll down and click 'Build Info' then wait for AI to generate a description, it will then be saved to your build for later use.
 ### PC Component Info Pages + General Build Guides
 
 ---
@@ -222,7 +228,8 @@ Our Team, DaWei5, is developing PCRigger, to help guide first-time builders thro
 ### Contributors
 Thank you to all who have contributed to the creation, ideation, data sourcing, refactoring, project organization and more to make PCRigger happen.
 
-[@nikita-olechko](https://github.com/nikita-olechko), [@Abdo-Abuharrus211](https://github.com/Abdo-Abuharrus211), [@CPostnikoff](https://github.com/CPostnikoff), [@brianctb](https://github.com/brianctb)
+[@nikita-olechko](https://github.com/nikita-olechko), [@Abdo-Abuharrus211](https://github.com/Abdo-Abuharrus211), [@CPostnikoff](https://github.com/CPostnikoff),
+[@brianctb](https://github.com/brianctb)
 
 ### References
 
@@ -255,6 +262,10 @@ node modules
 
 OpenAI's api using gpt-3.5-turbo is used to generate PC-builds for a user's selected filtering preferences. Each part is then passed to a query to see if it exists in the respective component database. If the part is present, it will populate as normal in the configurator screen. If the part does not exist within our database, gpt-3.5 will generate an object for the specific part is then added to the component database database.
 
+### Various logo generating tools
+
+We utilized a number of AI logo generators to come up with drafts of potential logos.
+Including logo.com , Designs.ai , & Shopify's logo generator.
 ### Code and Documentation Generation
 
 <https://chat.openai.com/> and <https://www.forefront.ai/> were leveraged to generate functions and comments which were then refined for use within PCRigger.
@@ -275,7 +286,7 @@ When a new build is generated for a user by OpenAI's gpt-3.5-turbo api, it is po
 
 ## Contact Information
 ### Abdulqadir Abuharrus
-Email: pandazwar@gmail.com
+Email: aabuharrus@gmail.com
 GitHub: <https://github.com/Abdo-Abuharrus211>
 
 ### Brian Lee
