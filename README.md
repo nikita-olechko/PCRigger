@@ -206,15 +206,40 @@ Our Team, DaWei5, is developing PCRigger, to help guide first-time builders thro
 ## Use PCRiggers Features and How to Use Them
 
 ### PC Build Generation
-
+1. From the members page, click on the 'Build Your PC' button section
+Prebuilt Options
+1. CLick on the "Performance" button
+2. From the recommended build, click on "Select" on whichever build you are interested in
+Blank Configurator
+1. CLick on the "Blank Configurator" button
+2. Start your build from scratch
+Adding parts from configurator
+1. Click "+" on whichever part you would like to change
+2. Enter parts name on the search bar if you are looking for something specific
+3. Select any filters to your specification
+4. Click on "Apply Filters" if filters are selected
+5. From the generated list of parts below, select one and click on "Add to Build"
+Removing parts from configurator
+1. Click on "-" on any of your existing parts
 ### PC Build Saving / Editing
-
+1. On any generated build, scroll down to the very bottom of the page
+2. Click on 'Add Build to Profile' 
+3. Click on the top right hamburger menu
+4. From the new popped out menu, click on 'Profile'
+5. In your Saved Builds section, click on the trash bin icon on any build you would like to remove
+6. Confirm you would like to delete the build by clicking on "Delete" again
+7. Click on the build card itself for editing the build instead
+8. Click on "Save Build" if any changes are made to apply the changes to your current build
+9. CLick on "Add Build to Profile" instead if you would like to save the changes to a new build while keeping your previous build
 ### PC Component Comparison
 
 ### AI PC Build Descriptions
 
 ### PC Component Info Pages + General Build Guides
-
+1. From the members page, click on the 'Info' button section
+2. Select the section you want more information on and click on the drop down menu
+3. From the new drop down menu, click on the sub category that you need more information on
+4. Read the information from the new drop down menu from the sub category
 ---
 
 ## Credits, References, and More
