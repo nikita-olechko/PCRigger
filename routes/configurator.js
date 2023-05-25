@@ -56,8 +56,8 @@ module.exports = function (app, userCollection) {
         var existingBuild = false;
         var build = JSON.parse(req.body.build);
 
+        // If the user is logged in, mark existingBuild as true if the build already exists in their favourites
         try {
-
             var existingUser = await userCollection.findOne({ username: req.session.user.username });
         } catch (err) {
             console.log(err);
@@ -146,7 +146,7 @@ module.exports = function (app, userCollection) {
             }
 
             const nameExists = existingUser.favourites.some((item) => item.name === build.name);
-
+            // If the user tries to save a build with a name that already exists
             if (nameExists) {
                 res.render("configurator", {
                     builds: build,
@@ -158,14 +158,14 @@ module.exports = function (app, userCollection) {
                 });
                 return;
             }
-
+            // Generate a random unique ID for the build
             const IDExists = existingUser.favourites.some((item) => item._id === build._id);
             var newId = "";
             if (IDExists) {
                 newId = await generateRandomUniqueID(idLength, req);
                 build._id = newId;
             }
-
+            // Add the build to the user's profile
             const userID = req.session.user.username;
             await userCollection.updateOne(
                 { username: userID },
