@@ -1,10 +1,10 @@
 <%- include('partials/navbar') %>
 <% query = JSON.stringify(query)%>
-<h3 class="text-center">Search Parts name/serial number:</h3>
+<h3 class="text-center" id="search_text">Search Parts name/serial number:</h3>
 
 
 <%- include('partials/partsSearch', {partCategory: partCategory}) %>
-
+<%- include('partials/loadingpage', {message:"Comparing parts"}) %>
     <main>
         <!-- This code will add the appropriate filtering options -->
         <% if (partCategory=="ram") { %>
@@ -178,9 +178,28 @@
         compareForm.addEventListener('submit', function(event) {
           event.preventDefault(); // Prevent the default form submission
       
-          // Submit the form
-          compareForm.submit();
+
+        //Load loading page
+        loadingpage();
+        // Submit the form
+        compareForm.submit();
         });
+
+        //make the main page at the top, so everything is clickable
+        var main = document.querySelector("main");
+        main.style.position = "relative";
+        main.style.zIndex = 2;
+
+        new CircleType(document.getElementById('circle_text'));
+        function loadingpage() {
+          var search_text = document.querySelector("#search_text");
+          var search_bar = document.querySelector("#search_bar");
+          var loading_window = document.querySelector("#loading_window");
+          main.style.display = "none";
+          search_text.style.display = "none";
+          search_bar.style.display = "none";
+          loading_window.style.opacity = "1";
+        }
       </script>
       
       

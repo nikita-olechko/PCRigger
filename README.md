@@ -22,34 +22,263 @@ Our Team, DaWei5, is developing PCRigger, to help guide first-time builders thro
 ---
 
 ## File Contents
-
+<pre>
+│   .env
+│   .gitignore
+│   databaseConnection.js
+│   index.js
+│   package-lock.json
+│   package.json
+│   README.md
+│   utils.js
+│
+├───.vscode
+│       settings.json
+│
+├───extras
+│   └───database_data
+│           cpuBenchmarkData.csv
+│           csvConversion.js
+│           gpuBenchmarkData.csv
+│           gpuSpecData.csv
+│           memorySpecData.csv
+│           storageSpecData.csv
+│
+├───models
+│       buildsModel.js
+│       caseModel.js
+│       cpuCoolerModel.js
+│       cpuModel.js
+│       gpuModel.js
+│       memoryModel.js
+│       motherboardsModel.js
+│       storageModel.js
+│
+├───public
+│   ├───icons
+│   │       back.png
+│   │       delete-trashcan.png
+│   │       editButton.png
+│   │       home.png
+│   │       options.png
+│   │       pencil.png
+│   │       user_profile.png
+│   │
+│   ├───images
+│   │       favicon.png
+│   │       knuckles.png
+│   │       logo.png
+│   │       logo_transparent.png
+│   │
+│   └───styles
+│           info.css
+│           landing_page.css
+│           members.css
+│           menu_buttons.css
+│           notification_page.css
+│           styles.css
+│
+├───routes
+│       404.js
+│       admin.js
+│       configurator.js
+│       email_confirm.js
+│       generateNewBuild.js
+│       info.js
+│       instructions.md
+│       landing_page.js
+│       login.js
+│       members.js
+│       OpenAIcall.js
+│       partsCategoryPage.js
+│       partsComparison.js
+│       partsListPage.js
+│       prebuiltOptions.js
+│       profile.js
+│       sampleRoute.js
+│       searchPartFunction.js
+│       signOut.js
+│       signUp.js
+│       specificBuildInfo.js
+│       specsPage.js
+│
+└───views
+│   404.ejs
+│   500.ejs
+│   admin.ejs
+│   AI_build.ejs
+│   buildList.ejs
+│   comparisonPage.ejs
+│   configurator.ejs
+│   email_confirm.ejs
+│   errorPage.ejs
+│   filteredPartsListPage.ejs
+│   index.ejs
+│   info.ejs
+│   landing_page.ejs
+│   login.ejs
+│   members.ejs
+│   notAuthorized.ejs
+│   partsCategoryPage.ejs
+│   partsListPage.ejs
+│   password_edit.ejs
+│   password_reset.ejs
+│   prebuiltOptions.ejs
+│   profile.ejs
+│   profile_edit.ejs
+│   recovery_questions.ejs
+│   sign up.ejs
+│   specificBuildInfo.ejs
+│   specsPage.ejs
+│   username_edit.ejs
+│
+├───partials
+│   │   advancedFilterComponents.ejs
+│   │   caseCard.ejs
+│   │   configuratorEntries.ejs
+│   │   cpuCard.ejs
+│   │   cpuCoolerCard.ejs
+│   │   FAQ.ejs
+│   │   form_group.ejs
+│   │   gpuCard.ejs
+│   │   iconbar.ejs
+│   │   loadingpage.ejs
+│   │   memoryCard.ejs
+│   │   menu_buttons.ejs
+│   │   motherboardCard.ejs
+│   │   navbar.ejs
+│   │   nextComponentPage.ejs
+│   │   nextFilteredComponentPage.ejs
+│   │   partsSearch.ejs
+│   │   part_card.ejs
+│   │   popUpNotification.ejs
+│   │   powerSupplyCard.ejs
+│   │   prebuiltForms.ejs
+│   │   prebuiltOption.ejs
+│   │   previousComponentPage.ejs
+│   │   previousFilteredComponentPage.ejs
+│   │   storageCard.ejs
+│   │   UsesCheckbox.ejs
+│   │   UsesRadiobox.ejs
+│   │
+│   └───filteringOptions
+│           cpuCoolerFilter.ejs
+│           cpuFilter.ejs
+│           gpuFilter.ejs
+│           memoryFilter.ejs
+│           motherboardFilter.ejs
+│           powersupplyFilter.ejs
+│           storageFilter.ejs
+│
+└───templates
+        demoteForm.ejs
+        notification_page.ejs
+        promoteForm.ejs
+        skeleton_template.ejs
+</pre>
 ---
 
-## How-To's
+## Installation / Setup
 
 ### Setup the project requirements
 1. Install VSCode
 2. Install Node <https://nodejs.org/en/download>
-3. Install Studio 3T <https://studio3t.com/>
 
 ### Install node modules
 1. Launch the project in VSCode
 2. Open the integrated terminal (Crtl + `)
-3. Type "npm install" in the terminal and press enter
+3. Type "npm install" in the terminal and press enter to install all packages required for use of this repo
+4. (Optional but recommended) Install nodemon. Type "npm install --global nodemon" in the integrated termanl and presa enter
 
 ### Configure Environment Variables
-1. If you are an approved contributor a .env file will be sent to you via Email with all the required data
-2. Add your .env file to the root of the project file
-3. Should issues with DB connection occur, contact Nikita Olechko at nikita.olechko@gmail.com 
+1. If you are an approved contributor a .env file will be sent to you via Email that will contain all the required environment variables
+2. Add your .env file to the root folder of the project
+3. Ensure your .env file is named specifically ".env"
+4. Should issues with DB connection occur, contact Nikita Olechko at nikita.olechko@gmail.com 
 
-### 
-
-### Use PCRigger effectively
+### Start the app locally to ensure all is working
+1. Open the VSCode integrated terminal from the root of the project
+2. Type "nodemon index.js" and press enter
+3. You are now ready to work on PCRigger
 
 ---
 
-## Credits, References, Licenses
+## Use PCRiggers Features and How to Use Them
 
+### PC Build Generation
+1. From the members page, click on the 'Build Your PC' button section
+Prebuilt Options
+1. CLick on the "Performance" button
+2. From the recommended build, click on "Select" on whichever build you are interested in
+Blank Configurator
+1. CLick on the "Blank Configurator" button
+2. Start your build from scratch
+Adding parts from configurator
+1. Click "+" on whichever part you would like to change
+2. Enter parts name on the search bar if you are looking for something specific
+3. Select any filters to your specification
+4. Click on "Apply Filters" if filters are selected
+5. From the generated list of parts below, select one and click on "Add to Build"
+Removing parts from configurator
+1. Click on "-" on any of your existing parts
+### PC Build Saving / Editing
+1. On any generated build, scroll down to the very bottom of the page
+2. Click on 'Add Build to Profile' 
+3. Click on the top right hamburger menu
+4. From the new popped out menu, click on 'Profile'
+5. In your Saved Builds section, click on the trash bin icon on any build you would like to remove
+6. Confirm you would like to delete the build by clicking on "Delete" again
+7. Click on the build card itself for editing the build instead
+8. Click on "Save Build" if any changes are made to apply the changes to your current build
+9. CLick on "Add Build to Profile" instead if you would like to save the changes to a new build while keeping your previous build
+### PC Component Comparison
+1. From the members page, navigate to 'Compare Parts' page.
+2. Select a part category from the list presented.
+3. Scroll and discover parts that are available in our DB.
+4. Choose two parts by clicking the checkbox on the part's card.
+5. Once two parts have been selected, the compare button is now enabled, click it and wait for AI to do its magic.
+### AI PC Build Descriptions
+1. From anywhere in the app, go to the navbar options to access 'Profile' page.
+2. Choose one of your saved builds.
+3. Scroll down and click 'Build Info' then wait for AI to generate a description, it will then be saved to your build for later use.
+### PC Component Info Pages + General Build Guides
+1. From the members page, click on the 'Info' button section
+2. Select the section you want more information on and click on the drop down menu
+3. From the new drop down menu, click on the sub category that you need more information on
+4. Read the information from the new drop down menu from the sub category
+---
+
+## Credits, References, and More
+
+### Contributors
+Thank you to all who have contributed to the creation, ideation, data sourcing, refactoring, project organization and more to make PCRigger happen.
+
+[@nikita-olechko](https://github.com/nikita-olechko), [@Abdo-Abuharrus211](https://github.com/Abdo-Abuharrus211), [@CPostnikoff](https://github.com/CPostnikoff),
+[@brianctb](https://github.com/brianctb)
+
+### References
+
+The following references were heavily utilized during the creation of this repo.
+
+<https://chat.openai.com/> by [OpenAI](https://openai.com/) for code generation, commenting, ideation and more
+<https://www.mongodb.com/docs/> for MongoDB
+
+### Third-Party Dependencies
+
+node modules
+- axios: 1.4.0
+- bcrypt:  5.1.0
+- bootstrap: 5.2.3
+- connect-flash: 0.1.1
+- connect-mongo: 4.6.0
+- dotenv: 16.0.3
+- ejs: 3.1.9
+- express: 4.18.2
+- express-session: 1.17.3
+- flash: 1.1.0
+- joi: 17.8.4
+- mongoose: 7.1.1
+- pug: 3.0.2
 ---
 
 ## How Was AI Leveraged?
@@ -58,6 +287,10 @@ Our Team, DaWei5, is developing PCRigger, to help guide first-time builders thro
 
 OpenAI's api using gpt-3.5-turbo is used to generate PC-builds for a user's selected filtering preferences. Each part is then passed to a query to see if it exists in the respective component database. If the part is present, it will populate as normal in the configurator screen. If the part does not exist within our database, gpt-3.5 will generate an object for the specific part is then added to the component database database.
 
+### Various logo generating tools
+
+We utilized a number of AI logo generators to come up with drafts of potential logos.
+Including logo.com , Designs.ai , & Shopify's logo generator.
 ### Code and Documentation Generation
 
 <https://chat.openai.com/> and <https://www.forefront.ai/> were leveraged to generate functions and comments which were then refined for use within PCRigger.
@@ -70,11 +303,15 @@ OpenAI's api using gpt-3.5-turbo is used to generate PC-builds for a user's sele
 
 The outputs of each prompt were then refined for use within PCRigger.
 
+### Automatic Database Growth
+
+When a new build is generated for a user by OpenAI's gpt-3.5-turbo api, it is populated into the configurator. Then, each part of the generated build is checked to see if a part with the same name exists within the database. If it does not, the gpt-3.5-turbo api is then used to generate a new object for insertion into the database with all necessary fields and details.
+
 ---
 
 ## Contact Information
 ### Abdulqadir Abuharrus
-Email: pandazwar@gmail.com
+Email: aabuharrus@gmail.com
 GitHub: <https://github.com/Abdo-Abuharrus211>
 
 ### Brian Lee

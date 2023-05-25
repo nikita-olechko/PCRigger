@@ -28,15 +28,6 @@ var {
 
 const userCollection = database.db(mongodb_database).collection('users');
 // Parts collections
-const memoryCollection = database.db(mongodb_database).collection('Memory');
-const cpuCollection = database.db(mongodb_database).collection('CpuSpecs');
-const gpuCollection = database.db(mongodb_database).collection('GpuSpecs');
-const storageCollection = database.db(mongodb_database).collection('Storage');
-const motherboardCollection = database.db(mongodb_database).collection('Motherboards');
-const powerSupplyCollection = database.db(mongodb_database).collection('Powersupplies');
-const caseCollection = database.db(mongodb_database).collection('Cases');
-const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
-
 
 app.use(express.urlencoded({
   extended: false
@@ -52,7 +43,7 @@ var mongoStore = MongoStore.create({
   crypto: {
     secret: mongodb_session_secret
   }
-})
+});
 
 app.use(session({
   secret: node_session_secret,
@@ -60,7 +51,7 @@ app.use(session({
   saveUninitialized: false,
   resave: true,
   cookie: {
-    maxAge: 60 * 60 * 1000 // 1 hour in milliseconds
+    maxAge: 4 * 60 * 60 * 1000 // 1 hour in milliseconds
   }
 }));
 
@@ -70,8 +61,6 @@ app.use(session({
 //   res.render('index');
 // });
 require('./routes/landing_page')(app);
-
-require('./routes/sampleRoute')(app);
 
 require('./routes/signUp')(app, userCollection, saltRounds, Joi, bcrypt);
 

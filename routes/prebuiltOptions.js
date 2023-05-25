@@ -6,7 +6,7 @@ var {
     database
 } = include('databaseConnection');
 
-const prebuilts = database.db(mongodb_database).collection('pcbuilds')
+const prebuilts = database.db(mongodb_database).collection('pcbuilds');
 
 module.exports = function(app){
     app.get('/prebuiltOptions', async (req, res) =>{
@@ -14,35 +14,35 @@ module.exports = function(app){
 
         await prebuilts.find({}).toArray(function (err, result) {
         if (err) {
-            throw err
+            res.render("errorPage");
         } else {
-            buildTypes = new Set()
+            buildTypes = new Set();
             result.forEach(object => {
-                buildTypes.add(object.class)
-            })
-            console.log(buildTypes)
+                buildTypes.add(object.class);
+            });
+            console.log(buildTypes);
 
-            formsData = []
+            formsData = [];
             buildTypes.forEach(buildType => {
-                formsData.push({route:"populateBuilds", description: buildType, formId: buildType})
-            })
+                formsData.push({route:"populateBuilds", description: buildType, formId: buildType});
+            });
             res.render('prebuiltOptions', {forms: formsData});
-        }})
-    })
+        }});
+    });
 
 
     app.post('/populateBuilds', async (req, res) => {
         var desiredCategory = req.body.formId;
-        console.log(desiredCategory)
+        console.log(desiredCategory);
         await prebuilts.find({class: `${desiredCategory}`}).toArray(function (err, result) {
             if (err) {
-                throw err
+                res.render("errorPage");
             } else {
-                console.log(result)
+                console.log(result);
                 res.render('buildList', {
                     foundBuilds: result,
-                })
-            };
-        })
-    })
-}
+                });
+            }
+        });
+    });
+};

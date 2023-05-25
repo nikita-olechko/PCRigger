@@ -41,13 +41,12 @@ module.exports = function (app) {
         const answer = await makeAPIRequest(comparisonPropmt);
         // console.log(answer);
 
-
-
-        console.log(part1Name);
-        console.log(part2Name);
+        
+        // console.log(part1Name);
+        // console.log(part2Name);
         // console.log(firstComparedPart);
         // console.log(secondComparedPart);
 
         res.render('comparisonPage', { firstComparedPart: firstComparedPart, secondComparedPart: secondComparedPart, resultAI: answer });
-    })
-}
+    });
+};

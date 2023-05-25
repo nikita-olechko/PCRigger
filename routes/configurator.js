@@ -1,18 +1,31 @@
 var express = require('express');
-const mongoose = require('mongoose');
-router = express.Router;
-const buildsModel = require('../models/buildsModel');
-const utils = require('../utils');
-const path = require('path');
-const mime = require('mime');
+const router = express.Router;
 
+/**
 
-
-
+    Configurator Middleware
+    @param {Object} app - Express application instance
+    @param {Object} userCollection - Database collection for user data
+    */
 module.exports = function (app, userCollection) {
 
+    /**
+    
+        Generates a random unique ID of a given length.
+        @param {number} length - Length of the ID
+        @param {Object} req - Express request object
+        @returns {Promise<string>} - Random unique ID
+        */
     async function generateRandomUniqueID(length, req) {
-        var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        try {
+            // Find an existing user based on the session username
+            var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        } catch (err) {
+            console.log(err);
+            res.render('login'); // Render the login page
+            return;
+        }
+
         while (true) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let randomID = '';
@@ -33,141 +46,170 @@ module.exports = function (app, userCollection) {
 
     const idLength = 12;
 
+    /**
+    
+        POST route for handling the configurator form submission.
+        @param {Object} req - Express request object
+        @param {Object} res - Express response object
+        */
     app.post('/configurator', async (req, res) => {
-        var existingBuild = false
-        // console.log("At configurator post route")
-        var build = JSON.parse(req.body.build)
-        // console.log(build)
+        var existingBuild = false;
+        var build = JSON.parse(req.body.build);
 
-        var existingUser = await userCollection.findOne({ username: req.session.user.username });
-        // console.log(existingUser)
-        if (build in existingUser.favourites) {
-            existingBuild = true
+        // If the user is logged in, mark existingBuild as true if the build already exists in their favourites
+        try {
+            var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        } catch (err) {
+            console.log(err);
+            res.render('login'); // Render the login page
+            return;
         }
 
+        if (build in existingUser.favourites) {
+            existingBuild = true;
+        }
+
+        // Render the configurator template with the appropriate data
         res.render('configurator', {
             builds: build,
             existingBuild: existingBuild,
             editBuild: false,
             buildSaved: false,
-            invalidName: false, buildCreated: false
-        }
-        );
+            invalidName: false,
+            buildCreated: false
+        });
+
     });
 
+    /**
+    
+        POST route for removing a part from a build.
+        @param {Object} req - Express request object
+        @param {Object} res - Express response object
+        */
     app.post("/removePart", async (req, res) => {
         const partToRemove = req.body.partToRemove;
-        const build = JSON.parse(req.body.build)
-        // console.log(build)
-        // console.log(partToRemove)
-
-        build.parts[partToRemove] = null
-
-        // console.log(build)
+        const build = JSON.parse(req.body.build);
+        build.parts[partToRemove] = null;
+        // Render the configurator template with the appropriate data
         res.render('configurator', {
             builds: build,
             existingBuild: false,
             editBuild: true,
             buildSaved: false,
-            invalidName: false, buildCreated: false
-        })
-    })
+            invalidName: false,
+            buildCreated: false
+        });
 
+    });
+
+    /**
+    
+        POST route for adding a part to a build.
+        @param {Object} req - Express request object
+        @param {Object} res - Express response object
+        */
     app.post("/addPartToBuild", (req, res) => {
-        console.log(JSON.parse(req.body.build))
-        console.log(req.body.partCategory)
-        console.log(req.body.partName)
-
-        var build = JSON.parse(req.body.build)
-        build.parts[req.body.partCategory] = req.body.partName
-
+        var build = JSON.parse(req.body.build);
+        build.parts[req.body.partCategory] = req.body.partName;
+        // Render the configurator template with the appropriate data
         res.render('configurator', {
-            builds: build, existingBuild: false, editBuild: true,
+            builds: build,
+            existingBuild: false,
+            editBuild: true,
             buildSaved: false,
-            invalidName: false, buildCreated: false
-        })
-    })
+            invalidName: false,
+            buildCreated: false
+        });
 
+    });
+
+    /**
+    
+        POST route for adding a build to a user's profile.
+    
+        @param {Object} req - Express request object
+    
+        @param {Object} res - Express response object
+        */
     app.post("/addBuildToProfile", async (req, res) => {
-        // console.log("At addBuildToProfile post route");
-        // console.log(req.body.buttonType)
         if (req.body.buttonType === "addBuildToProfile") {
-            console.log("At addBuildToProfile post route");
-            console.log(req.body.build)
-            var build = JSON.parse(req.body.build)
-            build.name = req.body.buildTitle
+            var build = JSON.parse(req.body.build);
+            build.name = req.body.buildTitle;
 
-            // Issue is here: same buildID is being created.
-            // buildId = req.body.build._id
-            // console.log(buildId)
-            // if (buildId in existingUser.favourites._id) {
-            //     console.log("Build already exists")
-            // }
-
-
-            const userID = req.session.user.username;
-            var existingUser = await userCollection.findOne({ username: req.session.user.username });
+            try {
+                var existingUser = await userCollection.findOne({ username: req.session.user.username });
+            } catch (err) {
+                console.log(err);
+                res.render('login'); // Render the login page
+                return;
+            }
 
             const nameExists = existingUser.favourites.some((item) => item.name === build.name);
-
+            // If the user tries to save a build with a name that already exists
             if (nameExists) {
                 res.render("configurator", {
                     builds: build,
                     existingBuild: false,
                     editBuild: true,
                     buildSaved: true,
-                    invalidName: true, buildCreated: false
+                    invalidName: true,
+                    buildCreated: false
                 });
-                return
-                // The name exists in existingUser.favourites
+                return;
             }
-
+            // Generate a random unique ID for the build
             const IDExists = existingUser.favourites.some((item) => item._id === build._id);
-            console.log("IDExists" + IDExists)
-            var newId = ""
+            var newId = "";
             if (IDExists) {
-                newId = await generateRandomUniqueID(idLength, req)
-                console.log(newId)
-                build._id = newId
+                newId = await generateRandomUniqueID(idLength, req);
+                build._id = newId;
             }
-
-
+            // Add the build to the user's profile
+            const userID = req.session.user.username;
             await userCollection.updateOne(
                 { username: userID },
                 { $push: { favourites: build } },
                 function (err, updateResult) {
                     if (err) {
-                        res.render('errorPage')
-                    } else {                    
+                        res.render('errorPage'); // Render the error page
+                    } else {
                         console.log("build added to user!");
                     }
                 }
             );
 
+            // Render the configurator template with the appropriate data
             res.render("configurator", {
                 builds: build,
                 existingBuild: true,
                 editBuild: true,
                 buildSaved: false,
-                invalidName: false, buildCreated: false
+                invalidName: false,
+                buildCreated: false
             });
-
+        
+            // If the user clicks the "save build" button
         } else if (req.body.buttonType === "saveBuild") {
-            console.log("At save route");
-            var build = JSON.parse(req.body.build)
-            var currentBuildName = build.name
-            const userID = req.session.user.username;
-            var existingUser = await userCollection.findOne({ username: req.session.user.username });
 
-            var nameExists = false;   
-            console.log("req.body.buildTitle: " + req.body.buildTitle) 
-            console.log("req.body.build.name: " + currentBuildName) 
+            var build = JSON.parse(req.body.build);
+            var currentBuildName = build.name;
+
+            try {
+                const userID = req.session.user.username;
+                var existingUser = await userCollection.findOne({ username: req.session.user.username });
+            } catch (err) {
+                console.log(err);
+                res.render('login'); // Render the login page
+                return;
+            }
+
+            var nameExists = false;
 
             if (req.body.buildTitle === currentBuildName) {
-                var nameExists = false;
-            }
-            else {
-                var nameExists = existingUser.favourites.filter((item) => item.name === req.body.buildTitle).length >= 1;
+                nameExists = false;
+            } else {
+                nameExists = existingUser.favourites.filter((item) => item.name === req.body.buildTitle).length >= 1;
             }
 
             if (nameExists) {
@@ -176,68 +218,70 @@ module.exports = function (app, userCollection) {
                     existingBuild: false,
                     editBuild: true,
                     buildSaved: true,
-                    invalidName: true, buildCreated: false
+                    invalidName: true,
+                    buildCreated: false
                 });
-                return
+                return;
             }
 
-            build.name = req.body.buildTitle
+            build.name = req.body.buildTitle;
 
             await userCollection.updateOne(
-                { username: userID, "favourites._id": build._id },
-                { $set: { "favourites.$": build }},
-
-                // To rename the build description field that matches the build name
-                // when a user renames their build, in order to preserve description
-                // Note: this is a field that is not nested in 'favourites'
-                // {$rename: { [currentBuildName]: build.name }}, [Abdo]
-
+                { username: req.session.user.username, "favourites._id": build._id },
+                { $set: { "favourites.$": build } },
                 function (err, updateResult) {
                     if (err) {
-                        res.render('errorPage')
-                    } else {                    
+                        res.render('errorPage'); // Render the error page
+                    } else {
                         console.log("build updated!");
                     }
                 }
             );
 
-
+            // Render the configurator template with the appropriate data
             res.render("configurator", {
                 builds: build,
                 existingBuild: false,
                 editBuild: true,
                 buildSaved: true,
-                invalidName: false, buildCreated: false
+                invalidName: false,
+                buildCreated: false
             });
         }
+
     });
 
-
+    /**
+    
+        POST route for editing a build.
+        @param {Object} req - Express request object
+        @param {Object} res - Express response object
+        */
     app.post("/edit", async (req, res) => {
-        var build = JSON.parse(req.body.build)
-        var existingBuild = false
-        // console.log(build)
-        //get user profile
-        var existingUser = await userCollection.findOne({ username: req.session.user.username });
-        // console.log(existingUser)
-        if (build in existingUser.favourites) {
-            existingBuild = true
+        var build = JSON.parse(req.body.build);
+        var existingBuild = false;
+        try {
+            var existingUser = await userCollection.findOne({ username: req.session.user.username });
+        } catch (err) {
+            console.log(err);
+            res.render('login'); // Render the login page
+            return;
         }
 
+        if (build in existingUser.favourites) {
+            existingBuild = true;
+        }
 
+        // Render the configurator template with the appropriate data
         res.render('configurator', {
             builds: build,
             existingBuild: existingBuild,
             editBuild: true,
             buildSaved: false,
-            invalidName: false, buildCreated: false
+            invalidName: false,
+            buildCreated: false
         });
 
     });
 
-    // app.post("/save", async (req, res) => {
-
-    // });
-
-
-}
+};

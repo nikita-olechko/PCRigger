@@ -6,7 +6,7 @@ const makeAPIRequest = require('./OpenAIcall');
 module.exports = function (app, userCollection) {
 
     app.post('/specificBuildInfo', async (req, res) => {
-        var build = JSON.parse(req.body.build)
+        var build = JSON.parse(req.body.build);
         // console.log("CPU Is" + build.parts.cpu)
 
         try { // console.log("At configurator post route")
@@ -15,7 +15,7 @@ module.exports = function (app, userCollection) {
             const memory = Array.isArray(await build.parts.ram) ? await build.parts.ram : [await build.parts.ram];
             const storage = Array.isArray(await build.parts.storage) ? await build.parts.storage : [await build.parts.storage];
             const motherboards = Array.isArray(await build.parts.motherboard) ? await build.parts.motherboard : [await build.parts.motherboard];
-            const powerSupply = Array.isArray(await build.parts.powersupply) ? await build.parts.powersupply : [await build.parts.powersupply];
+            const powerSupply = Array.isArray(await build.parts.powerSupply) ? await build.parts.powerSupply : [await build.parts.powerSupply];
             const cases = Array.isArray(await build.parts.case) ? await build.parts.case : [await build.parts.case];
             const cpuCoolers = Array.isArray(await build.parts.cpuCooler) ? await build.parts.cpuCooler : [await build.parts.cpuCooler];
 
@@ -29,7 +29,14 @@ module.exports = function (app, userCollection) {
             // Instantiate variable to store the AI's response
             var buildDescription;
             // get the current logged in user
+            try {
             var currentUser = req.session.user;
+            }
+            catch (err) {
+                console.log(err);
+                res.render('login');
+                return;
+            }
             // Get the current build's name
             var buildTitle = build.name;
             console.log(buildTitle);
@@ -63,8 +70,15 @@ module.exports = function (app, userCollection) {
             }
 
             // Refresh Session with freshly updated user from MongoDB
+            try {
             currentUser = await userCollection.findOne({ username: req.session.user.username });
             req.session.user = currentUser;
+            }
+            catch (err) {
+                console.log(err);
+                res.render('login');
+                return;
+            }
 
 
             res.render('specificBuildInfo', {
@@ -82,8 +96,7 @@ module.exports = function (app, userCollection) {
                 renderedBuildDescription: buildDescription,
             });
         } catch (error) {
-            console.error('Error retrieving data from MongoDB:', error);
-            res.status(500).send('Internal Server Error').render("500");
+            res.render('errorPage');
         }
     });
-}
+};
