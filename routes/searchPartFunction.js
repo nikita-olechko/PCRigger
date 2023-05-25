@@ -16,7 +16,6 @@ const gpuCollection = database.db(mongodb_database).collection('GpuSpecs');
 const storageCollection = database.db(mongodb_database).collection('Storage');
 const motherboardsCollection = database.db(mongodb_database).collection('Motherboards');
 const powerSupplyCollection = database.db(mongodb_database).collection('Powersupplies');
-// const ramCollection = database.db(mongodb_database).collection('Ram');
 const caseCollection = database.db(mongodb_database).collection('Cases');
 const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers');
 
@@ -57,12 +56,6 @@ module.exports = function (app) {
         fieldToSearch = partCategory + "Name";
         console.log("Field to search: " + fieldToSearch);
 
-        // // Find the PC part that has a name that matches the search term 
-        // const foundPart = await collectionToSearch.findOne({
-        //     $or: [
-        //         { [fieldToSearch]: searchTerm },
-        //         { name: searchTerm }]
-        // });
         const regex = new RegExp(searchTerm, 'i'); // 'i' flag makes the search case-insensitive
         const foundPart = await collectionToSearch.findOne({
              $or: [
@@ -72,9 +65,6 @@ module.exports = function (app) {
                    { productName: regex },
                    { memoryName: regex },
                 ] });
-
-
-        // console.log(foundPart);
 
         // Render a response with the found part data or a message if no part was found
         if (foundPart) {
@@ -93,6 +83,6 @@ module.exports = function (app) {
                 partCategory: partCategory,
                 searchTerm: searchTerm,
                 partNotFound: true
-            });        };
-    })
-}
+            });        }
+    });
+};

@@ -43,7 +43,7 @@ module.exports = async function (app, userCollection, Joi, bcrypt,) {
         // Validate password
         const validPassword = await bcrypt.compare(password, existingUser.password);
         if (!validPassword) {
-            res.status(401).render('templates/notification_page.ejs', {message:'Invalid username or password.'})
+            res.status(401).render('templates/notification_page.ejs', {message:'Invalid username or password.'});
             return;
         }
 
@@ -59,4 +59,4 @@ module.exports = async function (app, userCollection, Joi, bcrypt,) {
         res.redirect('/');
     });
 
-}
+};
