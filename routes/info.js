@@ -27,7 +27,7 @@ module.exports = function (app) {
                     "question": "How can I monitor my CPU's performance?",
                     "answer": "Various software tools are available for monitoring CPU performance, providing insights into usage, temperatures, and clock speeds."
                 }
-            ]
+            ];
 
         const GPU_QAs =
             [
@@ -51,7 +51,7 @@ module.exports = function (app) {
                     "question": "Can I upgrade the GPU in my PC?",
                     "answer": "Upgrading the GPU is possible in most desktop computers, as long as the motherboard has a compatible slot and the power supply can support the new GPU's requirements. Laptops, however, often have limited upgrade options due to their integrated or non-removable GPUs."
                 }
-            ]
+            ];
 
         const Memory_QAs =
             [
@@ -75,7 +75,7 @@ module.exports = function (app) {
                     "question": "Can I mix different types or speeds of RAM?",
                     "answer": "Mixing different types or speeds of RAM is generally not recommended, as it can lead to compatibility issues and potential system instability. It's best to use matching modules to ensure optimal performance and compatibility."
                 }
-            ]
+            ];
         
         const CPU_Cooler_QAs =
         [
@@ -99,7 +99,7 @@ module.exports = function (app) {
                 "question": "How do I choose the right CPU cooler?",
                 "answer": "When choosing a CPU cooler, consider factors such as compatibility with your CPU socket, available space in your computer case, cooling performance requirements, noise level preferences, and budget. Researching reviews and comparing specifications can help you make an informed decision."
             }
-        ]
+        ];
 
         const Motherboards_QAs =
         [
@@ -123,7 +123,7 @@ module.exports = function (app) {
                 "question": "Can I upgrade my motherboard?",
                 "answer": "Upgrading the motherboard is a more involved process as it often requires compatibility with other components such as the CPU and RAM. It may also involve reinstalling the operating system. It's recommended to consult the motherboard documentation and seek professional assistance if necessary."
             }
-        ]
+        ];
 
         const Storage_QAs =
         [
@@ -147,7 +147,7 @@ module.exports = function (app) {
                 "question": "Can I use multiple storage devices in my computer?",
                 "answer": "Yes, most computers support multiple storage devices. You can use a combination of HDDs and SSDs or multiple SSDs to take advantage of the benefits of different storage types, such as using an SSD for faster boot times and frequently accessed files, while using an HDD for larger file storage."
             }
-        ]
+        ];
         
         const Powersupplies_QAs =
         [
@@ -171,7 +171,7 @@ module.exports = function (app) {
                 "question": "What is the difference between single-rail and multi-rail power supplies?",
                 "answer": "Single-rail power supplies have a single high-amperage +12V rail, providing power to all components. Multi-rail power supplies divide the +12V rail into multiple lower-amperage rails, offering overcurrent protection. The choice depends on your specific requirements and the power supply's design."
             },
-        ]
+        ];
 
         const Cases_QAs =
         [
@@ -195,11 +195,12 @@ module.exports = function (app) {
                 "question": "What are some popular PC case form factors and brands?",
                 "answer": "Popular PC case form factors include mid-tower, full-tower, and compact Mini-ITX cases. Some popular case brands include Corsair, NZXT, Fractal Design, Cooler Master, and Phanteks, among others."
             }
-        ]
+        ];
         
 
         try {
             res.render('info',
+            // Pass data to the view
                 {
                     CPU_QAs: CPU_QAs,
                     GPU_QAs: GPU_QAs,
@@ -213,7 +214,7 @@ module.exports = function (app) {
                 }
             );
         } catch (error) {
-            res.render("errorPage")
+            res.render("errorPage");
         }
     });
-}
+};
