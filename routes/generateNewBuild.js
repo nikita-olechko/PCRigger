@@ -305,6 +305,10 @@ module.exports = function (app, userCollection) {
             builds: parsedBuildDescription,
             existingBuild: existingBuild,
             budget: parsedBuildDescription.parts.budget,
+            editBuild: false,
+            buildSaved: false,
+            invalidName: false,
+            buildCreated: false
         });
     });
 
