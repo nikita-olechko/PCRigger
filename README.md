@@ -178,31 +178,75 @@ Our Team, DaWei5, is developing PCRigger, to help guide first-time builders thro
 </pre>
 ---
 
-## How-To's
+## Installation / Setup
 
 ### Setup the project requirements
 1. Install VSCode
 2. Install Node <https://nodejs.org/en/download>
-3. Install Studio 3T <https://studio3t.com/>
 
 ### Install node modules
 1. Launch the project in VSCode
 2. Open the integrated terminal (Crtl + `)
-3. Type "npm install" in the terminal and press enter
+3. Type "npm install" in the terminal and press enter to install all packages required for use of this repo
+4. (Optional but recommended) Install nodemon. Type "npm install --global nodemon" in the integrated termanl and presa enter
 
 ### Configure Environment Variables
-1. If you are an approved contributor a .env file will be sent to you via Email with all the required data
-2. Add your .env file to the root of the project file
-3. Should issues with DB connection occur, contact Nikita Olechko at nikita.olechko@gmail.com 
+1. If you are an approved contributor a .env file will be sent to you via Email that will contain all the required environment variables
+2. Add your .env file to the root folder of the project
+3. Ensure your .env file is named specifically ".env"
+4. Should issues with DB connection occur, contact Nikita Olechko at nikita.olechko@gmail.com 
 
-### 
-
-### Use PCRigger effectively
+### Start the app locally to ensure all is working
+1. Open the VSCode integrated terminal from the root of the project
+2. Type "nodemon index.js" and press enter
+3. You are now ready to work on PCRigger
 
 ---
 
-## Credits, References, Licenses
+## Use PCRiggers Features and How to Use Them
 
+### PC Build Generation
+
+### PC Build Saving / Editing
+
+### PC Component Comparison
+
+### AI PC Build Descriptions
+
+### PC Component Info Pages + General Build Guides
+
+---
+
+## Credits, References, and More
+
+### Contributors
+Thank you to all who have contributed to the creation, ideation, data sourcing, refactoring, project organization and more to make PCRigger happen.
+
+[@nikita-olechko](https://github.com/nikita-olechko), [@Abdo-Abuharrus211](https://github.com/Abdo-Abuharrus211), [@CPostnikoff](https://github.com/CPostnikoff), [@brianctb](https://github.com/brianctb)
+
+### References
+
+The following references were heavily utilized during the creation of this repo.
+
+<https://chat.openai.com/> by [OpenAI](https://openai.com/) for code generation, commenting, ideation and more
+<https://www.mongodb.com/docs/> for MongoDB
+
+### Third-Party Dependencies
+
+node modules
+- axios: 1.4.0
+- bcrypt:  5.1.0
+- bootstrap: 5.2.3
+- connect-flash: 0.1.1
+- connect-mongo: 4.6.0
+- dotenv: 16.0.3
+- ejs: 3.1.9
+- express: 4.18.2
+- express-session: 1.17.3
+- flash: 1.1.0
+- joi: 17.8.4
+- mongoose: 7.1.1
+- pug: 3.0.2
 ---
 
 ## How Was AI Leveraged?
@@ -222,6 +266,10 @@ OpenAI's api using gpt-3.5-turbo is used to generate PC-builds for a user's sele
 - "You are a developer creating a MongoDB database collection that will store each component (Build name, Case, CPU, GPU, Motherboard, Memory, Storage, Powersupply) of that computer. What would the MongoDB schema look like? Keep in mind that multiple memory modules or multiple storage devices can be used"
 
 The outputs of each prompt were then refined for use within PCRigger.
+
+### Automatic Database Growth
+
+When a new build is generated for a user by OpenAI's gpt-3.5-turbo api, it is populated into the configurator. Then, each part of the generated build is checked to see if a part with the same name exists within the database. If it does not, the gpt-3.5-turbo api is then used to generate a new object for insertion into the database with all necessary fields and details.
 
 ---
 
