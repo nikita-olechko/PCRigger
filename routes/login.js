@@ -36,7 +36,7 @@ module.exports = async function (app, userCollection, Joi, bcrypt,) {
             username: username
         });
         if (!existingUser) {
-            res.status(401).render('templates/notification_page.ejs', {message:'invalid username or password.'})
+            res.status(401).render('templates/notification_page.ejs', {message:'invalid username or password.'});
             return;
         }
 

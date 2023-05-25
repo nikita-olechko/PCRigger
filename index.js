@@ -62,8 +62,6 @@ app.use(session({
 // });
 require('./routes/landing_page')(app);
 
-require('./routes/sampleRoute')(app);
-
 require('./routes/signUp')(app, userCollection, saltRounds, Joi, bcrypt);
 
 require('./routes/login')(app, userCollection, Joi, bcrypt);
