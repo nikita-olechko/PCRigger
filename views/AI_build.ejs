@@ -19,6 +19,9 @@
     <% if (noFactorsChosen) { %>
         <%- include('partials/popUpNotification', { notificationMessage: 'Please select Priority Factors' }) %>
             <% } %>
+            <% if (reset) { %>
+                <%- include('partials/popUpNotification', { notificationMessage: 'Filters Reset' }) %>
+                    <% } %>
                 <div class="container general-margin">
                     <%- include('partials/loadingpage', {message:"Generating your build"}) %>
                     <main>
