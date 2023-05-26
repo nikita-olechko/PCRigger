@@ -222,7 +222,9 @@ module.exports = function (app) {
               if (err) {
                 res.render('errorPage');
               } else {
-                if (typeof caseResult[0] !== 'undefined' || typeof cpuResult[0] !== 'undefined') {
+                console.log("Cast Result" + caseResult[0]);
+                console.log("CPU Result" + cpuResult[0]);
+                if (typeof caseResult[0] !== 'undefined' && typeof cpuResult[0] !== 'undefined') {
                   compatibleWith = [caseResult[0].SupportedMotherboardSizes, cpuResult[0].socket];
                   resolve(compatibleWith);
                 } else {
@@ -398,7 +400,7 @@ module.exports = function (app) {
               if (err) {
                 res.render('errorPage');
               } else {
-                if (typeof cpuResult[0] !== 'undefined' || typeof motherboardResult[0] !== 'undefined') {
+                if (typeof cpuResult[0] !== 'undefined' && typeof motherboardResult[0] !== 'undefined') {
                   compatibleWith = [cpuResult[0].socket, motherboardResult[0].socket];
                   resolve(compatibleWith);
                 } else {
