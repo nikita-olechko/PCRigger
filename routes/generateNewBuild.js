@@ -308,7 +308,8 @@ module.exports = function (app, userCollection) {
             editBuild: false,
             buildSaved: false,
             invalidName: false,
-            buildCreated: false
+            buildCreated: false,
+            partError: false
         });
     });
 

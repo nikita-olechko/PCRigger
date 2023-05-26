@@ -8,7 +8,7 @@
       <% } %>
         <% if (buildSaved==true) { %>
           <div class="col-md notification notification:hover">
-            <input value="<%= builds.name %> has been saved"
+            <input value="Build has been saved"
               class="container notification-button menu_buttons general-margin button-padding">
           </div>
           <% } %>
@@ -21,6 +21,12 @@
                 <% if (buildCreated==true) { %>
                   <div class="col-md notification notification:hover">
                     <input value="Build Generated Successfully"
+                      class="container notification-button menu_buttons general-margin button-padding">
+                  </div>
+                  <% } %>
+                  <% if (partError==true) { %>
+                  <div class="col-md notification notification:hover">
+                    <input value="Part not in DB yet"
                       class="container notification-button menu_buttons general-margin button-padding">
                   </div>
                   <% } %>

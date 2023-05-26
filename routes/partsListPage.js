@@ -26,343 +26,465 @@ const cpuCoolerCollection = database.db(mongodb_database).collection('CpuCoolers
  * @param {number} perpage - The maximum number of documents to return per page.
  * @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
  */
-const gpuFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve) => {
-    gpuCollection
-      .find(query)
-      .skip(skip)
-      .limit(perpage)
-      .sort({ releaseYear: -1 })
-      .toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          resolve(result);
-        }
-      });
-  });
-};
 
-/**
- * Performs a filtered search in the memory collection.
- * @param {object} query - The search query object used to filter the memory collection.
- * @param {number} skip - The number of documents to skip in the search results.
- * @param {number} perpage - The maximum number of documents to return per page.
- * @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
- */
-const memoryFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve) => {
-    memoryCollection
-      .find(query)
-      .skip(skip)
-      .limit(perpage)
-      .sort({ latency: 1 })
-      .toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          resolve(result);
-        }
-      });
-  });
-};
-
-/**
- * Performs a filtered search in the memory collection.
- * @param {object} currentBuild - An object of a user's currentBuild.
- * @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
- */
-const determineMemoryCompatibility = async function (currentBuild) {
-  return new Promise((resolve) => {
-    motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, result) {
-      if (err) {
-        res.render('errorPage');
-      } else {
-        console.log(result);
-        compatibleWith = result[0].supportedRamGeneration;
-        resolve(compatibleWith);
-      }
-    });
-  });
-};
-
-
-/**
-Performs a filtered search in the CPU collection.
-@param {object} query - The search query object used to filter the CPU collection.
-@param {number} skip - The number of documents to skip in the search results.
-@param {number} perpage - The maximum number of documents to return per page.
-@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
-*/
-const cpuFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve) => {
-    cpuCollection.find(query)
-      .skip(skip)
-      .limit(perpage)
-      .sort({ cpuMark: -1 })
-      .toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          resolve(result);
-        }
-      });
-  });
-};
-
-/**
-Determines the CPU compatibility of a current build.
-@param {object} currentBuild - An object of a user's currentBuild.
-@returns {Promise} - A Promise that resolves with the compatible socket or rejects with an error.
-*/
-const determineCpuCompatibility = async function (currentBuild) {
-  return new Promise((resolve) => {
-    if ((currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler) || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)) {
-      motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          console.log(result);
-          compatibleWith = result[0].socket;
-          resolve(compatibleWith);
-        }
-      });
-    } else if (currentBuild.parts.cpuCooler) {
-      cpuCoolerCollection.find({ name: currentBuild.parts.cpuCooler }).toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          console.log(result);
-          compatibleWith = result[0].supportedSockets;
-          resolve(compatibleWith);
-        }
-      });
-    }
-  });
-};
-
-/**
-Performs a filtered search in the motherboard collection.
-@param {object} query - The search query object used to filter the motherboard collection.
-@param {number} skip - The number of documents to skip in the search results.
-@param {number} perpage - The maximum number of documents to return per page.
-@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
-*/
-const motherboardFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve) => {
-    motherboardCollection.find(query)
-      .skip(skip)
-      .limit(perpage)
-      .sort()
-      .toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          resolve(result);
-        }
-      });
-  });
-};
-
-/**
-Determines the motherboard compatibility of a current build.
-@param {object} currentBuild - An object of a user's currentBuild.
-@returns {Promise} - A Promise that resolves with the compatible motherboard sizes or socket, or rejects with an error.
-*/
-const determineMotherboardCompatibility = async function (currentBuild) {
-  return new Promise((resolve) => {
-    if (currentBuild.parts.case && currentBuild.parts.cpu) {
-      caseCollection.find({ name: currentBuild.parts.case }).toArray(function (err, caseResult) {
-        if (err) throw err;
-        cpuCollection.find({ cpuName: currentBuild.parts.cpu }).toArray(function (err, cpuResult) {
-          if (err) {
-            res.render('errorPage');
-          } else {
-            compatibleWith = [caseResult[0].SupportedMotherboardSizes, cpuResult[0].socket];
-            resolve(compatibleWith);
-          }
-        });
-      });
-    } else if (currentBuild.parts.cpu) {
-      cpuCollection.find({ cpuName: currentBuild.parts.cpu }).toArray(function (err, cpuResult) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          compatibleWith = cpuResult[0].socket;
-          resolve(compatibleWith);
-        }
-      });
-    } else if (currentBuild.parts.case) {
-      caseCollection.find({ name: currentBuild.parts.case }).toArray(function (err, caseResult) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          compatibleWith = caseResult[0].SupportedMotherboardSizes;
-          resolve(compatibleWith);
-        }
-      });
-    }
-  });
-};
-
-/**
-Performs a filtered search in the storage collection.
-@param {object} query - The search query object used to filter the storage collection.
-@param {number} skip - The number of documents to skip in the search results.
-@param {number} perpage - The maximum number of documents to return per page.
-@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
-*/
-const storageFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve) => {
-    storageCollection.find(query)
-      .skip(skip)
-      .limit(perpage)
-      .sort({ diskMark: -1 })
-      .toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          resolve(result);
-        }
-      });
-  });
-};
-
-/**
-Performs a filtered search in the case collection.
-@param {object} query - The search query object used to filter the case collection.
-@param {number} skip - The number of documents to skip in the search results.
-@param {number} perpage - The maximum number of documents to return per page.
-@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
-*/
-const caseFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve) => {
-    caseCollection.find(query)
-      .skip(skip)
-      .limit(perpage)
-      .sort()
-      .toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          resolve(result);
-        }
-      });
-  });
-};
-
-/**
-Determines the case compatibility for a given current build.
-@param {object} currentBuild - An object of a user's currentBuild.
-@returns {Promise} - A Promise that resolves with the case compatibility or rejects with an error.
-*/
-const determineCaseCompatibility = async function (currentBuild) {
-  return new Promise((resolve) => {
-    motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, result) {
-      if (err) {
-        res.render('errorPage');
-      } else {
-        compatibleWith = result[0].formFactor;
-        resolve(compatibleWith);
-
-      }
-    });
-  });
-};
-
-/**
-Performs a filtered search in the cpuCooler collection.
-@param {object} query - The search query object used to filter the cpuCooler collection.
-@param {number} skip - The number of documents to skip in the search results.
-@param {number} perpage - The maximum number of documents to return per page.
-@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
-*/
-const cpuCoolerFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve, reject) => {
-    cpuCoolerCollection.find(query)
-      .skip(skip)
-      .limit(perpage)
-      .sort()
-      .toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          resolve(result);
-        }
-      });
-  });
-};
-
-/**
-Determines the CPU cooler compatibility for a given current build.
-@param {object} currentBuild - An object of a user's currentBuild..
-@returns {Promise} - A Promise that resolves with the CPU cooler compatibility or rejects with an error.
-*/
-const determineCpuCoolerCompatibility = async function (currentBuild) {
-  return new Promise((resolve) => {
-    if (currentBuild.parts.cpu && currentBuild.parts.motherboard) {
-      cpuCollection.find({ cpuName: currentBuild.parts.cpu }).toArray(function (err, cpuResult) {
-        if (err) throw err;
-        motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, motherboardResult) {
-          if (err) {
-            res.render('errorPage');
-          } else {
-            compatibleWith = [cpuResult[0].socket, motherboardResult[0].socket];
-            resolve(compatibleWith);
-          }
-        });
-      });
-    }
-    else if (currentBuild.parts.cpu && !currentBuild.parts.motherboard) {
-      cpuCollection.find({ cpuName: currentBuild.parts.cpu }).toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          compatibleWith = [result[0].socket];
-          resolve(compatibleWith);
-        }
-      });
-    }
-    else if (currentBuild.parts.motherboard && !currentBuild.parts.cpu) {
-      motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          compatibleWith = [result[0].socket];
-          resolve(compatibleWith);
-        }
-      });
-    }
-  });
-};
-
-/**
-Performs a filtered search in the power supply collection.
-@param {object} query - The search query object used to filter the power supply collection.
-@param {number} skip - The number of documents to skip in the search results.
-@param {number} perpage - The maximum number of documents to return per page.
-@returns {Promise} - A Promise that resolves with the search results or rejects with an error.
-*/
-const powerSupplyFilteredSearch = function (query, skip, perpage) {
-  return new Promise((resolve) => {
-    powerSupplyCollection.find(query)
-      .skip(skip)
-      .limit(perpage)
-      .sort({ powerOutput: -1 })
-      .toArray(function (err, result) {
-        if (err) {
-          res.render('errorPage');
-        } else {
-          resolve(result);
-        }
-      });
-  });
-};
 
 // Route handler for the parts list page
 module.exports = function (app) {
 
+
+
   app.post('/parts', async (req, res) => {
+    const gpuFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve) => {
+        gpuCollection
+          .find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({ releaseYear: -1 })
+          .toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              resolve(result);
+            }
+          });
+      });
+    };
+
+    /**
+     * Performs a filtered search in the memory collection.
+     * @param {object} query - The search query object used to filter the memory collection.
+     * @param {number} skip - The number of documents to skip in the search results.
+     * @param {number} perpage - The maximum number of documents to return per page.
+     * @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+     */
+    const memoryFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve) => {
+        memoryCollection
+          .find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({ latency: 1 })
+          .toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              resolve(result);
+            }
+          });
+      });
+    };
+
+    /**
+     * Performs a filtered search in the memory collection.
+     * @param {object} currentBuild - An object of a user's currentBuild.
+     * @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+     */
+    const determineMemoryCompatibility = async function (currentBuild) {
+      return new Promise((resolve) => {
+        motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, result) {
+          if (err) {
+            res.render('errorPage');
+          } else {
+            console.log(result);
+            if (result[0] !== 'undefined') {
+              compatibleWith = result[0].supportedRamGeneration;
+              resolve(compatibleWith);
+            } else {
+              res.render('configurator', {
+                builds: currentBuild,
+                existingBuild: true,
+                editBuild: false,
+                buildSaved: false,
+                invalidName: false,
+                buildCreated: false,
+                partError: true
+              });
+            }
+          }
+        });
+      });
+    };
+
+
+    /**
+    Performs a filtered search in the CPU collection.
+    @param {object} query - The search query object used to filter the CPU collection.
+    @param {number} skip - The number of documents to skip in the search results.
+    @param {number} perpage - The maximum number of documents to return per page.
+    @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+    */
+    const cpuFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve) => {
+        cpuCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({ cpuMark: -1 })
+          .toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              resolve(result);
+            }
+          });
+      });
+    };
+
+    /**
+    Determines the CPU compatibility of a current build.
+    @param {object} currentBuild - An object of a user's currentBuild.
+    @returns {Promise} - A Promise that resolves with the compatible socket or rejects with an error.
+    */
+    const determineCpuCompatibility = async function (currentBuild) {
+      return new Promise((resolve) => {
+        if ((currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler) || (currentBuild.parts.motherboard && currentBuild.parts.cpuCooler)) {
+          motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              console.log(result);
+              if (typeof result[0] !== 'undefined') {
+                compatibleWith = result[0].socket;
+                resolve(compatibleWith);
+              } else {
+                res.render('configurator', {
+                  builds: currentBuild,
+                  existingBuild: true,
+                  editBuild: false,
+                  buildSaved: false,
+                  invalidName: false,
+                  buildCreated: false,
+                  partError: true
+                });
+              }
+            }
+          });
+        } else if (currentBuild.parts.cpuCooler) {
+          cpuCoolerCollection.find({ name: currentBuild.parts.cpuCooler }).toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              console.log(result);
+              if (typeof result[0] !== 'undefined') {
+                compatibleWith = result[0].supportedSockets;
+                resolve(compatibleWith);
+              } else {
+                res.render('configurator', {
+                  builds: currentBuild,
+                  existingBuild: true,
+                  editBuild: false,
+                  buildSaved: false,
+                  invalidName: false,
+                  buildCreated: false,
+                  partError: true
+                });
+              }
+            }
+          });
+        }
+      });
+    };
+
+    /**
+    Performs a filtered search in the motherboard collection.
+    @param {object} query - The search query object used to filter the motherboard collection.
+    @param {number} skip - The number of documents to skip in the search results.
+    @param {number} perpage - The maximum number of documents to return per page.
+    @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+    */
+    const motherboardFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve) => {
+        motherboardCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort()
+          .toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              resolve(result);
+            }
+          });
+      });
+    };
+
+    /**
+    Determines the motherboard compatibility of a current build.
+    @param {object} currentBuild - An object of a user's currentBuild.
+    @returns {Promise} - A Promise that resolves with the compatible motherboard sizes or socket, or rejects with an error.
+    */
+    const determineMotherboardCompatibility = async function (currentBuild) {
+      return new Promise((resolve) => {
+        if (currentBuild.parts.case && currentBuild.parts.cpu) {
+          caseCollection.find({ name: currentBuild.parts.case }).toArray(function (err, caseResult) {
+            if (err) throw err;
+            cpuCollection.find({ cpuName: currentBuild.parts.cpu }).toArray(function (err, cpuResult) {
+              if (err) {
+                res.render('errorPage');
+              } else {
+                if (typeof caseResult[0] !== 'undefined' || typeof cpuResult[0] !== 'undefined') {
+                  compatibleWith = [caseResult[0].SupportedMotherboardSizes, cpuResult[0].socket];
+                  resolve(compatibleWith);
+                } else {
+                  res.render('configurator', {
+                    builds: currentBuild,
+                    existingBuild: true,
+                    editBuild: false,
+                    buildSaved: false,
+                    invalidName: false,
+                    buildCreated: false,
+                    partError: true
+                  });
+                }
+              }
+            });
+          });
+        } else if (currentBuild.parts.cpu) {
+          cpuCollection.find({ cpuName: currentBuild.parts.cpu }).toArray(function (err, cpuResult) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              if (typeof cpuResult[0] !== 'undefined') {
+                compatibleWith = cpuResult[0].socket;
+                resolve(compatibleWith);
+              } else {
+                res.render('configurator', {
+                  builds: currentBuild,
+                  existingBuild: true,
+                  editBuild: false,
+                  buildSaved: false,
+                  invalidName: false,
+                  buildCreated: false,
+                  partError: true
+                });
+              }
+            }
+          });
+        } else if (currentBuild.parts.case) {
+          caseCollection.find({ name: currentBuild.parts.case }).toArray(function (err, caseResult) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              if (typeof caseResult[0] !== 'undefined') {
+                compatibleWith = caseResult[0].SupportedMotherboardSizes;
+                resolve(compatibleWith);
+              } else {
+                res.render('configurator', {
+                  builds: currentBuild,
+                  existingBuild: true,
+                  editBuild: false,
+                  buildSaved: false,
+                  invalidName: false,
+                  buildCreated: false,
+                  partError: true
+                });
+              }
+            }
+          });
+        }
+      });
+    };
+
+    /**
+    Performs a filtered search in the storage collection.
+    @param {object} query - The search query object used to filter the storage collection.
+    @param {number} skip - The number of documents to skip in the search results.
+    @param {number} perpage - The maximum number of documents to return per page.
+    @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+    */
+    const storageFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve) => {
+        storageCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({ diskMark: -1 })
+          .toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              resolve(result);
+            }
+          });
+      });
+    };
+
+    /**
+    Performs a filtered search in the case collection.
+    @param {object} query - The search query object used to filter the case collection.
+    @param {number} skip - The number of documents to skip in the search results.
+    @param {number} perpage - The maximum number of documents to return per page.
+    @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+    */
+    const caseFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve) => {
+        caseCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort()
+          .toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              resolve(result);
+            }
+          });
+      });
+    };
+
+    /**
+    Determines the case compatibility for a given current build.
+    @param {object} currentBuild - An object of a user's currentBuild.
+    @returns {Promise} - A Promise that resolves with the case compatibility or rejects with an error.
+    */
+    const determineCaseCompatibility = async function (currentBuild) {
+      return new Promise((resolve) => {
+        motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, result) {
+          if (err) {
+            res.render('errorPage');
+          } else {
+            if (typeof result[0] !== 'undefined') {
+              compatibleWith = result[0].formFactor;
+              resolve(compatibleWith);
+            } else {
+              res.render('configurator', {
+                builds: currentBuild,
+                existingBuild: true,
+                editBuild: false,
+                buildSaved: false,
+                invalidName: false,
+                buildCreated: false,
+                partError: true
+              });
+            }
+          }
+        });
+      });
+    };
+
+    /**
+    Performs a filtered search in the cpuCooler collection.
+    @param {object} query - The search query object used to filter the cpuCooler collection.
+    @param {number} skip - The number of documents to skip in the search results.
+    @param {number} perpage - The maximum number of documents to return per page.
+    @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+    */
+    const cpuCoolerFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve, reject) => {
+        cpuCoolerCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort()
+          .toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              resolve(result);
+            }
+          });
+      });
+    };
+
+    /**
+    Determines the CPU cooler compatibility for a given current build.
+    @param {object} currentBuild - An object of a user's currentBuild..
+    @returns {Promise} - A Promise that resolves with the CPU cooler compatibility or rejects with an error.
+    */
+    const determineCpuCoolerCompatibility = async function (currentBuild) {
+      return new Promise((resolve) => {
+        if (currentBuild.parts.cpu && currentBuild.parts.motherboard) {
+          cpuCollection.find({ cpuName: currentBuild.parts.cpu }).toArray(function (err, cpuResult) {
+            if (err) throw err;
+            motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, motherboardResult) {
+              if (err) {
+                res.render('errorPage');
+              } else {
+                if (typeof cpuResult[0] !== 'undefined' || typeof motherboardResult[0] !== 'undefined') {
+                  compatibleWith = [cpuResult[0].socket, motherboardResult[0].socket];
+                  resolve(compatibleWith);
+                } else {
+                  res.render('configurator', {
+                    builds: currentBuild,
+                    existingBuild: true,
+                    editBuild: false,
+                    buildSaved: false,
+                    invalidName: false,
+                    buildCreated: false,
+                    partError: true
+                  });
+                }
+              }
+            });
+          });
+        }
+        else if (currentBuild.parts.cpu && !currentBuild.parts.motherboard) {
+          cpuCollection.find({ cpuName: currentBuild.parts.cpu }).toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              if (typeof result[0] !== 'undefined') {
+              compatibleWith = [result[0].socket];
+              resolve(compatibleWith);
+              } else {
+                res.render('configurator', {
+                  builds: currentBuild,
+                  existingBuild: true,
+                  editBuild: false,
+                  buildSaved: false,
+                  invalidName: false,
+                  buildCreated: false,
+                  partError: true
+                });                
+              }
+            }
+          });
+        }
+        else if (currentBuild.parts.motherboard && !currentBuild.parts.cpu) {
+          motherboardCollection.find({ name: currentBuild.parts.motherboard }).toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              if (typeof result[0] !== 'undefined') {
+              compatibleWith = [result[0].socket];
+              resolve(compatibleWith);
+              } else {
+                res.render('configurator', {
+                  builds: currentBuild,
+                  existingBuild: true,
+                  editBuild: false,
+                  buildSaved: false,
+                  invalidName: false,
+                  buildCreated: false,
+                  partError: true
+                });                
+              }
+            }
+          });
+        }
+      });
+    };
+
+    /**
+    Performs a filtered search in the power supply collection.
+    @param {object} query - The search query object used to filter the power supply collection.
+    @param {number} skip - The number of documents to skip in the search results.
+    @param {number} perpage - The maximum number of documents to return per page.
+    @returns {Promise} - A Promise that resolves with the search results or rejects with an error.
+    */
+    const powerSupplyFilteredSearch = function (query, skip, perpage) {
+      return new Promise((resolve) => {
+        powerSupplyCollection.find(query)
+          .skip(skip)
+          .limit(perpage)
+          .sort({ powerOutput: -1 })
+          .toArray(function (err, result) {
+            if (err) {
+              res.render('errorPage');
+            } else {
+              resolve(result);
+            }
+          });
+      });
+    };
     /**
     Renders the search results page with the filtered parts list.
     @param {Array} result - The array of search results.
