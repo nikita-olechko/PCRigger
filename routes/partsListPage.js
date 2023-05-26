@@ -489,12 +489,12 @@ module.exports = function (app) {
         if (!req.body.query && req.body.build) {
           if (currentBuild.parts.motherboard && !currentBuild.parts.cpuCooler || currentBuild.parts.motherboard && currentBuild.parts.cpuCooler) {
             const compatibility = await determineCpuCompatibility(currentBuild);
-            const query = { cores: { $gte: parseInt(minimumCoreCount) }, TDP: { $lte: parseInt(maximumTdp) }, socket: compatibility };
+            query = { cores: { $gte: parseInt(minimumCoreCount) }, TDP: { $lte: parseInt(maximumTdp) }, socket: compatibility };
           } else if (currentBuild.parts.cpuCooler) {
             compatibility = await determineCpuCompatibility(currentBuild);
-            const query = { cores: { $gte: parseInt(minimumCoreCount) }, TDP: { $lte: parseInt(maximumTdp) }, socket: { $in: compatibility } };
+            query = { cores: { $gte: parseInt(minimumCoreCount) }, TDP: { $lte: parseInt(maximumTdp) }, socket: { $in: compatibility } };
           } else {
-            const query = defaultQuery;
+            query = defaultQuery;
           }
         }
         // Count the number of cpus that match the query

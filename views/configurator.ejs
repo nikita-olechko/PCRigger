@@ -56,7 +56,6 @@
                                     </form>
                                     <% } else { %>
                                       <%let currentBuild=JSON.stringify(builds)%>
-                                        <%console.log(" You've reached the top of the form")%>
                                           <form method="post" action="/parts">
                                             <input type="hidden" name="build" value='<%=currentBuild%>'>
                                             <input type="hidden" name="formId" value="cpu">
