@@ -313,10 +313,14 @@ module.exports = function (app, userCollection) {
     });
 
     app.post('/renderBuildFilters', async (req, res) => {
-        res.render('AI_build', { noFactorsChosen: false })
+        res.render('AI_build', { noFactorsChosen: false, reset: false })
     });
 
     app.post('/advancedFilterWithNotification', async (req, res) => {
-        res.render('AI_build', { noFactorsChosen: true })
+        res.render('AI_build', { noFactorsChosen: true, reset: false })
+    });    
+    
+    app.post('/advancedFiltersReset', async (req, res) => {
+        res.render('AI_build', { noFactorsChosen: false, reset: true })
     });
 };
