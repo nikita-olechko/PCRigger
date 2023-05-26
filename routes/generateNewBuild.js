@@ -201,70 +201,74 @@ module.exports = function (app, userCollection) {
      * @param {Object} parsedBuildDescription - The parsed build description.
      */
     async function checkPartsInDatabase(parsedBuildDescription) {
-        for (var key in parsedBuildDescription.parts) {
-            if (!Array.isArray(parsedBuildDescription.parts[key])) {
-                parsedBuildDescription.parts[key] = [parsedBuildDescription.parts[key]];
-            } else {
-                parsedBuildDescription.parts[key] = [parsedBuildDescription.parts[key][0]];
-            }
-            console.log("modified PraseBuildDescription" + JSON.stringify(parsedBuildDescription));
-            for (let part of parsedBuildDescription.parts[key]) {
-                console.log("iterable: " + parsedBuildDescription.parts[key]);
-                console.log("part: " + part);
-                console.log("key: " + key);
-                let collection;
-                let partInDatabase;
-                let partsInDatabase;
-                // Check if the part exists in the database
-                if (key == 'ram') {
-                    collection = memoryCollection;
-                    partInDatabase = await collection.findOne({ memoryName: part });
-                    partsInDatabase = partInDatabase !== null;
-                } else if (key == 'storage') {
-                    collection = storageCollection;
-                    partInDatabase = await collection.findOne({ driveName: part });
-                    partsInDatabase = partInDatabase !== null;
-                } else if (key == 'case') {
-                    collection = caseCollection;
-                    partInDatabase = await collection.findOne({ name: part });
-                    partsInDatabase = partInDatabase !== null;
-                } else if (key == 'powerSupply') {
-                    collection = powerSupplyCollection;
-                    partInDatabase = await collection.findOne({ name: part });
-                    partsInDatabase = partInDatabase !== null;
-                } else if (key == 'cpuCooler') {
-                    collection = cpuCoolerCollection;
-                    partInDatabase = await collection.findOne({ name: part });
-                    partsInDatabase = partInDatabase !== null;
-                } else if (key == 'motherboard') {
-                    collection = motherboardCollection;
-                    partInDatabase = await collection.findOne({ name: part });
-                    partsInDatabase = partInDatabase !== null;
-                } else if (key == 'gpu') {
-                    collection = gpuCollection;
-                    partInDatabase = await collection.findOne({ productName: part });
-                    partsInDatabase = partInDatabase !== null;
-                } else if (key == 'cpu') {
-                    collection = cpuCollection;
-                    partInDatabase = await collection.findOne({ cpuName: part });
-                    partsInDatabase = partInDatabase !== null;
-                } else if (key == 'budget') {
-                    continue;
+        try {
+            for (var key in parsedBuildDescription.parts) {
+                if (!Array.isArray(parsedBuildDescription.parts[key])) {
+                    parsedBuildDescription.parts[key] = [parsedBuildDescription.parts[key]];
+                } else {
+                    parsedBuildDescription.parts[key] = [parsedBuildDescription.parts[key][0]];
                 }
-                console.log("partsInDatabase: " + partsInDatabase);
-                if (!partsInDatabase) {
-                    internalErrorCount = 0;
-                    schemaPrompt = getSchemaPrompt(key, part);
-                    console.log("schema prompt is: " + schemaPrompt);
-                    newPart = await getNewPart(schemaPrompt);
-                    console.log("newPart is: " + newPart);
-                    if (newPart == null) {
+                console.log("modified PraseBuildDescription" + JSON.stringify(parsedBuildDescription));
+                for (let part of parsedBuildDescription.parts[key]) {
+                    console.log("iterable: " + parsedBuildDescription.parts[key]);
+                    console.log("part: " + part);
+                    console.log("key: " + key);
+                    let collection;
+                    let partInDatabase;
+                    let partsInDatabase;
+                    // Check if the part exists in the database
+                    if (key == 'ram') {
+                        collection = memoryCollection;
+                        partInDatabase = await collection.findOne({ memoryName: part });
+                        partsInDatabase = partInDatabase !== null;
+                    } else if (key == 'storage') {
+                        collection = storageCollection;
+                        partInDatabase = await collection.findOne({ driveName: part });
+                        partsInDatabase = partInDatabase !== null;
+                    } else if (key == 'case') {
+                        collection = caseCollection;
+                        partInDatabase = await collection.findOne({ name: part });
+                        partsInDatabase = partInDatabase !== null;
+                    } else if (key == 'powerSupply') {
+                        collection = powerSupplyCollection;
+                        partInDatabase = await collection.findOne({ name: part });
+                        partsInDatabase = partInDatabase !== null;
+                    } else if (key == 'cpuCooler') {
+                        collection = cpuCoolerCollection;
+                        partInDatabase = await collection.findOne({ name: part });
+                        partsInDatabase = partInDatabase !== null;
+                    } else if (key == 'motherboard') {
+                        collection = motherboardCollection;
+                        partInDatabase = await collection.findOne({ name: part });
+                        partsInDatabase = partInDatabase !== null;
+                    } else if (key == 'gpu') {
+                        collection = gpuCollection;
+                        partInDatabase = await collection.findOne({ productName: part });
+                        partsInDatabase = partInDatabase !== null;
+                    } else if (key == 'cpu') {
+                        collection = cpuCollection;
+                        partInDatabase = await collection.findOne({ cpuName: part });
+                        partsInDatabase = partInDatabase !== null;
+                    } else if (key == 'budget') {
                         continue;
                     }
-                    newPart = JSON.parse(newPart);
-                    await collection.insertOne(newPart);
+                    console.log("partsInDatabase: " + partsInDatabase);
+                    if (!partsInDatabase) {
+                        internalErrorCount = 0;
+                        schemaPrompt = getSchemaPrompt(key, part);
+                        console.log("schema prompt is: " + schemaPrompt);
+                        newPart = await getNewPart(schemaPrompt);
+                        console.log("newPart is: " + newPart);
+                        if (newPart == null) {
+                            continue;
+                        }
+                        newPart = JSON.parse(newPart);
+                        await collection.insertOne(newPart);
+                    }
                 }
             }
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -297,20 +301,24 @@ module.exports = function (app, userCollection) {
         if (parsedBuildDescription in existingUser.favourites) {
             existingBuild = true;
         }
-        checkPartsInDatabase(parsedBuildDescription);
+        try { checkPartsInDatabase(parsedBuildDescription); } catch (err) { console.log(err); }
 
-        console.log(parsedBuildDescription.parts.budget);
-
-        res.render('configurator', {
-            builds: parsedBuildDescription,
-            existingBuild: existingBuild,
-            budget: parsedBuildDescription.parts.budget,
-            editBuild: false,
-            buildSaved: false,
-            invalidName: false,
-            buildCreated: false,
-            partError: false
-        });
+        try {
+            res.render('configurator', {
+                builds: parsedBuildDescription,
+                existingBuild: existingBuild,
+                budget: parsedBuildDescription.parts.budget,
+                editBuild: false,
+                buildSaved: false,
+                invalidName: false,
+                buildCreated: false,
+                partError: false
+            });
+        } catch (err) {
+            console.log(err);
+            res.render('errorPageForAI');
+            return;
+        }
     });
 
     app.post('/renderBuildFilters', async (req, res) => {
@@ -319,8 +327,8 @@ module.exports = function (app, userCollection) {
 
     app.post('/advancedFilterWithNotification', async (req, res) => {
         res.render('AI_build', { noFactorsChosen: true, reset: false })
-    });    
-    
+    });
+
     app.post('/advancedFiltersReset', async (req, res) => {
         res.render('AI_build', { noFactorsChosen: false, reset: true })
     });

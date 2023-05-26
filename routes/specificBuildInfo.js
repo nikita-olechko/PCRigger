@@ -80,7 +80,7 @@ module.exports = function (app, userCollection) {
                 return;
             }
 
-
+            try{
             res.render('specificBuildInfo', {
                 build: build,
                 // These components are left in to help debug the code if needed
@@ -96,7 +96,10 @@ module.exports = function (app, userCollection) {
                 renderedBuildDescription: buildDescription,
             });
         } catch (error) {
-            res.render('errorPage');
+            res.render('errorPageForAI');
+        }
+        } catch (error) {
+            res.render('errorPageForAI');
         }
     });
 };
