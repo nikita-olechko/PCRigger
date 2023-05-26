@@ -50,9 +50,9 @@
             </div>
             <% } else if (parts.length==15 && page * 15 < totalParts) { %>
               <div class="col" style="text-align: right;"><%- include ('partials/previousComponentPage'), {page: page,
-                  partCategory: partCategory, build:build}%></div>
+                  partCategory: partCategory, build:build, query:query}%></div>
               <div class="col" style="text-align: left;"><%- include ('partials/nextComponentPage'), {page: page,
-                  partCategory: partCategory, build:build}%></div>
+                  partCategory: partCategory, build:build, query:query}%></div>
               <% } else if (parts.length < 15 || page * 15 <=totalParts) { %>
                 <div class="col text-center">
                   <%- include ('partials/previousComponentPage'), {page: page, partCategory: partCategory,

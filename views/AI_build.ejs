@@ -19,6 +19,9 @@
     <% if (noFactorsChosen) { %>
         <%- include('partials/popUpNotification', { notificationMessage: 'Please select Priority Factors' }) %>
             <% } %>
+            <% if (reset) { %>
+                <%- include('partials/popUpNotification', { notificationMessage: 'Filters Reset' }) %>
+                    <% } %>
                 <div class="container general-margin">
                     <%- include('partials/loadingpage', {message:"Generating your build"}) %>
                     <main>
@@ -200,7 +203,7 @@
                                         </div>
                                         <div id="subcategoryList8" class="collapse">
                                             <h5 style="font-style: italic; font-size: medium;">80 Plus Rating</h5>
-                                            <%- include('partials/UsesCheckbox', {value: "Goldr" ,
+                                            <%- include('partials/UsesCheckbox', {value: "Gold" ,
                                                 category: "Powersupply" }) %>
                                                 <%- include('partials/UsesCheckbox', {value: "Platinum" ,
                                                     category: "Powersupply" }) %>
